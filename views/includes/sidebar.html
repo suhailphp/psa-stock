@@ -1,0 +1,80 @@
+
+<div class="fixed-sidebar-left">
+    <ul class="nav navbar-nav side-nav nicescroll-bar">
+
+        <li class="navigation-header">
+            <span>Main</span>
+            <i class="zmdi zmdi-more"></i>
+        </li>
+
+
+        <li>
+            <a href="/" >
+                <div class="pull-left"><i class="fa fa-home mr-20"></i><span class="right-nav-text">الصفحة الرئيسية</span></div><div class="clearfix"></div></a>
+        </li>
+
+
+        <li>
+            <a href="/item" >
+                <div class="pull-left"><i class="fa fa-users mr-20"></i><span class="right-nav-text">العناصر</span></div><div class="clearfix"></div></a>
+        </li>
+
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr" <?php echo ($PageActive == 'product')?'class="active-page"':' >
+            <div class="pull-left"><i class="fa fa-flask mr-20"></i><span class="right-nav-text">القضية</span></div><div class="pull-right">
+            <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="product_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="/issue/add" > الجديد</a>
+                </li>
+                <li>
+                    <a href="/issue" >قائمة </a>
+                </li>
+
+
+
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#getting_dr" <?php echo ($PageActive == 'product')?'class="active-page"':' >
+            <div class="pull-left"><i class="fa fa-shopping-cart mr-20"></i><span class="right-nav-text">شراء</span></div><div class="pull-right">
+            <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="getting_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="/purchase/add" > الجديد</a>
+                </li>
+                <li>
+                    <a href="/purchase" >قائمة </a>
+                </li>
+
+
+
+            </ul>
+        </li>
+
+
+
+
+
+        <li><hr class="light-grey-hr mb-10"/></li>
+        <li class="navigation-header">
+            <span>C Panel</span>
+            <i class="zmdi zmdi-more"></i>
+        </li>
+
+        <li>
+            <a href="/user" >
+                <div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">المستعمل</span></div><div class="clearfix"></div></a>
+        </li>
+
+        </li>
+
+        <li>
+            <a href="#" >
+                <div class="pull-left"><i class="fa fa-database mr-20"></i><span class="right-nav-text">دعم</span></div><div class="clearfix"></div></a>
+        </li>
+
+    </ul>
+</div>
+
