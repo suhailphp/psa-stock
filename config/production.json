@@ -1,9 +1,9 @@
 {
-  "BASE_URL": "http://localhost:3000/",
-  "PORT": 3000,
+  "BASE_URL": "http://store.local/",
+  "PORT": 8008,
   "DB": {
     "DIALECT": "mssql",
-    "DATABASE": "PSAStore_DEV",
+    "DATABASE": "PSAStore",
     "USERNAME": "prd2Admin",
     "PASSWORD": "N3wnimda@psa",
     "HOST": "172.16.1.23",

@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const config = require('config');
+
 
 
 const app = express();
@@ -21,7 +23,9 @@ require('./startup/routes')(app);
 
 
 
-const port = process.env.PORT || 8008;
+const port = config.PORT;
 app.listen(port, ()=>{
     console.log('Application running on port '+port);
 });
+
+console.log(config.BASE_URL);

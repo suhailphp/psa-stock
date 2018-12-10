@@ -3,12 +3,12 @@ const Config = require('config');
 
 
 
-    let dbName = process.env.DATABASE || Config.DB['DATABASE'] || 'psa';
-    let dbUsername = process.env.DB_USERNAME || Config.DB['USERNAME'] || 'root';
-    let dbPassword = process.env.DB_PASSWORD || Config.DB['PASSWORD'] || null;
-    let dbs = process.env.DIALECT || Config.DB['DIALECT'] || 'mysql';
-    let dbHost = process.env.DB_HOST || Config.DB['HOST'] || 'localhost';
-    let dbPort = process.env.DB_PORT || Config.DB['PORT'] || 3306;
+    let dbName = process.env.DATABASE || Config.DB['DATABASE'];
+    let dbUsername = process.env.DB_USERNAME || Config.DB['USERNAME'];
+    let dbPassword = process.env.DB_PASSWORD || Config.DB['PASSWORD'];
+    let dbs = process.env.DIALECT || Config.DB['DIALECT'];
+    let dbHost = process.env.DB_HOST || Config.DB['HOST'];
+    let dbPort = process.env.DB_PORT || Config.DB['PORT'];
 
     let db = new Sequelize(dbName, dbUsername, dbPassword, {
         host: dbHost,
