@@ -8,7 +8,6 @@ let stockModel = db.define('stocks', {
     stockID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     itemID:{

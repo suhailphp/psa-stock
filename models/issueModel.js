@@ -9,8 +9,7 @@ let issueModel = db.define('issue', {
     issueID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
-        primaryKey: true
+        primaryKey: true,
     },
     type:{
         type: Sequelize.ENUM,

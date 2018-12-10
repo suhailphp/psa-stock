@@ -9,7 +9,6 @@ let returnItemModel = db.define('return_item', {
     returnItemID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     returnID:{

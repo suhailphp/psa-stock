@@ -9,7 +9,6 @@ let categoryModel = db.define('categories', {
     categoryID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     name: {

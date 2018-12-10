@@ -9,7 +9,6 @@ let purchaseItemModel = db.define('purchase_item', {
     purchaseItemID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     purchaseID:{

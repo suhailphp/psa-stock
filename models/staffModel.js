@@ -9,7 +9,6 @@ let staffModel = db.define('staff', {
     militaryNo:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     name: {

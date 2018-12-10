@@ -9,7 +9,6 @@ let itemModel = db.define('items', {
     itemID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     barcode: {

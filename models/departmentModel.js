@@ -9,7 +9,6 @@ let departmentModel = db.define('departments', {
     departmentID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     name: {

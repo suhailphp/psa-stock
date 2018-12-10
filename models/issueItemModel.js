@@ -9,7 +9,6 @@ let issueItemModel = db.define('issue_item', {
     issueItemID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     issueID:{

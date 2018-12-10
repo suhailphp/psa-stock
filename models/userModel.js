@@ -8,7 +8,6 @@ let userModel = db.define('users', {
     id:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     fullName: {
@@ -16,7 +15,7 @@ let userModel = db.define('users', {
     },
     userName: {
             type: Sequelize.STRING(255),
-            unique: 'compositeIndex'
+            unique: true
         },
     password: {
         type: Sequelize.STRING(1000)

@@ -9,7 +9,6 @@ let supplierModel = db.define('supplier', {
     supplierID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
-        unique: 'compositeIndex',
         primaryKey: true
     },
     name: {

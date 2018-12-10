@@ -9,7 +9,4 @@ router.get('/', async (req,res)=>{
     res.render('department/list',{data:data,curPage});
 });
 
-
-
-
 module.exports = router;

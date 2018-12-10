@@ -9,8 +9,10 @@ const router = express.Router();
 router.get('/',async (req,res)=>{
     issueModel.belongsTo(staffModel, {foreignKey: 'militaryNo'});
     issueModel.belongsTo(departmentModel, {foreignKey: 'departmentID'});
-    let issues = await issueModel.findAll({include:[{model:staffModel},{model:departmentModel}],
-    order: [  ['issueID', 'DESC'] ],limit: 5});
+    let issues = await issueModel.findAll({include:[{model:staffModel},{model:departmentModel}],limit: 5,
+        order: [
+            ['createdOn', 'desc']
+        ] });
     res.render('index',{issues});
 });
 router.get('/menu',(req,res)=>{
