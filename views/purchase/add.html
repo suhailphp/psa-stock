@@ -1,0 +1,603 @@
+<!-- Preloader -->
+<div class="preloader-it">
+    <div class="la-anim-1"></div>
+</div>
+<!-- /Preloader -->
+<div class="wrapper theme-1-active pimary-color-pink">
+    <!-- Top Menu Items -->
+    {{>header}}
+    <!-- /Top Menu Items -->
+
+    <!-- Left Sidebar Menu -->
+    {{>sidebar}}
+    <!-- /Left Sidebar Menu -->
+
+
+
+
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark">{{#if editData}}تحديث{{else}}أضف{{/if}} الشراء</h5>
+                </div>
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb" >
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+                        <li><a href="/purchase"><span> الشراء </span></a></li>
+                        <li class="active"><span> {{#if editData}}تحديث{{else}}أضف{{/if}} الشراء </span></li>
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            </div>
+            <!-- /Title -->
+
+            <!-- Row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default card-view">
+
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div class="form-wrap">
+
+
+
+                                    <form name="form one" method="post" action="/purchase" id="PurchaseForm" >
+
+                                        <div class="row">
+
+
+                                            <div class="col-sm-3">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم المرجع</label>
+                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="Enter Reference No" required="required"
+                                                    value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="col-sm-3">
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">المورد</label>
+                                                    <select class="form-control select2" name="supplierID" id="supplierID" required="required" >
+
+                                                        <option value="">اختار</option>
+                                                        {{#each suppliers}}
+                                                        <option value="{{this.supplierID}}" {{#compare this.supplierID '==' ../data.supplierID}}selected{{/compare}}>{{this.name}}</option>
+                                                        {{/each}}
+
+
+
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                            <div class="col-sm-3">
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left">تاريخ</label>
+                                                    <input type="date" name="date" id="date" required="required"  class="form-control"
+                                                           value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                        <div class="row mb-10" >
+
+
+                                            <div class="col-sm-12">
+
+
+                                                <div class="form-group" style="margin-bottom:0;">
+                                                    <div class="input-group wide-tip">
+                                                        <div class="input-group-addon" style="padding-left: 10px; padding-right: 10px;">
+                                                            <i class="fa fa-2x fa-barcode addIcon"></i>
+                                                        </div>
+                                                        <input type="text" onchange="SelectProduct();" name="ItemSearch" class="form-control input-lg ui-autocomplete-input" id="ItemSearch" placeholder="عناصر البحث" autocomplete="off">
+                                                        <div class="input-group-addon" style="padding-left: 10px; padding-right: 10px;">
+                                                            <a href="#" id="addManually1" tabindex="-1"><i class="fa fa-2x fa-plus-circle addIcon" id="addIcon"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <br>
+
+
+                                        </div>
+
+                                        <div class="row" id="AllItem">
+
+                                            <div class="col-sm-12 ">
+                                                <div class="panel ">
+
+                                                    <div class="panel-wrapper collapse in">
+                                                        <div class="panel-body">
+                                                            <div class="table-wrap">
+                                                                <div class="table-responsive">
+                                                                    <table id="ProductTable" class="table table-hover display  pb-30" >
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th>الباركود</th>
+                                                                            <th>اسم الصنف</th>
+                                                                            <th>السعر</th>
+                                                                            <th>كمية</th>
+                                                                            <th>السعر الكلي</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                        {{#each purchaseItems}}
+
+                                                                            <tr id="MU{{this.itemSl}}">
+                                                                                <input type="hidden" name="itemID[{{this.itemSl}}]" id="itemID{{this.itemSl}}" value="{{this.itemID}}" >
+                                                                                <input type="hidden" name="itemSl[{{this.itemSl}}]" id="itemSl{{this.itemsSl}}" value="{{this.itemSl}}"  >
+                                                                                <td style="width: 2%;"><a href="#" onclick="RemoveItem('{{this.itemSl}}');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
+                                                                                <td> {{this.item.barcode}} </td>
+                                                                                <td> {{this.item.name}} </td>
+                                                                                <td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="amount{{this.itemSl}}" name="amount[{{this.itemSl}}]"
+                                                                                                               required="required" value="{{this.amount}}" onkeyup="PriceChange('{{this.itemSl}}');"></td>
+                                                                                <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity{{this.itemSl}}" name="quantity[{{this.itemSl}}]"
+                                                                                                              value="{{this.quantity}}" required="required" onkeyup="PriceChange('{{this.itemSl}}');"></td>
+                                                                                <td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="price{{this.itemSl}}" name="price[{{this.itemSl}}]"
+                                                                                                               value="{{currencyFormat this.price}}" required="required" onkeyup="PriceChange('{{this.itemSl}}',2);"></td>
+                                                                            </tr>
+                                                                        {{/each}}
+
+
+
+                                                                        </tbody>
+
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                        <div class="row">
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-warning">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-warning" >السعر</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="total" name="total" readonly style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.total}}{{currencyFormat data.total}}{{/if}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-primary">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-primary" >ضريبة</button>
+                                                    </div>
+                                                    <select class="form-control" name="taxRate" id="taxRate" onchange="GrandTotal();" required="required">
+                                                        <option {{#compare data.taxRate '==' 5}}selected{{/compare}} value="5">5٪</option>
+                                                        <option {{#compare data.taxRate '==' 0}}selected{{/compare}} value="0">لا ضرائب</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-primary">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-primary">برميل </button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="taxAmount" name="taxAmount" onkeyup="GrandTotal();" style="font-size:13px;
+                                                    font-weight: bold;;text-align:right;" value="{{#if data.taxAmount}}{{data.taxAmount}}{{/if}}">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-error">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-danger">خصم</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="discount" name="discount" onkeyup="GrandTotal();" style="font-size:13px; font-weight:bold;;text-align:right;"
+                                                           value="{{#if data.discount}}{{data.discount}}{{/if}}">
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-success">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-success" >مجموع</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="totalAmount" name="totalAmount" readonly style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.totalAmount}}{{currencyFormat data.totalAmount}}{{/if}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 pull-right">
+                                                <input type="hidden" name="itemNo" id="itemNo" value="{{#if data.itemNo}}{{data.itemNo}}{{else}}1{{/if}}">
+                                                <input type="hidden" name="purchaseID" id="purchaseID" value="{{#if data.purchaseID}}{{data.purchaseID}}{{else}}1{{/if}}">
+                                                <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
+                                                <button class="btn btn-primary  btn-rounded btn-block btn-anim" type="button" onclick="SubmitForm();"><i class="fa fa-check-square"></i><span class="btn-text">خضع</span></button>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- MOdal for Order View -->
+                <div id="SearchModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content " id="">
+
+                            <div class="modal-header">
+
+                                <h5 class="modal-title" >Serach product</h5>
+                            </div>
+                            <div class="modal-body" id="SearchModalContent">
+                                <!--start -->
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button onclick="CancelModal('SearchModal');" type="button" class="btn btn-danger text-left" >Cancel</button>
+
+                            </div>
+
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+
+            </div>
+            <!-- /Row -->
+
+
+
+
+
+
+        </div>
+
+        {{>footer}}
+
+    </div>
+    <!-- /Main Content -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- JavaScript -->
+
+<script type="text/javascript">
+
+    /* Select2 Init*/
+    $(".select2").select2();
+
+    var IC 	=	parseInt($('#itemNo').val());
+
+
+    //for form submit
+    function SubmitForm()
+    {
+        if($('#referenceNo').val() == '')
+        {
+            $('#referenceNo').focus();
+            swal("Reference Number", "Please enter the reference number", "warning");
+
+        }
+        else if($('#supplierID').val() == '')
+        {
+            $('#supplierID').focus();
+            swal("Supplier", "Please chose a supplier", "warning");
+
+        }
+        else if($('#date').val() == '')
+        {
+            $('#date').focus();
+            swal("Date", "Please enter a date", "warning");
+
+        }
+
+        else if($('#itemNo').val() <= 1)
+        {
+            swal("No Items", "Please add items", "warning");
+        }
+        else
+        {
+            $("#PurchaseForm").submit();
+        }
+
+    }
+    function SelectProduct()
+    {
+        let ItemSearch 	=	$('#ItemSearch').val();
+
+        $.ajax({
+            url: '/purchase/search_item/'+ItemSearch,
+            type: 'get',
+            success: function(obj) {
+
+                if(obj != '')
+                {
+
+
+                        IC++;
+                        $('#itemNo').val(IC);
+                        let price 	=	parseInt(obj.amount);
+                        price 		=	price.toFixed(2);
+                        $('#ProductTable tr:last').after('<tr id="MU'+IC+'">'+
+                            '<input type="hidden" name="itemID['+IC+']" id="itemID'+IC+'" value="'+obj.itemID+'" >'+
+                            '<input type="hidden" name="itemSl['+IC+']" id="itemSl'+IC+'" value="'+IC+'"  >'+
+                            '<td style="width: 2%;"><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
+                            '<td> '+obj.barcode+' </td>'+
+                            '<td> '+obj.name+' </td>'+
+                            '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="amount'+IC+'" name="amount['+IC+']"  required="required" value="'+obj.amount+'" onkeyup="PriceChange('+IC+');"></td>'+
+                            '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity'+IC+'" name="quantity['+IC+']" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
+                            '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="price'+IC+'" name="price['+IC+']" value="'+price+'" required="required" onkeyup="PriceChange('+IC+',2);"></td>'+
+                            '</tr>');
+                        $('#ItemSearch').val('');
+                        $( "#ItemSearch" ).focus();
+                        GrandTotal();
+
+                }
+                else
+                {
+
+                    $.ajax({
+                        url: '/purchase/search_item_det/'+ItemSearch,
+                        type: 'get',
+                        success: function(res) {
+                            if(res != '')
+                            {
+                                let SelectTable	='<table class="table table-hover display  pb-30" > ';
+                                for(let i=0; i< res.length; i++)
+                                {
+                                    //console.log(res[i].ProductID);
+                                    SelectTable	+='<tr onclick="InsertSearch('+res[i].barcode+');"><td >'+res[i].barcode+'</td>'+
+                                        '<td>'+res[i].name+'</td> <td>'+res[i].amount+' ';
+                                }
+                                SelectTable	+=	'<tbody> </table>';
+                                $('#SearchModalContent').html(SelectTable);
+                                $('#SearchModal').modal('toggle');
+
+                            }
+                            else
+                            {
+                                $('#ItemSearch').val('');
+                                $( "#ItemSearch" ).focus();
+                                swal("Not Found!", "not found any maching products", "error");
+                            }
+
+                        },
+                        error: function(xhr, desc, err) {
+                            console.log(xhr);
+                            console.log("Details: " + desc + "\nError:" + err);
+                        }
+                    });
+
+                }
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+
+
+    }
+
+    function InsertSearch(barcode)
+    {
+
+        $.ajax({
+            url: '/purchase/search_item/'+barcode,
+            type: 'get',
+            success: function(obj)
+            {
+                if(obj != '')
+                {
+
+
+                    IC++;
+                    $('#itemNo').val(IC);
+                    let price 	=	parseInt(obj.amount);
+                    price 		=	price.toFixed(2);
+                    $('#ProductTable tr:last').after('<tr id="MU'+IC+'">'+
+                        '<input type="hidden" name="itemID['+IC+']" id="itemID'+IC+'" value="'+obj.itemID+'" >'+
+                        '<input type="hidden" name="itemSl['+IC+']" id="itemSl'+IC+'" value="'+IC+'"  >'+
+                        '<td style="width: 2%;"><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
+                        '<td> '+obj.barcode+' </td>'+
+                        '<td> '+obj.name+' </td>'+
+                        '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="amount'+IC+'" name="amount['+IC+']"  required="required" value="'+obj.amount+'" onkeyup="PriceChange('+IC+');"></td>'+
+                        '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity'+IC+'" name="quantity['+IC+']" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
+                        '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="price'+IC+'" name="price['+IC+']" value="'+price+'" required="required" onkeyup="PriceChange('+IC+',2);"></td>'+
+                        '</tr>');
+                    $('#SearchModal').modal('hide');
+                    $('#ItemSearch').val('');
+                    $( "#ItemSearch" ).focus();
+                    GrandTotal();
+
+                }
+
+
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    }
+
+
+    function CancelModal(modal)
+    {
+        $('#'+modal).modal('hide');
+        $('#ItemSearch').val('');
+        $( "#ItemSearch" ).focus();
+    }
+
+
+    function GrandTotal()
+    {
+        var Sum = 0;
+
+        $('input[name^="price"]').each(function() {
+            Sum =	Sum+parseFloat($(this).val());
+        });
+        var total 		=	Sum;
+        var TaxRate 	=	$('#taxRate').val();
+        var TaxAmount 	=	(total*TaxRate)/100;
+
+        //$('#TotalWD').val(TotalWD);
+        var Discount 	=	$('#discount').val();
+        var TotalAmount	=	total-Discount;
+
+        var TotalAmount =	TotalAmount+TaxAmount;
+
+        total 	=	total.toFixed(2);
+        $('#total').val(total);
+
+        TaxAmount 	=	TaxAmount.toFixed(2);
+        $('#taxAmount').val(TaxAmount);
+
+        TotalAmount 	=	TotalAmount.toFixed(2);
+        $('#totalAmount').val(TotalAmount);
+
+
+
+    }
+    function GrandTotalWhenRemove(RemoveItemAmount)
+    {
+        //alert(RemoveItemAmount);
+        var total 		=	$('#total').val();
+        //alert(Amount);
+        total 			=	parseFloat(total)-parseFloat(RemoveItemAmount);
+        var TaxRate 	=	$('#taxRate').val();
+        var TaxAmount 	=	(total*TaxRate)/100;
+
+        //$('#TotalWD').val(TotalWD);
+        var Discount 	=	$('#discount').val();
+        var TotalAmount	=	total-Discount;
+
+        var TotalAmount =	TotalAmount+TaxAmount;
+
+        total 	=	total.toFixed(2);
+        $('#amount').val(total);
+
+        TaxAmount 	=	TaxAmount.toFixed(2);
+        $('#taxAmount').val(TaxAmount);
+
+        TotalAmount 	=	TotalAmount.toFixed(2);
+        $('#totalAmount').val(TotalAmount);
+
+
+
+    }
+
+    //price and quanity change
+    function PriceChange(id,Type = 1)
+    {
+        //if type is one price change on quantity or cost. if type is 2 price changed on Total
+        var amount	    =	$('#amount'+id).val();
+        var price 		=	$('#price'+id).val();
+        var quantity 	=	$('#quantity'+id).val();
+        //var Amount 		=	0;
+
+        if(Type == 2)
+        {
+            amount 	    =	price/quantity;
+            amount		=	amount.toFixed(2);
+            //alert(ProductCost);
+            $('#amount'+id).val(amount);
+        }
+        else
+        {
+            price 	=	amount*quantity;
+            price 	=	price.toFixed(2);
+            //alert(Price);
+            $('#price'+id).val(price);
+        }
+        GrandTotal();
+    }
+
+    function RemoveItem(id)
+    {
+
+        swal({
+            title: "تحذير",
+            text: "هل تريد حذف هذا البند ؟",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f8b32d",
+            confirmButtonText: "نعم",
+            cancelButtonText: "لا",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm){
+            if (isConfirm) {
+
+                var Price 		=	$('#price'+id).val();
+                GrandTotalWhenRemove(Price);
+                $('#MU'+id).hide('slow', function(){ $('#MU'+id).remove(); });
+                swal("Deleted!", "Your file has been deleted.", "success");
+
+            }
+        });
+
+
+
+    }
+
+
+
+</script>
+
+<!-- jQuery -->

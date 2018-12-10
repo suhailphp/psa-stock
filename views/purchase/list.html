@@ -23,15 +23,16 @@
             <!-- Title -->
             <div class="row heading-bg">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h5 class="txt-dark">Users</h5>
+                    <h5 class="txt-dark">الشراء</h5>
                 </div>
                 <!-- Breadcrumb -->
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                     <ol class="breadcrumb">
 
 
-                        <li><a href="/">Dashboard</a></li>
-                        <li class="active"><span>Users</span></li>
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+
+                        <li class="active"><span> الشراء </span></li>
 
                     </ol>
                 </div>
@@ -47,11 +48,11 @@
                     <div class="panel panel-default card-view">
                         <div class="panel-heading">
                             <div class="pull-left">
-                                <h6 class="panel-title txt-dark">List Users</h6>
+                                <h6 class="panel-title txt-dark">قائمة الصنف</h6>
                             </div>
 
                             <div class="pull-right">
-                                <a href="/user/add"><div class="pull-left"><i class="fa fa-plus-square mr-5"></i><span class="right-nav-text">New</span></div></a>
+                                <a href="/purchase/add"><div class="pull-left"><i class="fa fa-plus-square mr-5"></i><span class="right-nav-text">اضف جديد</span></div></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -64,26 +65,32 @@
                                             <thead>
                                             <tr>
 
-                                                <th>Name</th>
-                                                <th>Mobile</th>
+                                                <th>اسم الصنف</th>
+                                                <th>الفئة</th>
+                                                <th>كمية</th>
 
-                                                <th class="text-nowrap" width="6%">Action</th>
+
+
+                                                <th class="text-nowrap" width="6%">عمل</th>
                                             </tr>
                                             </thead>
                                             <tbody>
 
-                                            {{#each data }}
+                                            {{#each purchases }}
 
-                                            <tr id="{{this.id}}">
+                                            <tr id="{{this.purchaseID}}">
 
-                                                <td>{{this.fullName}}</td>
-                                                <td>{{this.mobile}}</td>
+                                                <td>{{dateToStringDate this.date}}</td>
+                                                <td>{{this.supplier.name}}</td>
+                                                <td>{{currencyFormat this.totalAmount}}</td>
+
+
                                                 <td class="text-nowrap">
 
-                                                    <a href="/user/edit/{{this.id}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                    <a href="/purchase/edit/{{this.purchaseID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
 
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.id}}');">
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.purchaseID}}');">
                                                         <i class="fa fa-close text-danger"></i> </a> </td>
                                             </tr>
 
@@ -143,32 +150,31 @@
 
 
         swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this file!",
+            title: "تحذير",
+            text: "هل تريد حذف هذا البند ؟",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#f8b32d",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel !",
+            confirmButtonText: "نعم",
+            cancelButtonText: "لا",
             closeOnConfirm: false,
             closeOnCancel: false
         }, function(isConfirm){
             if (isConfirm) {
                 $.ajax({
-                    url: 'user/'+id,
+                    url: 'purchase/'+id,
                     type: 'delete',
                     success: function(data) {
 
-                        console.log(data);
                         if(data == true)
                         {
                             //$('table#TableData tr#'+id).remove();
                             $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
-                            swal("Deleted!", "Your file has been deleted.", "success");
+                            swal("تم الحذف", "تم حذف الملف", "success");
                         }
                         else
                         {
-                            swal("Cancelled", "Your file is safe :)", "error");
+                            swal("ألغيت", "الملف آمن الآن", "error");
                         }
 
                     },
@@ -179,7 +185,7 @@
                 }); // end ajax call
 
             } else {
-                swal("Cancelled", "Your file is safe :)", "error");
+                swal("ألغيت", "الملف آمن الآن", "error");
             }
         });
 

@@ -23,16 +23,14 @@
             <!-- Title -->
             <div class="row heading-bg">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h5 class="txt-dark">{{#if editData}}Edit{{else}}Add{{/if}} People</h5>
+                    <h5 class="txt-dark">{{#if editData}}تحديث{{else}}أضف{{/if}} الصنف</h5>
                 </div>
                 <!-- Breadcrumb -->
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                    <ol class="breadcrumb">
-
-
-                        <li><a href="/">Dashboard</a></li>
-                        <li><a href="/people"><span>people</span></a></li>
-                        <li class="active"><span>{{#if editData}}Edit{{else}}Add{{/if}} People</span></li>
+                    <ol class="breadcrumb" >
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+                        <li><a href="/item"><span> الصنف </span></a></li>
+                        <li class="active"><span> {{#if editData}}تحديث{{else}}أضف{{/if}} الصنف </span></li>
                     </ol>
                 </div>
                 <!-- /Breadcrumb -->
@@ -47,69 +45,66 @@
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
                                 <div class="form-wrap">
-                                    <form name="form one" method="post"  action="/people">
+                                    <form name="form one" method="post"  action="/item">
 
                                         <div class="row">
                                             <div class="col-sm-6">
 
                                                 <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Name</label>
+                                                    <label class="control-label mb-10 text-left"> الباركود</label>
+                                                    <input type="text" name="barcode" id="barcode" required="required" value="{{#if data.barcode}}{{data.barcode}}{{/if}}"
+                                                           placeholder="Enter barcode" class="form-control" >
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left"> اسم الصنف</label>
                                                     <input type="text" name="name" id="name" required="required" value="{{#if data.name}}{{data.name}}{{/if}}"
                                                            placeholder="Enter name" class="form-control" >
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> House Name</label>
-                                                    <input type="text" name="houseName" id="houseName"  value="{{#if data.houseName}}{{data.houseName}}{{/if}}"
-                                                           placeholder="Enter house name" class="form-control" >
-                                                </div>
-
-
-
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Mobile</label>
-                                                    <input type="text" name="mobile" id="mobile" value="{{#if data.mobile}}{{data.mobile}}{{/if}}"
-                                                           placeholder="Enter Mobile" class="form-control" >
+                                                    <label class="control-label mb-10 text-left"> وصف</label>
+                                                    <textarea name="description" id="description" placeholder="Enter decription"  class="form-control" >{{#if data.description}}{{data.description}}{{/if}}</textarea>
                                                 </div>
 
 
                                                 <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Land Phone</label>
-                                                    <input type="text" name="phone" id="phone" value="{{#if data.phone}}{{data.phone}}{{/if}}"
-                                                           placeholder="Enter Phone number" class="form-control" >
-                                                </div>
+                                                    <label class="control-label mb-10">الفئة</label>
+                                                    <select class="selectpicker" data-style="btn-danger btn-outline" name="categoryID" required>
 
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left">Address</label>
-                                                    <textarea class="form-control" name="address" placeholder="Enter the address" >{{#if data.address}}{{data.address}}{{/if}}</textarea>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10">Opening Balance Type</label>
-                                                    <select class="selectpicker" data-style="btn-danger btn-outline" name="type">
-                                                        <option  value="pay" {{#compare trans.type '==' 'pay'}}selected{{/compare}}>Payable</option>
-                                                        <option  value="receive" {{#compare trans.type '==' 'receive'}}selected{{/compare}}>Receivable</option>
+                                                        <option value="">اختار</option>
+                                                        {{#each categories}}
+                                                        <option value="{{this.categoryID}}" {{#compare this.categoryID '==' ../data.categoryID}}selected{{/compare}}>{{this.name}}</option>
+                                                        {{/each}}
+
+
                                                     </select>
                                                 </div>
 
-                                                <div class="form-group m-b-0">
-                                                    <label class="control-label mb-10">Opening Balance</label>
-                                                    <input id="amount" type="text" value="{{#if trans.amount}}{{trans.amount}}{{else}}0{{/if}}" name="amount" class=" form-control" data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default">
-                                                </div>
+
+
+
 
                                                 <div class="form-group m-b-0">
-                                                    <label class="control-label mb-10">Last Transaction Date</label>
-                                                    <input id="date" type="date" value="{{#if date}}{{date}}{{/if}}" name="date" class="form-control" >
+                                                    <label class="control-label mb-10">كمية الافتتاح</label>
+                                                    <input id="openingStock" type="text" value="{{#if data.openingStock}}{{data.openingStock}}{{else}}0{{/if}}" name="openingStock" class=" form-control" data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default">
+                                                </div>
+
+
+                                                <div class="form-group m-b-0">
+                                                    <label class="control-label mb-10">كلفة</label>
+                                                    <input id="amount" type="text" value="{{#if data.amount}}{{data.amount}}{{else}}0{{/if}}" name="amount" class=" form-control" data-bts-button-down-class="btn btn-default" data-bts-button-up-class="btn btn-default">
                                                 </div>
 
 
                                                 <br>
 
                                                 <div class="col-sm-4 col-xs-12 mt-15">
-                                                    <input type="hidden" name="id" value="{{#if data.id}}{{data.id}}{{/if}}" >
+                                                    <input type="hidden" name="itemID" value="{{#if data.itemID}}{{data.itemID}}{{/if}}" >
                                                     <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
                                                     <button class="btn btn-primary  btn-rounded btn-block btn-anim"><i class="fa fa-check-square"></i>
-                                                        <span class="btn-text">{{#if editData}}Update{{else}}Add {{/if}}</span></button>
+                                                        <span class="btn-text">{{#if editData}}تحديث{{else}}إضافة {{/if}}</span></button>
                                                 </div>
 
 
@@ -118,7 +113,7 @@
 
 
                                                 <div class="col-sm-4 col-xs-12 mt-15">
-                                                    <a class="btn btn-danger  btn-rounded btn-block btn-anim" href="/user"><i class="fa fa-minus-circle"></i><span class="btn-text">Cancel</span></a>
+                                                    <a class="btn btn-danger  btn-rounded btn-block btn-anim" href="/item"><i class="fa fa-minus-circle"></i><span class="btn-text">إلغاء</span></a>
                                                 </div>
 
 
@@ -157,5 +152,22 @@
 <!-- /#wrapper -->
 
 <!-- JavaScript -->
+
+<script type="text/javascript">
+    $("input[name='amount']").TouchSpin({
+        min: -1000000000,
+        max: 1000000000,
+        stepinterval: 500,
+        maxboostedstep: 10000000,
+        prefix: 'د.إ'
+    });
+
+    $("input[name='openingStock']").TouchSpin({
+        min: -1000000000,
+        max: 1000000000,
+        stepinterval: 50,
+        maxboostedstep: 10000000
+    });
+</script>
 
 <!-- jQuery -->

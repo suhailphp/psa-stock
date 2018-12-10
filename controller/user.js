@@ -3,10 +3,11 @@ const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
 const {userModel,validate,validateUpdate} = require('../models/userModel');
+const curPage = 'user';
 
 router.get('/',auth ,async (req,res)=>{
     let users = await userModel.findAll();
-    res.render('user/list',{data:users});
+    res.render('user/list',{data:users,curPage});
 });
 
 router.get('/add',auth ,async (req,res)=>{
@@ -15,12 +16,12 @@ router.get('/add',auth ,async (req,res)=>{
         data = req.session.reqBody;
         req.session.reqBody = {};
     }
-    res.render('user/add',{data:data});
+    res.render('user/add',{data:data,curPage});
 });
 
 router.get('/edit/:id',auth ,async (req,res)=>{
     let data = await userModel.findOne({ where: {id: req.params.id }});
-    res.render('user/add',{data:data,editData:true});
+    res.render('user/add',{data:data,editData:true,curPage});
 });
 
 router.post('/',auth ,async (req,res)=>{

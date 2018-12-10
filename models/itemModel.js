@@ -4,32 +4,32 @@ const db = require('../startup/db');
 const config = require('config');
 
 
-let peopleModel = db.define('people', {
+let itemModel = db.define('items', {
 
-    id:{
+    itemID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
         unique: 'compositeIndex',
         primaryKey: true
     },
+    barcode: {
+        type: Sequelize.STRING(255)
+    },
     name: {
         type: Sequelize.STRING(255)
     },
-    houseName: {
-        type: Sequelize.STRING(255)
+    description: {
+      type: Sequelize.STRING(1000)
     },
-    address: {
-        type: Sequelize.STRING(1000)
+    categoryID: {
+        type: Sequelize.INTEGER
     },
-
-    mobile: {
-        type: Sequelize.STRING(255)
+    amount: {
+        type: Sequelize.FLOAT
     },
-
-    phone: {
-        type: Sequelize.STRING(255)
+    openingStock: {
+        type: Sequelize.FLOAT
     },
-
     createdOn: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
@@ -46,26 +46,24 @@ let peopleModel = db.define('people', {
 
 
 if (config.DB['SYNC']) {
-    peopleModel.sync({force: config.DB['SYNC_FORCE']});
+    itemModel.sync({force: config.DB['SYNC_FORCE']});
 }
 
 function validate(req){
     const schema = {
-        name: Joi.string().min(5).required(),
-        houseName: Joi.string().allow(''),
-        address: Joi.string().allow(''),
-        mobile: Joi.string().allow(''),
-        phone: Joi.string().allow(''),
-        type: Joi.string().allow(''),
+        barcode: Joi.string().required(),
+        name: Joi.string().min(3).required(),
+        description: Joi.string().allow(''),
         amount: Joi.number().allow(0),
-        date: Joi.date().allow(''),
-        id: Joi.string().allow(''),
+        categoryID: Joi.number().allow(0),
+        openingStock: Joi.number().allow(0),
+        itemID: Joi.string().allow(''),
         action: Joi.string().allow('')
     };
 
     return Joi.validate(req, schema);
 }
 
-exports.peopleModel = peopleModel;
+exports.itemModel = itemModel;
 exports.validate = validate;
 

@@ -2,9 +2,9 @@
     <div class="mobile-only-brand pull-left">
         <div class="nav-header pull-left">
             <div class="logo-wrap">
-                <a href="<?php echo base_url(); ?>">
-                    <img class="brand-img" src="/dist/img/logo.png" alt="brand"/>
-                    <span class="brand-text">متجر الأكاديمية</span>
+                <a href="/">
+                    <img class="brand-img" src="/images/logo.png" width="30" alt="brand"/>
+                    <span  class="brand-text">متجر الأكاديمية</span>
                 </a>
             </div>
         </div>
@@ -176,7 +176,7 @@
                 <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
 
                     <li>
-                        <a href="#"><i class="zmdi zmdi-account"></i><span><?php echo $_SESSION['UserName']; ?></span></a>
+                        <a href="#"><i class="zmdi zmdi-account"></i><span> {{{user.name}}}</span></a>
                     </li>
                     <li class="divider"></li>
 

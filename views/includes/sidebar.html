@@ -15,15 +15,35 @@
 
 
         <li>
-            <a href="/item" >
-                <div class="pull-left"><i class="fa fa-users mr-20"></i><span class="right-nav-text">العناصر</span></div><div class="clearfix"></div></a>
+            <a href="/item" {{#compare curPage '==' 'item'}}class="current"{{/compare}}>
+                <div class="pull-left"><i class="fa fa-graduation-cap mr-20"></i><span class="right-nav-text">العناصر</span></div><div class="clearfix"></div></a>
         </li>
 
+
+
         <li>
-            <a href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr" <?php echo ($PageActive == 'product')?'class="active-page"':' >
-            <div class="pull-left"><i class="fa fa-flask mr-20"></i><span class="right-nav-text">القضية</span></div><div class="pull-right">
+            <a {{#compare curPage '==' 'purchase'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr"  >
+            <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">شراء</span></div><div class="pull-right">
             <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="product_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="/purchase/add" > الجديد</a>
+                </li>
+                <li>
+                    <a href="/purchase" >قائمة </a>
+                </li>
+
+
+
+            </ul>
+        </li>
+
+
+        <li>
+            <a {{#compare curPage '==' 'issue'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#getting_dr" >
+            <div class="pull-left"><i class="fa fa-gift mr-20"></i><span class="right-nav-text">القضية</span></div><div class="pull-right">
+            <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="getting_dr" class="collapse collapse-level-1">
                 <li>
                     <a href="/issue/add" > الجديد</a>
                 </li>
@@ -36,16 +56,17 @@
             </ul>
         </li>
 
+
         <li>
-            <a href="javascript:void(0);" data-toggle="collapse" data-target="#getting_dr" <?php echo ($PageActive == 'product')?'class="active-page"':' >
-            <div class="pull-left"><i class="fa fa-shopping-cart mr-20"></i><span class="right-nav-text">شراء</span></div><div class="pull-right">
+            <a {{#compare curPage '==' 'return'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#return_dr" >
+            <div class="pull-left"><i class="fa fa-retweet mr-20"></i><span class="right-nav-text">إرجاع</span></div><div class="pull-right">
             <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-            <ul id="getting_dr" class="collapse collapse-level-1">
+            <ul id="return_dr" class="collapse collapse-level-1">
                 <li>
-                    <a href="/purchase/add" > الجديد</a>
+                    <a href="/return/add" > الجديد</a>
                 </li>
                 <li>
-                    <a href="/purchase" >قائمة </a>
+                    <a href="/return" >قائمة </a>
                 </li>
 
 
@@ -64,17 +85,41 @@
         </li>
 
         <li>
-            <a href="/user" >
-                <div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">المستعمل</span></div><div class="clearfix"></div></a>
+            <a href="/category" {{#compare curPage '==' 'category'}}class="current"{{/compare}}>
+                <div class="pull-left"><i class="fa fa-tasks mr-20"></i><span class="right-nav-text">الفئة</span></div><div class="clearfix"></div></a>
+        </li>
+
+
+
+        <li>
+            <a href="/supplier"  {{#compare curPage '==' 'supplier'}}class="current"{{/compare}}>
+            <div class="pull-left"><i class="fa fa-support mr-20"></i><span class="right-nav-text">المورد</span></div><div class="clearfix"></div></a>
+        </li>
+
+        <li>
+            <a href="/department"  {{#compare curPage '==' 'department'}}class="current"{{/compare}}>
+            <div class="pull-left"><i class="fa fa-tree mr-20"></i><span class="right-nav-text">القسم</span></div><div class="clearfix"></div></a>
+        </li>
+
+        <li>
+            <a href="/staff" {{#compare curPage '==' 'staff'}}class="current"{{/compare}}>
+                <div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">العاملين</span></div><div class="clearfix"></div></a>
+        </li>
+
+        <li>
+            <a href="/user" {{#compare curPage '==' 'user'}}class="current"{{/compare}}>
+            <div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">المستعمل</span></div><div class="clearfix"></div></a>
         </li>
 
         </li>
 
         <li>
-            <a href="#" >
+            <a href="#" {{#compare curPage '==' 'backup'}}class="current"{{/compare}}>
                 <div class="pull-left"><i class="fa fa-database mr-20"></i><span class="right-nav-text">دعم</span></div><div class="clearfix"></div></a>
         </li>
 
     </ul>
 </div>
+
+
 

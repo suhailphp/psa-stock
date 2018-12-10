@@ -3,7 +3,7 @@
   "PORT": 3000,
   "DB": {
     "DIALECT": "mysql",
-    "DATABASE": "payat",
+    "DATABASE": "stock",
     "USERNAME": "root",
     "PASSWORD": "rootroot",
     "HOST": "localhost",

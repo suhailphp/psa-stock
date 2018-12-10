@@ -23,15 +23,16 @@
             <!-- Title -->
             <div class="row heading-bg">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h5 class="txt-dark">Peoples</h5>
+                    <h5 class="txt-dark">الصنف</h5>
                 </div>
                 <!-- Breadcrumb -->
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                     <ol class="breadcrumb">
 
 
-                        <li><a href="/">Dashboard</a></li>
-                        <li class="active"><span>Peoples</span></li>
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+
+                        <li class="active"><span> الصنف </span></li>
 
                     </ol>
                 </div>
@@ -47,11 +48,11 @@
                     <div class="panel panel-default card-view">
                         <div class="panel-heading">
                             <div class="pull-left">
-                                <h6 class="panel-title txt-dark">List Peoples</h6>
+                                <h6 class="panel-title txt-dark">قائمة الصنف</h6>
                             </div>
 
                             <div class="pull-right">
-                                <a href="/people/add"><div class="pull-left"><i class="fa fa-plus-square mr-5"></i><span class="right-nav-text">New</span></div></a>
+                                <a href="/item/add"><div class="pull-left"><i class="fa fa-plus-square mr-5"></i><span class="right-nav-text">اضف جديد</span></div></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -64,29 +65,30 @@
                                             <thead>
                                             <tr>
 
-                                                <th>Name</th>
-                                                <th>House Name</th>
-                                                <th>Mobile</th>
+                                                <th>اسم الصنف</th>
+                                                <th>الفئة</th>
+                                                <th>كمية الافتتاح</th>
 
 
-                                                <th class="text-nowrap" width="6%">Action</th>
+                                                <th class="text-nowrap" width="6%">عمل</th>
                                             </tr>
                                             </thead>
                                             <tbody>
 
                                             {{#each data }}
 
-                                            <tr id="{{this.id}}">
+                                            <tr id="{{this.itemID}}">
 
                                                 <td>{{this.name}}</td>
-                                                <td>{{this.houseName}}</td>
-                                                <td>{{this.mobile}}</td>
+                                                <td>{{this.category.name}}</td>
+                                                <td>{{this.stock.quantity}}</td>
+
                                                 <td class="text-nowrap">
 
-                                                    <a href="/people/edit/{{this.id}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                    <a href="/item/edit/{{this.itemID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
 
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.id}}');">
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.itemID}}');">
                                                         <i class="fa fa-close text-danger"></i> </a> </td>
                                             </tr>
 
@@ -132,23 +134,32 @@
 
 <script type="text/javascript">
 
+
+    //for data table
+    "use strict";
+    $(document).ready(function() {
+        "use strict";
+        $('#TableData').DataTable();
+        //$('#TableData').DataTable({ "lengthChange": false});
+    } );
+
     function DeleteItem(id){
 
 
         swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this file!",
+            title: "تحذير",
+            text: "هل تريد حذف هذا البند ؟",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#f8b32d",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel !",
+            confirmButtonText: "نعم",
+            cancelButtonText: "لا",
             closeOnConfirm: false,
             closeOnCancel: false
         }, function(isConfirm){
             if (isConfirm) {
                 $.ajax({
-                    url: 'people/'+id,
+                    url: 'item/'+id,
                     type: 'delete',
                     success: function(data) {
 
@@ -156,11 +167,11 @@
                         {
                             //$('table#TableData tr#'+id).remove();
                             $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
-                            swal("Deleted!", "Your file has been deleted.", "success");
+                            swal("تم الحذف", "تم حذف الملف", "success");
                         }
                         else
                         {
-                            swal("Cancelled", "Your file is safe :)", "error");
+                            swal("ألغيت", "الملف آمن الآن", "error");
                         }
 
                     },
@@ -171,7 +182,7 @@
                 }); // end ajax call
 
             } else {
-                swal("Cancelled", "Your file is safe :)", "error");
+                swal("ألغيت", "الملف آمن الآن", "error");
             }
         });
 

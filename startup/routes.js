@@ -6,9 +6,17 @@ const login = require("../controller/login");
 const logout = require("../controller/logout");
 const index = require("../controller/index");
 const user = require("../controller/user");
-const people = require("../controller/people");
-const giving = require("../controller/giving");
-const getting = require("../controller/getting");
+const item = require("../controller/item");
+const category = require("../controller/category");
+const department = require("../controller/department");
+const supplier = require("../controller/supplier");
+const purchase = require("../controller/purchase");
+const issue = require("../controller/issue");
+const staff = require("../controller/staff");
+const syncHrDb = require("../controller/syncHrDb");
+const returnCn = require("../controller/return");
+
+
 
 module.exports = function(app){
 
@@ -19,8 +27,17 @@ module.exports = function(app){
     app.use('/logout', logout);
     app.use('/', index);
     app.use('/user', user);
-    app.use('/item', people);
-    app.use('/giving', giving);
-    app.use('/getting', getting);
+    app.use('/item', item);
+    app.use('/category', category);
+    app.use('/department', department);
+    app.use('/supplier', supplier);
+    app.use('/purchase', purchase);
+    app.use('/issue', issue);
+    app.use('/staff', staff);
+    app.use('/syncHrDb', syncHrDb);
+    app.use('/return', returnCn);
+
+
+
 
 }

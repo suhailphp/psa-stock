@@ -8,6 +8,11 @@ module.exports = function(req,res,next){
         req.session.infoMsg = null;
     }
 
+    //for display user info in header
+    if(req.session.user){
+        res.locals.user = req.session.user;
+    }
+
     next();
 }
 
