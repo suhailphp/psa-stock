@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 
-const infoMsg = require("../middleware/infoMsg");
+const infoMsg = require("../middleware/infomsg");
 const login = require("../controller/login");
 const logout = require("../controller/logout");
 const index = require("../controller/index");
