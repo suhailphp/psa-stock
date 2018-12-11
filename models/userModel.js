@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const Sequelize = require('sequelize');
-const db = require('../startup/db');
+const db = require('../config/dbConnection');
 const config = require('config');
 
 let userModel = db.define('users', {
