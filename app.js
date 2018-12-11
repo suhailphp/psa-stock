@@ -6,7 +6,7 @@ const session = require("express-session");
 const exphbr = require("express-handlebars");
 const helper = require('./utilities/helper');
 const bodyParser = require('body-parser');
-const infoMsg = require("./middleware/infoMsg");
+const infoMsg = require("./middleware/infomsg");
 
 const app = express();
 
