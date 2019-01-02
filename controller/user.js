@@ -20,7 +20,7 @@ router.get('/add' ,async (req,res)=>{
 
 
     var query = '(mail=*psa*)';
-    ad.findUsers(query, true, function(err, users) {
+    ad.findUsers(query,  function(err, users) {
         if (err) {
             console.log('ERROR: ' +JSON.stringify(err));
             return;
@@ -46,7 +46,7 @@ router.get('/edit/:id' ,async (req,res)=>{
 
 
     var query = '(mail=*psa*)';
-    ad.findUsers(query, true, function(err, users) {
+    ad.findUsers(query,  function(err, users) {
         if (err) {
             console.log('ERROR: ' +JSON.stringify(err));
             return;
