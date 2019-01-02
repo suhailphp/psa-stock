@@ -15,7 +15,7 @@ router.get('/' ,async (req,res)=>{
 router.get('/add' ,async (req,res)=>{
 
     let data;
-    console.log(Config.DOMAIN);
+   // console.log(Config.DOMAIN);
     let ad = new activeDirectory(Config.DOMAIN);
 
 
