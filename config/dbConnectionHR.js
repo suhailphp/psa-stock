@@ -1,7 +1,7 @@
 
-let Config = require('./app')
+// let Config = require('./app')
 var Sequelize = require('sequelize');
-// var Config = require('./config');
+var Config = {}
 
 var dbName = Config.DB['DATABASE'] || 'PSAHR';
 var dbUsername = Config.DB['USERNAME'] || 'testhr';
