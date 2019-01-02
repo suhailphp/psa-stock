@@ -12,5 +12,11 @@
     "QUERY_LOG": false,
     "//": "Do not use this Unless you want to set default values",
     "SYNC_FORCE": false
+  },
+  "DOMAIN": {
+    "url":"ldap://172.16.1.20",
+    "baseDN":"dc=psa,dc=local",
+    "username":"ad@psa.local",
+    "password":"n3wnimda@psa"
   }
 }

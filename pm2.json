@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "psa-stock",
+      "script": "./bin/www",
+      "max_memory_restart" : "500M",
+      "watch": true,
+      "instances": 1,
+      "exec_mode": "fork",
+      "env_production": {
+        "NODE_ENV": "production",
+        "ENV_FILE": "/srv/node/env/psa-stock/.env"
+      },
+      "error_file"      : "/srv/node/logs/psa-stock/err.log",
+      "out_file"        : "/srv/node/logs/psa-stock/out.log",
+      "merge_logs"      : true,
+      "log_date_format" : "YYYY-MM-DD HH:mm Z"
+    }
+  ]
+}

@@ -65,7 +65,7 @@
                                             <tr>
 
                                                 <th>Name</th>
-                                                <th>Mobile</th>
+                                                <th>Role</th>
 
                                                 <th class="text-nowrap" width="6%">Action</th>
                                             </tr>
@@ -77,7 +77,7 @@
                                             <tr id="{{this.id}}">
 
                                                 <td>{{this.fullName}}</td>
-                                                <td>{{this.mobile}}</td>
+                                                <td>{{this.userRole}}</td>
                                                 <td class="text-nowrap">
 
                                                     <a href="/user/edit/{{this.id}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
@@ -143,32 +143,31 @@
 
 
         swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this file!",
+            title: "تحذير",
+            text: "هل تريد حذف هذا البند ؟",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#f8b32d",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel !",
+            confirmButtonText: "نعم",
+            cancelButtonText: "لا",
             closeOnConfirm: false,
             closeOnCancel: false
         }, function(isConfirm){
             if (isConfirm) {
                 $.ajax({
-                    url: 'user/'+id,
+                    url: 'item/'+id,
                     type: 'delete',
                     success: function(data) {
 
-                        console.log(data);
                         if(data == true)
                         {
                             //$('table#TableData tr#'+id).remove();
                             $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
-                            swal("Deleted!", "Your file has been deleted.", "success");
+                            swal("تم الحذف", "تم حذف الملف", "success");
                         }
                         else
                         {
-                            swal("Cancelled", "Your file is safe :)", "error");
+                            swal("ألغيت", "الملف آمن الآن", "error");
                         }
 
                     },
@@ -179,7 +178,7 @@
                 }); // end ajax call
 
             } else {
-                swal("Cancelled", "Your file is safe :)", "error");
+                swal("ألغيت", "الملف آمن الآن", "error");
             }
         });
 

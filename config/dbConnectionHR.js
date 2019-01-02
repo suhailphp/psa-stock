@@ -1,10 +1,8 @@
-/**
- * Created by Awais 11/14/17.
- */
 
+let Config = require('./app')
 var Sequelize = require('sequelize');
 // var Config = require('./config');
-var Config = {DB: {}};
+
 var dbName = Config.DB['DATABASE'] || 'PSAHR';
 var dbUsername = Config.DB['USERNAME'] || 'testhr';
 var dbPassword = Config.DB['PASSWORD'] || 'psahr';

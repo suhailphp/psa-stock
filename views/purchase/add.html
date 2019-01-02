@@ -321,7 +321,7 @@
     /* Select2 Init*/
     $(".select2").select2();
 
-    var IC 	=	parseInt($('#itemNo').val());
+    let IC 	=	parseInt($('#itemNo').val());
 
 
     //for form submit
@@ -358,8 +358,9 @@
     }
     function SelectProduct()
     {
+        swal("Not Found!", "not found any maching products", "error");
         let ItemSearch 	=	$('#ItemSearch').val();
-
+        //alert(ItemSearch)
         $.ajax({
             url: '/purchase/search_item/'+ItemSearch,
             type: 'get',
@@ -367,7 +368,6 @@
 
                 if(obj != '')
                 {
-
 
                         IC++;
                         $('#itemNo').val(IC);

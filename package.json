@@ -14,14 +14,17 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/suhailphp/payat#readme",
   "dependencies": {
+    "activedirectory": "^0.7.2",
     "config": "^2.0.1",
     "crypto": "^1.0.1",
     "dateformat": "^3.0.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
     "joi": "^14.0.0",
+    "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
     "sequelize": "^4.41.0",
     "tedious": "^3.0.1"

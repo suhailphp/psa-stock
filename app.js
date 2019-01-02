@@ -1,12 +1,13 @@
 const fs = require('fs')
 const express = require("express");
+const morgan = require('morgan')
 const path = require("path");
-const config = require('config');
 const session = require("express-session");
 const exphbr = require("express-handlebars");
 const helper = require('./utilities/helper');
 const bodyParser = require('body-parser');
 const infoMsg = require("./middleware/infomsg");
+let config = require('./config/app.js')
 
 const app = express();
 
@@ -62,6 +63,66 @@ fs.readdirSync(__dirname + '/controller/').forEach(function (file) {
         );
     }
 });
+
+//morgan
+
+
+/*
+ *
+ *  set requests logs
+ *
+ */
+
+
+morgan.token('realclfdate', function (req, res) {
+    var clfmonth = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    var pad2 = function (num) {
+        var str = String(num);
+
+        return (str.length === 1 ? '0' : '')
+            + str;
+    };
+    var dateTime = new Date();
+    var date = dateTime.getDate();
+    var hour = dateTime.getHours();
+    var mins = dateTime.getMinutes();
+    var secs = dateTime.getSeconds();
+    var year = dateTime.getFullYear();
+    var timezoneofset = dateTime.getTimezoneOffset();
+    var sign = timezoneofset > 0 ? '-' : '+';
+    timezoneofset = parseInt(Math.abs(timezoneofset) / 60);
+    var month = clfmonth[dateTime.getUTCMonth()];
+
+    return pad2(hour) + ':' + pad2(mins) + ':' + pad2(secs)
+        + ' ' + sign + pad2(timezoneofset) + '00' + ' : ' +
+        pad2(date) + '/' + month + '/' + year;
+});
+morgan.token('ip', function (req, res) {
+    return req.header('x-forwarded-for') || req.ip;
+});
+morgan.token('userName', function (req, res) {
+    return req.User ? req.User.UserName : '';
+});
+app.use(morgan((process.env === "production" ?
+    ':status :method :response-time ms ' +
+    ' \\tTime | :realclfdate ' +
+    ' \\tUser | :userName ' +
+    '\\tContent_Length | :req[content-length] -> :res[content-length] \\tURL | :url  ' +
+    '\\tIP |  :ip - :remote-user ' +
+    '\\tAgent |   ":referrer" ":user-agent"' :
+    'dev'), {
+    skip: function (req, res) {
+        return res.statusCode == 304 ||
+            req.originalUrl.startsWith("/pages/") ||
+            req.originalUrl.startsWith("/assets/") ||
+            req.originalUrl.startsWith("/plugins/") ||
+            req.originalUrl.startsWith("/browser-sync/")
+    }
+}));
+
 
 //for listen
 const port = config.PORT;

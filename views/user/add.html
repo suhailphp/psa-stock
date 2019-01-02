@@ -52,41 +52,33 @@
                                         <div class="row">
                                             <div class="col-sm-6">
 
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Name</label>
-                                                    <input type="text" name="fullName" id="fullName" required="required" value="{{#if data.fullName}}{{data.fullName}}{{/if}}"
-                                                           placeholder="Enter name" class="form-control" >
+
+
+                                             <div class="form-group" >
+                                                <label class="control-label mb-10">المستعمل</label>
+                                                <select class="form-control select2" name="userName" id="userName" required="required" onchange="nameChose()" >
+
+                                                    <option value="">اختار</option>
+                                                    {{#each users}}
+                                                    <option  {{#compare this.sAMAccountName '==' ../data.userName}}selected{{/compare}}
+                                                            value="{{this.sAMAccountName}}">{{this.sAMAccountName}} - {{this.displayName}} - {{this.description}}</option>
+                                                    {{/each}}
+
+
+                                                </select>
+                                            </div>
+
+                                                <div class="form-group" >
+                                                    <label class="control-label mb-10">نوع</label>
+                                                    <select class="form-control select2" name="userRole" id="userRole" required="required">
+
+                                                        <option {{#compare 'ADMIN' '==' ./data.userRole }}selected{{/compare}} value="ADMIN" >admin</option>
+                                                        <option {{#compare 'USER' '==' ./data.userRole }}selected{{/compare}} value="USER" >user</option>
+
+
+                                                    </select>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> User Name</label>
-                                                    <input type="text" name="userName" id="userName" required="required" value="{{#if data.userName}}{{data.userName}}{{/if}}"
-                                                           placeholder="Enter user name" class="form-control" >
-                                                </div>
-
-                                                {{#if editData}}
-
-                                                {{else}}
-
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Password</label>
-                                                    <input type="password" name="password" id="password" required="required" value="{{#if data.password}}{{data.password}}{{/if}}"
-                                                           placeholder="Enter password" class="form-control" >
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Confirm</label>
-                                                    <input type="password" name="confirm" id="confirm" required="required" value="{{#if data.confirm}}{{data.confirm}}{{/if}}"
-                                                           placeholder="Enter password" class="form-control" >
-                                                </div>
-
-                                                {{/if}}
-
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10 text-left"> Mobile</label>
-                                                    <input type="text" name="mobile" id="mobile" required="required" value="{{#if data.mobile}}{{data.mobile}}{{/if}}"
-                                                           placeholder="Enter Mobile" class="form-control" >
-                                                </div>
 
                                                 <br>
 
@@ -132,5 +124,20 @@
 <!-- /#wrapper -->
 
 <!-- JavaScript -->
+
+
+<script type="text/javascript">
+
+
+    /* Select2 Init*/
+    $(".select2").select2();
+
+    function nameChose(){
+        $('#name').val($('#userName').val());
+    }
+
+    </script>
+
+
 
 <!-- jQuery -->
