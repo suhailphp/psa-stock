@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const Sequelize = require('sequelize');
 const db = require('../config/dbConnection');
-const config = require('config');
+const config = require('../config/app');
 
 
 let purchaseModel = db.define('purchase', {

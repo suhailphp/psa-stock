@@ -11,7 +11,6 @@ var http = require('http');
 /**
  *
  *
- *  Created By Awaismehmood 09/11/17
  *
  *
  * Get port from Express.

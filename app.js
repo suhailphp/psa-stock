@@ -124,4 +124,5 @@ app.use(morgan((process.env === "production" ?
 }));
 
 app.set('port', config.PORT);
+
 module.exports = app

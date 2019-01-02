@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConnection');
-const config = require('config');
+const config = require('../config/app');
 
 
 let issueStockModel = db.define('issue_stock', {

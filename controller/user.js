@@ -5,7 +5,7 @@ const router = express.Router();
 const activeDirectory = require('activedirectory');
 const {userModel} = require('../models/userModel');
 const curPage = 'user';
-const Config = require('config');
+const Config = require('../config/app');
 
 router.get('/' ,async (req,res)=>{
     let users = await userModel.findAll();

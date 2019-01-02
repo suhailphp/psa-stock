@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const {userModel} = require('../models/userModel');
 const activeDirectory = require('activedirectory');
-const Config = require('config');
+const Config = require('../config/app');
 
 router.get('/',(req,res)=>{
 
