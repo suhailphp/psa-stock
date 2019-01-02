@@ -4,11 +4,20 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node ./bin/www",
+    "debug": "export DEBUG=PSA-STORE:*; nodemon ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://suhailphp@bitbucket.org/suhailphp/payat.git"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "locales/*",
+      "public/*"
+    ],
+    "delay": "0"
   },
   "author": "Suhail M",
   "license": "ISC",

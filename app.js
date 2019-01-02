@@ -123,11 +123,5 @@ app.use(morgan((process.env === "production" ?
     }
 }));
 
-
-//for listen
-const port = config.PORT;
-app.listen(port, ()=>{
-    console.log('Application running on port '+port);
-});
-
-//console.log(config.BASE_URL);
+app.set('port', config.PORT);
+module.exports = app
