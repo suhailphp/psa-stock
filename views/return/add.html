@@ -60,8 +60,9 @@
                                                     <label class="control-label mb-10">نوع القضية</label>
                                                     <select class="form-control select2" name="type" id="type" required="required" onchange="typeSelect();">
 
-                                                        <option value="department" {{#compare data.type '==' 'department'}}selected{{/compare}}>قسم</option>
                                                         <option value="staff" {{#compare data.type '==' 'staff'}}selected{{/compare}}>العاملين</option>
+                                                        <option value="department" {{#compare data.type '==' 'department'}}selected{{/compare}}>قسم</option>
+
 
                                                     </select>
                                                 </div>
@@ -72,7 +73,20 @@
 
                                             <div class="col-sm-3">
 
-                                                <div class="form-group" id="depData" {{#compare data.type '==' 'staff'}}style="display: none"{{/compare}}>
+                                                <div class="form-group" id="staffData" {{#compare data.type '==' 'department'}}style="display: none"{{/compare}}>
+                                                <label class="control-label mb-10">العاملين</label>
+                                                <select class="form-control select2" name="militaryNo" id="militaryNo" required="required" >
+
+                                                    <option value="">اختار</option>
+                                                    {{#each staffs}}
+                                                    <option value="{{this.militaryNo}}" {{#compare this.militaryNo '==' ../data.militaryNo}}selected{{/compare}}> {{this.militaryNo}} : {{this.name}} </option>
+                                                    {{/each}}
+
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group" id="depData" {{#compare data.type '!=' 'department'}}style="display: none"{{/compare}}>
                                                     <label class="control-label mb-10">القسم</label>
                                                     <select class="form-control select2" name="departmentID" id="departmentID" required="required" >
 
@@ -84,22 +98,6 @@
 
                                                     </select>
                                                 </div>
-
-
-                                                <div class="form-group" id="staffData" {{#compare data.type '!=' 'staff'}}style="display: none"{{/compare}}>
-                                                    <label class="control-label mb-10">العاملين</label>
-                                                    <select class="form-control select2" name="militaryNo" id="militaryNo" required="required" >
-
-                                                        <option value="">اختار</option>
-                                                        {{#each staffs}}
-                                                        <option value="{{this.militaryNo}}" {{#compare this.militaryNo '==' ../data.militaryNo}}selected{{/compare}}> {{this.militaryNo}} : {{this.name}} </option>
-                                                        {{/each}}
-
-
-                                                    </select>
-                                                </div>
-
-
                                             </div>
 
 
@@ -164,6 +162,7 @@
                                                                             <th>اسم الصنف</th>
 
                                                                             <th>كمية</th>
+                                                                            <th>ملاحظات</th>
 
                                                                         </tr>
                                                                         </thead>
@@ -179,6 +178,8 @@
                                                                                 <td> {{this.item.name}} </td>
                                                                                 <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity{{this.itemSl}}" name="quantity[{{this.itemSl}}]"
                                                                                                               value="{{this.quantity}}" required="required" ></td>
+                                                                                <td><input style="text-align: right;" type="text" class="form-control" id="notes{{this.itemSl}}" name="notes[{{this.itemSl}}]"
+                                                                                                              value="{{this.notes}}" ></td>
 
                                                                             </tr>
                                                                         {{/each}}
@@ -353,6 +354,7 @@
                             '<td> '+obj.barcode+' </td>'+
                             '<td> '+obj.name+' </td>'+
                             '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity'+IC+'" name="quantity['+IC+']" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
+                            '<td><input type="text" class="form-control" id="notes{{this.itemSl}}" name="notes[{{this.itemSl}}]" value="{{this.notes}}" ></td>'+
                             '</tr>');
                         $('#ItemSearch').val('');
                         $( "#ItemSearch" ).focus();
@@ -370,8 +372,8 @@
                                 let SelectTable	='<table class="table table-hover display  pb-30" > ';
                                 for(let i=0; i< res.length; i++)
                                 {
-                                    //console.log(res[i].ProductID);
-                                    SelectTable	+='<tr onclick="InsertSearch('+res[i].barcode+');"><td >'+res[i].barcode+'</td>'+
+                                    let brc = "'"+res[i].barcode+"'";
+                                    SelectTable	+='<tr onclick="InsertSearch('+brc+');"><td >'+res[i].barcode+'</td>'+
                                         '<td>'+res[i].name+'</td> ';
                                 }
                                 SelectTable	+=	'<tbody> </table>';
@@ -427,6 +429,7 @@
                         '<td> '+obj.barcode+' </td>'+
                         '<td> '+obj.name+' </td>'+
                         '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity'+IC+'" name="quantity['+IC+']" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
+                        '<td><input type="text" class="form-control" id="notes{{this.itemSl}}" name="notes[{{this.itemSl}}]" value="{{this.desc}}" ></td>'+
                         '</tr>');
                     $('#SearchModal').modal('hide');
                     $('#ItemSearch').val('');

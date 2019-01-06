@@ -68,7 +68,8 @@ router.post('/',async (req,res)=>{
                     returnID: returns.returnID,
                     itemID: req.body.itemID[key],
                     itemSl: req.body.itemSl[key],
-                    quantity: req.body.quantity[key]
+                    quantity: req.body.quantity[key],
+                    notes: req.body.notes[key]
                 }
                 let returnItem = await returnItemModel.create(itemModel);
                 if (returnItem) {
@@ -115,7 +116,8 @@ router.post('/',async (req,res)=>{
                     returnID  :   returns.returnID,
                     itemID  :   req.body.itemID[key],
                     itemSl  :   req.body.itemSl[key],
-                    quantity  :   req.body.quantity[key]
+                    quantity  :   req.body.quantity[key],
+                    notes: req.body.notes[key]
                 }
                 let returnItem = await returnItemModel.create(itemModel);
                 if(returnItem){

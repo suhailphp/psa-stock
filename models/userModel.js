@@ -41,11 +41,11 @@ if (config.DB['SYNC']) {
         // Table created
         return userModel.findOrCreate({
             where: {
-                userName: 'administrator',
+                userName: 'suhail',
             },
             defaults: {
-                fullName: 'psa main admin',
-                userName: 'administrator',
+                fullName: 'سهيل مالايانتافيدا',
+                userName: 'suhail',
                 userRole: 'ADMIN'
             }
         })

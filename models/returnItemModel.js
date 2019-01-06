@@ -22,6 +22,9 @@ let returnItemModel = db.define('return_item', {
     },
     quantity: {
         type: Sequelize.FLOAT
+    },
+    notes: {
+        type: Sequelize.STRING(1000)
     }
 
 

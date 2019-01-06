@@ -6,7 +6,7 @@ const {departmentModel} = require('../models/departmentModel');
 
 const router = express.Router();
 
-router.get('/',async (req,res)=>{
+router.get('/',auth,async (req,res)=>{
     issueModel.belongsTo(staffModel, {foreignKey: 'militaryNo'});
     issueModel.belongsTo(departmentModel, {foreignKey: 'departmentID'});
     let issues = await issueModel.findAll({include:[{model:staffModel},{model:departmentModel}],limit: 5,

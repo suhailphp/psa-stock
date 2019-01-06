@@ -60,7 +60,8 @@ function validate(req){
         ItemSearch: Joi.string().allow(''),
         itemID: Joi.array().allow(''),
         itemSl: Joi.array().allow(''),
-        quantity: Joi.array().allow('')
+        quantity: Joi.array().allow(''),
+        notes: Joi.array().allow('')
     };
 
     return Joi.validate(req, schema);

@@ -17,7 +17,8 @@ router.get('/', async (req,res)=>{
 
 router.get('/add',  async (req,res)=>{
     let suppliers = await supplierModel.findAll();
-    res.render('purchase/add',{suppliers:suppliers,curPage});
+    let data = {date : new Date()};
+    res.render('purchase/add',{suppliers:suppliers,curPage,data});
 });
 
 router.post('/',async (req,res)=> {
@@ -32,6 +33,7 @@ router.post('/',async (req,res)=> {
         let purchase = await purchaseModel.findOne({where:{purchaseID:req.body.purchaseID}});
 
         purchase.reference = req.body.referenceNo;
+        purchase.billNo = req.body.billNo;
         purchase.supplierID = req.body.supplierID;
         purchase.date = req.body.date;
         purchase.total = req.body.total;
@@ -89,6 +91,7 @@ router.post('/',async (req,res)=> {
 
         let model = {
             referenceNo : req.body.referenceNo,
+            billNo : req.body.billNo,
             supplierID : req.body.supplierID,
             date : req.body.date,
             total : req.body.total,

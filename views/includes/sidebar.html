@@ -16,18 +16,18 @@
 
         <li>
             <a href="/item" {{#compare curPage '==' 'item'}}class="current"{{/compare}}>
-                <div class="pull-left"><i class="fa fa-graduation-cap mr-20"></i><span class="right-nav-text">العناصر</span></div><div class="clearfix"></div></a>
+                <div class="pull-left"><i class="fa fa-graduation-cap mr-20"></i><span class="right-nav-text">المواد</span></div><div class="clearfix"></div></a>
         </li>
 
 
 
         <li>
             <a {{#compare curPage '==' 'purchase'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr"  >
-            <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">شراء</span></div><div class="pull-right">
+            <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">سند ايراد</span></div><div class="pull-right">
             <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="product_dr" class="collapse collapse-level-1">
                 <li>
-                    <a href="/purchase/add" > الجديد</a>
+                    <a href="/purchase/add" > أدخال </a>
                 </li>
                 <li>
                     <a href="/purchase" >قائمة </a>
@@ -41,11 +41,11 @@
 
         <li>
             <a {{#compare curPage '==' 'issue'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#getting_dr" >
-            <div class="pull-left"><i class="fa fa-gift mr-20"></i><span class="right-nav-text">القضية</span></div><div class="pull-right">
+            <div class="pull-left"><i class="fa fa-gift mr-20"></i><span class="right-nav-text">سند صرف </span></div><div class="pull-right">
             <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="getting_dr" class="collapse collapse-level-1">
                 <li>
-                    <a href="/issue/add" > الجديد</a>
+                    <a href="/issue/add" > اخراج</a>
                 </li>
                 <li>
                     <a href="/issue" >قائمة </a>
@@ -59,7 +59,7 @@
 
         <li>
             <a {{#compare curPage '==' 'return'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#return_dr" >
-            <div class="pull-left"><i class="fa fa-retweet mr-20"></i><span class="right-nav-text">إرجاع</span></div><div class="pull-right">
+            <div class="pull-left"><i class="fa fa-retweet mr-20"></i><span class="right-nav-text">سند ارجاع</span></div><div class="pull-right">
             <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="return_dr" class="collapse collapse-level-1">
                 <li>

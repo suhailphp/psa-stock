@@ -57,9 +57,21 @@
 
 
                                                 <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">رقم المرجع</label>
-                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="Enter Reference No" required="required"
-                                                    value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
+                                                    <label class="control-label mb-10 text-left">رقم الفاتورة</label>
+                                                    <input type="text" class="form-control" id="billNo" name="billNo" placeholder="رقم الفاتور" required="required"
+                                                    value="{{#if data.billNo}}{{data.billNo}}{{/if}}">
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-sm-3">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم سند الايراد</label>
+                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم سند الايراد" required="required"
+                                                           value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
                                                 </div>
 
 
@@ -69,7 +81,7 @@
                                             <div class="col-sm-3">
 
                                                 <div class="form-group">
-                                                    <label class="control-label mb-10">المورد</label>
+                                                    <label class="control-label mb-10">الجهة الموردة</label>
                                                     <select class="form-control select2" name="supplierID" id="supplierID" required="required" >
 
                                                         <option value="">اختار</option>
@@ -143,8 +155,8 @@
                                                                         <thead>
                                                                         <tr>
                                                                             <th></th>
-                                                                            <th>الباركود</th>
-                                                                            <th>اسم الصنف</th>
+                                                                            <th>رقم المادة</th>
+                                                                            <th> اسم المادة</th>
                                                                             <th>السعر</th>
                                                                             <th>كمية</th>
                                                                             <th>السعر الكلي</th>
@@ -358,7 +370,6 @@
     }
     function SelectProduct()
     {
-        swal("Not Found!", "not found any maching products", "error");
         let ItemSearch 	=	$('#ItemSearch').val();
         //alert(ItemSearch)
         $.ajax({
@@ -395,13 +406,14 @@
                         url: '/purchase/search_item_det/'+ItemSearch,
                         type: 'get',
                         success: function(res) {
+
                             if(res != '')
                             {
                                 let SelectTable	='<table class="table table-hover display  pb-30" > ';
                                 for(let i=0; i< res.length; i++)
                                 {
-                                    //console.log(res[i].ProductID);
-                                    SelectTable	+='<tr onclick="InsertSearch('+res[i].barcode+');"><td >'+res[i].barcode+'</td>'+
+                                    let brc = "'"+res[i].barcode+"'";
+                                    SelectTable	+='<tr onclick="InsertSearch('+brc+');"><td >'+res[i].barcode+'</td>'+
                                         '<td>'+res[i].name+'</td> <td>'+res[i].amount+' ';
                                 }
                                 SelectTable	+=	'<tbody> </table>';

@@ -14,6 +14,9 @@ let purchaseModel = db.define('purchase', {
     referenceNo: {
         type: Sequelize.STRING(255)
     },
+    billNo: {
+        type: Sequelize.STRING(255)
+    },
     supplierID: {
         type: Sequelize.INTEGER
     },
@@ -61,6 +64,7 @@ if (config.DB['SYNC']) {
 function validate(req){
     const schema = {
         referenceNo: Joi.string().required(),
+        billNo: Joi.string().required(),
         supplierID: Joi.number().required(),
         date: Joi.date().required(),
         total: Joi.number().allow(0),
