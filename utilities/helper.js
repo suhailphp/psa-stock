@@ -120,6 +120,10 @@ module.exports = {
         date = dateformat(date,"yyyy-mm-dd");
         return date;
     },
+    dateToDMY: function (date) {
+        date = dateformat(date,"dd-mm-yyyy");
+        return date;
+    },
 
     currencyFormat: function(amount){
         return (amount.toFixed(2))

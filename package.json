@@ -35,6 +35,7 @@
     "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
     "sequelize": "^4.41.0",
-    "tedious": "^3.0.1"
+    "tedious": "^3.0.1",
+    "underscore": "^1.9.1"
   }
 }
