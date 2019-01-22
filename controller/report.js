@@ -22,6 +22,7 @@ router.get('/item', async (req,res)=>{
     res.render('report/item',{curPage,items});
 });
 
+
 router.get('/item_report/:itemID', async (req,res)=>{
 
     let resArray = [];
@@ -44,7 +45,7 @@ router.get('/item_report/:itemID', async (req,res)=>{
     issueItemModel.belongsTo(issueModel, {foreignKey: 'issueID'});
     let issues = await issueItemModel.findAll({where: {itemID: req.params.itemID },include:[{model:issueModel,required:true}]});
     for(let element of issues){
-        if(element.issue.type  == 'staff'){
+        if(element.issue.type  === 'staff'){
             let staff =  await staffModel.findOne({ where: {militaryNo: element.issue.militaryNo }});
             vendor = staff.name;
         }
@@ -52,14 +53,14 @@ router.get('/item_report/:itemID', async (req,res)=>{
             let department =  await departmentModel.findOne({ where: {departmentID: element.issue.departmentID }});
             vendor = department.name;
         }
-        resArray.push({"date": helper.dateToDMY(element.issue.date),"createdOn":element.issue.createdOn, "description": "سند صرف ",
+        resArray.push({"date": helper.dateToDMY(element.issue.date),"createdO n":element.issue.createdOn, "description": "سند صرف ",
             "quantity":element.quantity,"vendor":vendor,"style":"danger"});
     }
 
     returnItemModel.belongsTo(returnModel, {foreignKey: 'returnID'});
     let returns = await returnItemModel.findAll({where: {itemID: req.params.itemID },include:[{model:returnModel,required:true}]});
     for(let element of returns){
-        if(element.return.type  == 'staff'){
+        if(element.return.type  === 'staff'){
             let staff =  await staffModel.findOne({ where: {militaryNo: element.return.militaryNo }});
             vendor = staff.name;
         }
@@ -72,7 +73,7 @@ router.get('/item_report/:itemID', async (req,res)=>{
             "quantity":element.quantity,"vendor":vendor,"style":"success"});
     }
     //console.log(resArray)
-    resArray = _.sortBy(resArray,'createdOn').reverse();
+   // resArray = _.sortBy(resArray,'createdOn').reverse();
     res.send(resArray);
 });
 

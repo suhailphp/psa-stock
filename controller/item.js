@@ -17,6 +17,19 @@ router.get('/', async (req,res)=>{
     res.render('item/list',{data:item,curPage});
 });
 
+router.get('/:categoryID', async (req,res)=>{
+    itemModel.belongsTo(stockModel, {foreignKey: 'itemID'});
+    itemModel.belongsTo(categoryModel, {foreignKey: 'categoryID'});
+    let item = await itemModel.findAll({where:{categoryID:req.params.categoryID},include:[{model:stockModel,required:true},
+            {model:categoryModel,required:true}]});
+    //console.log(item);
+    let category =  await categoryModel.findOne({where:{categoryID:req.params.categoryID}});
+    let catTitle = '('+category.name+')';
+    res.render('item/list',{data:item,curPage,catTitle});
+});
+
+
+
 router.get('/add',auth,  async (req,res)=>{
     let data;
     if(req.session.reqBody){

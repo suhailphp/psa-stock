@@ -77,7 +77,7 @@
 
                                             <tr id="{{this.categoryID}}">
 
-                                                <td>{{this.name}}</td>
+                                                <td style="cursor: pointer" onclick="goToItem({{this.categoryID}})">{{this.name}}</td>
 
                                                 <td class="text-nowrap">
 
@@ -138,6 +138,10 @@
         $('#TableData').DataTable();
         //$('#TableData').DataTable({ "lengthChange": false});
     } );
+
+    function goToItem(categoryID){
+        $(location).attr('href','item/'+categoryID);
+    }
 
 
     function DeleteItem(id){
