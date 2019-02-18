@@ -29,6 +29,8 @@ router.get('/add',auth,  async (req,res)=>{
     let categories = await categoryModel.findAll();
     res.render('item/add',{data:data,categories:categories,curPage});
 });
+
+
 router.get('/:categoryID', async (req,res)=>{
     itemModel.belongsTo(stockModel, {foreignKey: 'itemID'});
     itemModel.belongsTo(categoryModel, {foreignKey: 'categoryID'});
