@@ -36,7 +36,7 @@ if (config.DB['SYNC']) {
 function validate(req){
     const schema = {
         name: Joi.string().min(5).required(),
-        categoryID: Joi.string().allow(''),
+        categoryID: Joi.intiger().allow(''),
         action: Joi.string().allow('')
     };
 

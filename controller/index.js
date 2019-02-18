@@ -15,6 +15,7 @@ router.get('/',auth,async (req,res)=>{
         ] });
     res.render('index',{issues});
 });
+
 router.get('/menu',(req,res)=>{
     req.session.abc = 'testing name';
     res.render('menu-table',{layout:null});
