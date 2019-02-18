@@ -26,6 +26,7 @@ router.get('/add',auth,  async (req,res)=>{
         data = req.session.reqBody;
         req.session.reqBody = {};
     }
+
     let categories = await categoryModel.findAll();
     res.render('item/add',{data:data,categories:categories,curPage});
 });
