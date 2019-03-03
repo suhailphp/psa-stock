@@ -1,5 +1,5 @@
 {
-  "name": "payat",
+  "name": "Store Application",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://suhailphp@bitbucket.org/suhailphp/payat.git"
+    "url": "https://suhailpsa@bitbucket.org/suhailpsa/psa-stock.git"
   },
   "nodemonConfig": {
     "ignore": [
@@ -21,7 +21,7 @@
   },
   "author": "Suhail M",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/suhailphp/payat#readme",
+  "homepage": "https://bitbucket.org/suhailpsa/psa-stock#readme",
   "dependencies": {
     "activedirectory": "^0.7.2",
     "crypto": "^1.0.1",

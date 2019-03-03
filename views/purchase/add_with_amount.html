@@ -23,7 +23,7 @@
             <!-- Title -->
             <div class="row heading-bg">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h5 class="txt-dark">سند ايراد</h5>
+                    <h5 class="txt-dark">{{#if editData}}تحديث{{else}}أضف{{/if}} الشراء</h5>
                 </div>
                 <!-- Breadcrumb -->
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
@@ -57,8 +57,20 @@
 
 
                                                 <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">رقم</label>
-                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم" required="required" readonly
+                                                    <label class="control-label mb-10 text-left">رقم الفاتورة</label>
+                                                    <input type="text" class="form-control" id="billNo" name="billNo" placeholder="رقم الفاتور" required="required"
+                                                    value="{{#if data.billNo}}{{data.billNo}}{{/if}}">
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-sm-3">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم سند الايراد</label>
+                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم سند الايراد" required="required"
                                                            value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
                                                 </div>
 
@@ -68,59 +80,8 @@
 
                                             <div class="col-sm-3">
 
-
-
                                                 <div class="form-group">
-                                                    <label class="control-label mb-10 text-left">تم توريد وإضافة المواد الموضحة ادناه بتاريخ </label>
-                                                    <input type="date" name="date" id="date" required="required"  class="form-control"
-                                                           value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
-                                                </div>
-
-                                            </div>
-
-
-                                            <div class="col-sm-3">
-
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10">مستودع</label>
-                                                    <select class="form-control select2" name="warehouseID" id="warehouseID" required="required" >
-
-                                                        <option value="">اختار</option>
-                                                        {{#each warehouses}}
-                                                        <option value="{{this.warehouseID}}" {{#compare this.warehouseID '==' ../data.warehouseID}}selected{{/compare}}>{{this.name}}</option>
-                                                        {{/each}}
-
-
-
-                                                    </select>
-                                                </div>
-
-
-                                            </div>
-
-
-                                            <div class="col-sm-3">
-
-
-                                                <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">بموحب الفاتورة رقم </label>
-                                                    <input type="text" class="form-control" id="billNo" name="billNo" placeholder="بموحب الفاتورة رقم " required="required"
-                                                           value="{{#if data.billNo}}{{data.billNo}}{{/if}}">
-                                                </div>
-
-
-                                            </div>
-
-
-
-
-
-
-
-                                            <div class="col-sm-3">
-
-                                                <div class="form-group">
-                                                    <label class="control-label mb-10">من</label>
+                                                    <label class="control-label mb-10">الجهة الموردة</label>
                                                     <select class="form-control select2" name="supplierID" id="supplierID" required="required" >
 
                                                         <option value="">اختار</option>
@@ -137,40 +98,24 @@
                                             </div>
 
 
+
                                             <div class="col-sm-3">
 
 
 
                                                 <div class="form-group">
-                                                    <label class="control-label mb-10 text-left">بتاريخ</label>
-                                                    <input type="date" name="LPODate" id="LPODate" required="required"  class="form-control"
-                                                           value="{{#if data.LPODate}}{{dateToChrome data.LPODate}}{{/if}}" >
+                                                    <label class="control-label mb-10 text-left">تاريخ</label>
+                                                    <input type="date" name="date" id="date" required="required"  class="form-control"
+                                                           value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
                                                 </div>
 
                                             </div>
-
-                                            <div class="col-sm-3">
-
-
-                                                <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">طبقاً لطلب الشراء رقم</label>
-                                                    <input type="text" class="form-control" id="LPONo" name="LPONo" placeholder="طبقاً لطلب الشراء رقم" required="required"
-                                                           value="{{#if data.LPONo}}{{data.LPONo}}{{/if}}">
-                                                </div>
-
-
-                                            </div>
-
-
-
-
 
 
 
 
 
                                         </div>
-                                        <br>
 
                                         <div class="row mb-10" >
 
@@ -209,13 +154,12 @@
                                                                     <table id="ProductTable" class="table table-hover display  pb-30" >
                                                                         <thead>
                                                                         <tr>
-                                                                            <th width="5%"></th>
-                                                                            <th width="10%">رقم المادة</th>
+                                                                            <th></th>
+                                                                            <th>رقم المادة</th>
                                                                             <th> اسم المادة</th>
-                                                                            <th width="10%"> الوحدة</th>
-
-                                                                            <th width="20%">كمية</th>
-
+                                                                            <th>السعر</th>
+                                                                            <th>كمية</th>
+                                                                            <th>السعر الكلي</th>
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -224,16 +168,16 @@
 
                                                                             <tr id="MU{{this.itemSl}}">
                                                                                 <input type="hidden" name="itemID[{{this.itemSl}}]" id="itemID{{this.itemSl}}" value="{{this.itemID}}" >
-                                                                                <input type="hidden" name="unitID[{{this.itemSl}}]" id="unitID{{this.itemSl}}" value="{{this.unitID}}" >
                                                                                 <input type="hidden" name="itemSl[{{this.itemSl}}]" id="itemSl{{this.itemsSl}}" value="{{this.itemSl}}"  >
                                                                                 <td style="width: 2%;"><a href="#" onclick="RemoveItem('{{this.itemSl}}');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
                                                                                 <td> {{this.item.barcode}} </td>
                                                                                 <td> {{this.item.name}} </td>
-                                                                                <td>  {{this.unit.name}}</td>
-
+                                                                                <td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="amount{{this.itemSl}}" name="amount[{{this.itemSl}}]"
+                                                                                                               required="required" value="{{this.amount}}" onkeyup="PriceChange('{{this.itemSl}}');"></td>
                                                                                 <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity{{this.itemSl}}" name="quantity[{{this.itemSl}}]"
-                                                                                                              value="{{this.quantity}}" required="required" ></td>
-
+                                                                                                              value="{{this.quantity}}" required="required" onkeyup="PriceChange('{{this.itemSl}}');"></td>
+                                                                                <td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="price{{this.itemSl}}" name="price[{{this.itemSl}}]"
+                                                                                                               value="{{currencyFormat this.price}}" required="required" onkeyup="PriceChange('{{this.itemSl}}',2);"></td>
                                                                             </tr>
                                                                         {{/each}}
 
@@ -258,7 +202,61 @@
                                         <div class="row">
 
 
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-warning">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-warning" >السعر</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="total" name="total" readonly style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.total}}{{currencyFormat data.total}}{{/if}}">
+                                                </div>
+                                            </div>
 
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-primary">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-primary" >ضريبة</button>
+                                                    </div>
+                                                    <select class="form-control" name="taxRate" id="taxRate" onchange="GrandTotal();" required="required">
+                                                        <option {{#compare data.taxRate '==' 5}}selected{{/compare}} value="5">5٪</option>
+                                                        <option {{#compare data.taxRate '==' 0}}selected{{/compare}} value="0">لا ضرائب</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-primary">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-primary">برميل </button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="taxAmount" name="taxAmount" onkeyup="GrandTotal();" style="font-size:13px;
+                                                    font-weight: bold;;text-align:right;" value="{{#if data.taxAmount}}{{data.taxAmount}}{{/if}}">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-error">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-danger">خصم</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="discount" name="discount" onkeyup="GrandTotal();" style="font-size:13px; font-weight:bold;;text-align:right;"
+                                                           value="{{#if data.discount}}{{data.discount}}{{/if}}">
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-2">
+                                                <div class="input-group has-success">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-success" >مجموع</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="totalAmount" name="totalAmount" readonly style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.totalAmount}}{{currencyFormat data.totalAmount}}{{/if}}">
+                                                </div>
+                                            </div>
 
                                             <div class="col-sm-2 pull-right">
                                                 <input type="hidden" name="itemNo" id="itemNo" value="{{#if data.itemNo}}{{data.itemNo}}{{else}}1{{/if}}">
@@ -347,28 +345,16 @@
             swal("Reference Number", "Please enter the reference number", "warning");
 
         }
-        else if($('#warehouseID').val() == '')
-        {
-            $('#warehouseID').focus();
-            swal("Warehouse", "Please chose a warehouse", "warning");
-
-        }
-        else if($('#billNo').val() == '')
-        {
-            $('#billNo').focus();
-            swal("Bill Number", "Please enter Bill Number", "warning");
-
-        }
         else if($('#supplierID').val() == '')
         {
             $('#supplierID').focus();
             swal("Supplier", "Please chose a supplier", "warning");
 
         }
-        else if($('#LPONo').val() == '')
+        else if($('#date').val() == '')
         {
-            $('#LPONo').focus();
-            swal("LPO Number", "Please enter LPO Number", "warning");
+            $('#date').focus();
+            swal("Date", "Please enter a date", "warning");
 
         }
 
@@ -396,21 +382,21 @@
 
                         IC++;
                         $('#itemNo').val(IC);
+                        let price 	=	parseInt(obj.amount);
+                        price 		=	price.toFixed(2);
                         $('#ProductTable tr:last').after('<tr id="MU'+IC+'">'+
                             '<input type="hidden" name="itemID['+IC+']" id="itemID'+IC+'" value="'+obj.itemID+'" >'+
-                            '<input type="hidden" name="unitID['+IC+']" id="unitID'+IC+'" value="'+obj.unit.unitID+'" >'+
                             '<input type="hidden" name="itemSl['+IC+']" id="itemSl'+IC+'" value="'+IC+'"  >'+
                             '<td style="width: 2%;"><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
                             '<td> '+obj.barcode+' </td>'+
                             '<td> '+obj.name+' </td>'+
-                            '<td> '+obj.unit.name+' </td>'+
-
+                            '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="amount'+IC+'" name="amount['+IC+']"  required="required" value="'+obj.amount+'" onkeyup="PriceChange('+IC+');"></td>'+
                             '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity'+IC+'" name="quantity['+IC+']" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
-
+                            '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="price'+IC+'" name="price['+IC+']" value="'+price+'" required="required" onkeyup="PriceChange('+IC+',2);"></td>'+
                             '</tr>');
                         $('#ItemSearch').val('');
                         $( "#ItemSearch" ).focus();
-
+                        GrandTotal();
 
                 }
                 else
@@ -420,7 +406,7 @@
                         url: '/purchase/search_item_det/'+ItemSearch,
                         type: 'get',
                         success: function(res) {
-                            console.log(res[0]);
+
                             if(res != '')
                             {
                                 let SelectTable	='<table class="table table-hover display  pb-30" > ';
@@ -428,7 +414,7 @@
                                 {
                                     let brc = "'"+res[i].barcode+"'";
                                     SelectTable	+='<tr onclick="InsertSearch('+brc+');"><td >'+res[i].barcode+'</td>'+
-                                        '<td>'+res[i].name+'</td> <td>'+res[i].unit.name+' ';
+                                        '<td>'+res[i].name+'</td> <td>'+res[i].amount+' ';
                                 }
                                 SelectTable	+=	'<tbody> </table>';
                                 $('#SearchModalContent').html(SelectTable);
@@ -474,20 +460,22 @@
 
                     IC++;
                     $('#itemNo').val(IC);
+                    let price 	=	parseInt(obj.amount);
+                    price 		=	price.toFixed(2);
                     $('#ProductTable tr:last').after('<tr id="MU'+IC+'">'+
                         '<input type="hidden" name="itemID['+IC+']" id="itemID'+IC+'" value="'+obj.itemID+'" >'+
-                        '<input type="hidden" name="unitID['+IC+']" id="unitID'+IC+'" value="'+obj.unit.unitID+'" >'+
                         '<input type="hidden" name="itemSl['+IC+']" id="itemSl'+IC+'" value="'+IC+'"  >'+
                         '<td style="width: 2%;"><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
                         '<td> '+obj.barcode+' </td>'+
                         '<td> '+obj.name+' </td>'+
-                        '<td> '+obj.unit.name+' </td>'+
-
+                        '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="amount'+IC+'" name="amount['+IC+']"  required="required" value="'+obj.amount+'" onkeyup="PriceChange('+IC+');"></td>'+
                         '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" id="quantity'+IC+'" name="quantity['+IC+']" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
+                        '<td style="width: 10%;"><input style="text-align: right;" type="text" class="form-control" id="price'+IC+'" name="price['+IC+']" value="'+price+'" required="required" onkeyup="PriceChange('+IC+',2);"></td>'+
                         '</tr>');
                     $('#SearchModal').modal('hide');
                     $('#ItemSearch').val('');
                     $( "#ItemSearch" ).focus();
+                    GrandTotal();
 
                 }
 
@@ -509,7 +497,88 @@
     }
 
 
+    function GrandTotal()
+    {
+        var Sum = 0;
 
+        $('input[name^="price"]').each(function() {
+            Sum =	Sum+parseFloat($(this).val());
+        });
+        var total 		=	Sum;
+        var TaxRate 	=	$('#taxRate').val();
+        var TaxAmount 	=	(total*TaxRate)/100;
+
+        //$('#TotalWD').val(TotalWD);
+        var Discount 	=	$('#discount').val();
+        var TotalAmount	=	total-Discount;
+
+        var TotalAmount =	TotalAmount+TaxAmount;
+
+        total 	=	total.toFixed(2);
+        $('#total').val(total);
+
+        TaxAmount 	=	TaxAmount.toFixed(2);
+        $('#taxAmount').val(TaxAmount);
+
+        TotalAmount 	=	TotalAmount.toFixed(2);
+        $('#totalAmount').val(TotalAmount);
+
+
+
+    }
+    function GrandTotalWhenRemove(RemoveItemAmount)
+    {
+        //alert(RemoveItemAmount);
+        var total 		=	$('#total').val();
+        //alert(Amount);
+        total 			=	parseFloat(total)-parseFloat(RemoveItemAmount);
+        var TaxRate 	=	$('#taxRate').val();
+        var TaxAmount 	=	(total*TaxRate)/100;
+
+        //$('#TotalWD').val(TotalWD);
+        var Discount 	=	$('#discount').val();
+        var TotalAmount	=	total-Discount;
+
+        var TotalAmount =	TotalAmount+TaxAmount;
+
+        total 	=	total.toFixed(2);
+        $('#amount').val(total);
+
+        TaxAmount 	=	TaxAmount.toFixed(2);
+        $('#taxAmount').val(TaxAmount);
+
+        TotalAmount 	=	TotalAmount.toFixed(2);
+        $('#totalAmount').val(TotalAmount);
+
+
+
+    }
+
+    //price and quanity change
+    function PriceChange(id,Type = 1)
+    {
+        //if type is one price change on quantity or cost. if type is 2 price changed on Total
+        var amount	    =	$('#amount'+id).val();
+        var price 		=	$('#price'+id).val();
+        var quantity 	=	$('#quantity'+id).val();
+        //var Amount 		=	0;
+
+        if(Type == 2)
+        {
+            amount 	    =	price/quantity;
+            amount		=	amount.toFixed(2);
+            //alert(ProductCost);
+            $('#amount'+id).val(amount);
+        }
+        else
+        {
+            price 	=	amount*quantity;
+            price 	=	price.toFixed(2);
+            //alert(Price);
+            $('#price'+id).val(price);
+        }
+        GrandTotal();
+    }
 
     function RemoveItem(id)
     {
@@ -528,6 +597,7 @@
             if (isConfirm) {
 
                 var Price 		=	$('#price'+id).val();
+                GrandTotalWhenRemove(Price);
                 $('#MU'+id).hide('slow', function(){ $('#MU'+id).remove(); });
                 swal("Deleted!", "Your file has been deleted.", "success");
 

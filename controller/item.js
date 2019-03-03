@@ -5,6 +5,7 @@ const {itemModel,validate} = require('../models/itemModel');
 const {stockModel} = require('../models/stockModel');
 const {issueStockModel} = require('../models/issueStockModel');
 const {categoryModel} = require('../models/categoryModel');
+const {unitModel} = require('../models/unitModel');
 const curPage = 'item';
 
 
@@ -20,7 +21,7 @@ router.get('/', async (req,res)=>{
 
 
 
-router.get('/add',auth,  async (req,res)=>{
+router.get('/add',  async (req,res)=>{
     let data;
     if(req.session.reqBody){
         data = req.session.reqBody;
@@ -28,7 +29,8 @@ router.get('/add',auth,  async (req,res)=>{
     }
 
     let categories = await categoryModel.findAll();
-    res.render('item/add',{data:data,categories:categories,curPage});
+    let units = await unitModel.findAll();
+    res.render('item/add',{data:data,categories:categories,curPage,units});
 });
 
 
@@ -45,14 +47,15 @@ router.get('/:categoryID', async (req,res)=>{
 
 
 
-router.get('/edit/:itemID', auth,async (req,res)=>{
+router.get('/edit/:itemID', async (req,res)=>{
     let data = await itemModel.findOne({ where: {itemID: req.params.itemID }});
     let categories = await categoryModel.findAll();
-    res.render('item/add',{data:data,editData:true,categories:categories,curPage});
+    let units = await unitModel.findAll();
+    res.render('item/add',{data:data,editData:true,categories:categories,curPage,units});
 });
 
 
-router.post('/', auth, async (req,res)=>{
+router.post('/',  async (req,res)=>{
     //for update
     if(req.body.action == 'edit'){
         let { error } = validate(req.body);
@@ -68,6 +71,7 @@ router.post('/', auth, async (req,res)=>{
         item.name = req.body.name;
         item.desctiption = req.body.desctiption;
         item.categoryID = req.body.categoryID;
+        item.unitID = req.body.unitID;
         item.amount = req.body.amount;
         item.openingStock = req.body.openingStock;
         let result = await item.save();
@@ -106,6 +110,7 @@ router.post('/', auth, async (req,res)=>{
             name : req.body.name,
             description : req.body.description,
             categoryID : req.body.categoryID,
+            unitID : req.body.unitID,
             amount : req.body.amount,
             openingStock : req.body.openingStock
         }

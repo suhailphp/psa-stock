@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4" dir="rtl">
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="720px;">
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;">سند ايراد محلي</article>
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;"> رقم : <h style="color: red;font-weight: normal">{{numberFourDigit data.referenceNo}}</h></article>
+    <article style="font-weight: bold"> <h>تم توريد وإضافة المواد الموضحة ادناه بتاريخ :{{ dateNormal data.date}}</h> <h style="float: left">مستودع :  {{data.warehouse.name}}</h></article><br>
+    <article style="font-weight: bold"> <h> من : {{data.supplier.name}}</h> <h style="float: left">العنوان :{{data.supplier.address}}</h></article><br>
+    <article style="font-weight: bold"> <h> بموحب الفاتورة رقم : {{data.LPONo}}</h>  <h style="margin-right: 50px"> بتاريخ :{{ dateNormal data.LPODate}}</h> <h style="float: left">طبقاً لطلب الشراء رقم :{{data.billNo}}</h></article><br>
+
+    <table  class="table table-bordered">
+        <thead>
+        <tr>
+            <th rowspan="2">م</th>
+            <th rowspan="2" width="15%">الحرف ولرقم</th>
+            <th rowspan="2"> النوع</th>
+            <th rowspan="2">الوحدة</th>
+            <th colspan="2" style="text-align: center;">اسم الجهة</th>
+
+        </tr>
+        <tr>
+
+
+            <th style="width: 10%">رقماً</th>
+            <th style="width: 15%">كتابة</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {{#each purchaseItems}}
+
+
+        <tr id="MU{{this.itemSl}}">
+
+            <td style="width: 2%;">{{countOne @index}}</td>
+            <td> {{this.item.barcode}} </td>
+            <td> {{this.item.name}} </td>
+            <td style="width: 10%;">{{this.unit.name}}</td>
+            <td style="width: 8%;">{{this.quantity}}</td>
+            <td style="width: 10%;">{{arabicLetter this.quantity}}</td>
+        </tr>
+        {{/each}}
+
+
+
+        </tbody>
+
+    </table>
+
+    <br>
+    <br>
+    <br>
+
+    <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
+    <article style="font-weight: bold"> <h>  {{data.user.fullName}}</h> <h style="float: left">.........................</h></article>
+
+</section>
+
+</body>
+
+</html>

@@ -3,16 +3,13 @@ const express = require('express');
 const router = express.Router();
 const {purchaseModel,validate} = require('../models/purchaseModel');
 const {purchaseItemModel} = require('../models/purchaseItemModel');
-const {unitModel} = require('../models/unitModel');
-const {userModel} = require('../models/userModel');
 const {stockModel,stockAdjust} = require('../models/stockModel');
 const {supplierModel} = require('../models/supplierModel');
-const {warehouseModel} = require('../models/warehouseModel');
 const {itemModel} = require('../models/itemModel');
 const curPage = 'purchase';
 
 
-router.get('/',async (req,res)=>{
+router.get('/', async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}]});
     res.render('purchase/list',{purchases:purchases,curPage});
@@ -20,20 +17,11 @@ router.get('/',async (req,res)=>{
 
 router.get('/add',  async (req,res)=>{
     let suppliers = await supplierModel.findAll();
-    let warehouses = await warehouseModel.findAll();
-
-    //last reference number
-    let lastPurchase = await purchaseModel.findOne({
-        order: [ [ 'purchaseID', 'DESC' ]]
-    });
-
-    let referenceNo = (lastPurchase && lastPurchase.referenceNo)?lastPurchase.referenceNo+1:1;
-    let data = {date : new Date(),LPODate: new Date(),referenceNo: referenceNo};
-
-    res.render('purchase/add',{suppliers:suppliers,curPage,data,warehouses});
+    let data = {date : new Date()};
+    res.render('purchase/add',{suppliers:suppliers,curPage,data});
 });
 
-router.post('/',auth,async (req,res)=> {
+router.post('/',async (req,res)=> {
     if(req.body.action == 'edit'){
         let { error } = validate(req.body);
         if (error){
@@ -48,11 +36,12 @@ router.post('/',auth,async (req,res)=> {
         purchase.billNo = req.body.billNo;
         purchase.supplierID = req.body.supplierID;
         purchase.date = req.body.date;
+        purchase.total = req.body.total;
+        purchase.taxRate = req.body.taxRate;
+        purchase.taxAmount = (req.body.taxAmount == '')?0:req.body.taxAmount;
+        purchase.discount = (req.body.discount == '')?0:req.body.discount;
+        purchase.totalAmount = req.body.totalAmount;
         purchase.itemNo = req.body.itemNo;
-        purchase.LPONo = req.body.LPONo;
-        purchase.LPODate = req.body.LPODate;
-        purchase.warehouseID = req.body.warehouseID;
-        purchase.userID = req.session.user.id;
         let result = await purchase.save();
         if(result) {
             let oldItems = await purchaseItemModel.findAll({where: {purchaseID: purchase.purchaseID}});
@@ -68,9 +57,10 @@ router.post('/',auth,async (req,res)=> {
                 let itemModel = {
                     purchaseID: purchase.purchaseID,
                     itemID: req.body.itemID[key],
-                    unitID: req.body.unitID[key],
                     itemSl: req.body.itemSl[key],
+                    amount: req.body.amount[key],
                     quantity: req.body.quantity[key],
+                    price: req.body.price[key]
                 }
                 let purchaseItem = await purchaseItemModel.create(itemModel);
                 if (purchaseItem) {
@@ -104,12 +94,12 @@ router.post('/',auth,async (req,res)=> {
             billNo : req.body.billNo,
             supplierID : req.body.supplierID,
             date : req.body.date,
-            LPONo : req.body.LPONo,
-            LPODate : req.body.LPODate,
-            warehouseID : req.body.warehouseID,
-            userID : req.session.user.id,
+            total : req.body.total,
+            taxRate : req.body.taxRate,
+            taxAmount : (req.body.taxAmount == '')?0:req.body.taxAmount,
+            discount : (req.body.discount == '')?0:req.body.discount,
+            totalAmount : req.body.totalAmount,
             itemNo : req.body.itemNo
-
         }
 
         let purchase = await  purchaseModel.create(model);
@@ -119,9 +109,10 @@ router.post('/',auth,async (req,res)=> {
                 let itemModel = {
                     purchaseID  :   purchase.purchaseID,
                     itemID  :   req.body.itemID[key],
-                    unitID  :   req.body.unitID[key],
                     itemSl  :   req.body.itemSl[key],
-                    quantity  :   req.body.quantity[key]
+                    amount  :   req.body.amount[key],
+                    quantity  :   req.body.quantity[key],
+                    price  :   req.body.price[key]
                 }
                 let purchaseItem = await purchaseItemModel.create(itemModel);
                 if(purchaseItem){
@@ -143,45 +134,33 @@ router.post('/',auth,async (req,res)=> {
 router.get('/edit/:purchaseID', async (req,res)=>{
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
     purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
-    purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
-                            include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
+                            include:[{model:itemModel,required:true}]});
     let suppliers = await supplierModel.findAll();
-    let warehouses = await warehouseModel.findAll();
-    res.render('purchase/add',{data,suppliers,purchaseItems,curPage,editData:true,warehouses});
+    res.render('purchase/add',{data,suppliers,purchaseItems,curPage,editData:true});
 });
 
 router.get('/view/:purchaseID', async (req,res)=>{
-    purchaseModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
-    purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
-    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID },
-        include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
-
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
     purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
-    purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
-        include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
+        include:[{model:itemModel,required:true}]});
     res.render('purchase/view',{data,purchaseItems});
 });
 
 router.get('/search_item/:barcode',  async (req,res)=>{
-    itemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
-    let data = await itemModel.findOne({ where: {barcode: req.params.barcode },
-             include:[{model:unitModel,required:true}]});
+    let data = await itemModel.findOne({ where: {barcode: req.params.barcode }});
     res.send(data);
 });
 
 
 
 router.get('/search_item_det/:search',  async (req,res)=>{
-    itemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let data = await itemModel.findAll(
         {   where: {
                 $or : [{barcode:{$like:'%'+req.params.search+'%'} },
                         {name:{$like:'%'+req.params.search+'%'}}]
-                 },
-            include:[{model:unitModel,required:true}]
+                 }
         });
         //console.log(data);
     res.send(data);

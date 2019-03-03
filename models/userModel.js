@@ -5,7 +5,7 @@ const config = require('../config/app');
 
 let userModel = db.define('users', {
 
-    id:{
+    userID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
         primaryKey: true

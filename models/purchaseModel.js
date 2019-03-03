@@ -12,9 +12,12 @@ let purchaseModel = db.define('purchase', {
         primaryKey: true
     },
     referenceNo: {
-        type: Sequelize.STRING(255)
+        type: Sequelize.INTEGER
     },
     billNo: {
+        type: Sequelize.STRING(255)
+    },
+    LPONo: {
         type: Sequelize.STRING(255)
     },
     supplierID: {
@@ -23,24 +26,17 @@ let purchaseModel = db.define('purchase', {
     date: {
         type: Sequelize.DATE
     },
-    total: {
-        type: Sequelize.FLOAT
+    LPODate: {
+        type: Sequelize.DATE
     },
-    taxRate: {
-        type: Sequelize.FLOAT
-    },
-    taxAmount: {
-        type: Sequelize.FLOAT
-    },
-    discount: {
-        type: Sequelize.FLOAT,
-        defaultValue : 0
-    },
-    totalAmount: {
-        type: Sequelize.FLOAT
+    warehouseID: {
+        type: Sequelize.INTEGER
     },
     itemNo: {
         type: Sequelize.FLOAT
+    },
+    userID: {
+        type: Sequelize.INTEGER
     },
     createdOn: {
         type: Sequelize.DATE,
@@ -65,21 +61,18 @@ function validate(req){
     const schema = {
         referenceNo: Joi.string().required(),
         billNo: Joi.string().required(),
+        LPONo: Joi.string().required(),
         supplierID: Joi.number().required(),
+        warehouseID: Joi.number().required(),
         date: Joi.date().required(),
-        total: Joi.number().allow(0),
-        taxRate: Joi.string().allow(0),
-        taxAmount: Joi.string().allow(0),
-        discount: Joi.string().allow(''),
-        totalAmount: Joi.number().allow(0),
+        LPODate: Joi.date().required(),
         purchaseID: Joi.number().allow(''),
         action: Joi.string().allow(''),
         itemNo: Joi.number().allow(''),
         ItemSearch: Joi.string().allow(''),
         itemID: Joi.array().allow(''),
+        unitID: Joi.array().allow(''),
         itemSl: Joi.array().allow(''),
-        price: Joi.array().allow(''),
-        amount: Joi.array().allow(''),
         quantity: Joi.array().allow('')
     };
 

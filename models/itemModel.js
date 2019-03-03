@@ -20,6 +20,9 @@ let itemModel = db.define('items', {
     description: {
       type: Sequelize.STRING(1000)
     },
+    unitID: {
+        type: Sequelize.INTEGER
+    },
     categoryID: {
         type: Sequelize.INTEGER
     },
@@ -55,6 +58,7 @@ function validate(req){
         description: Joi.string().allow(''),
         amount: Joi.number().allow(0),
         categoryID: Joi.number().allow(0),
+        unitID: Joi.number().allow(0),
         openingStock: Joi.number().allow(0),
         itemID: Joi.string().allow(''),
         action: Joi.string().allow('')

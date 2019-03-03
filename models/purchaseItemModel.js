@@ -17,16 +17,13 @@ let purchaseItemModel = db.define('purchase_item', {
     itemID: {
         type: Sequelize.INTEGER
     },
+    unitID: {
+        type: Sequelize.INTEGER
+    },
     itemSl: {
         type: Sequelize.INTEGER
     },
-    amount: {
-        type: Sequelize.FLOAT
-    },
     quantity: {
-        type: Sequelize.FLOAT
-    },
-    price: {
         type: Sequelize.FLOAT
     }
 

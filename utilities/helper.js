@@ -116,6 +116,10 @@ module.exports = {
         return date_ar;
 
     },
+    dateNormal: function (date) {
+        date = dateformat(date,"dd/mm/yyyy");
+        return date;
+    },
     dateToChrome: function (date) {
         date = dateformat(date,"yyyy-mm-dd");
         return date;
@@ -127,6 +131,48 @@ module.exports = {
 
     currencyFormat: function(amount){
         return (amount.toFixed(2))
+    },
+    countOne:function(number){
+        return(number+1)
+    },
+    arabicLetter: function(no){
+        switch (no) {
+            case 0: return('صفر');
+            case 1: return('وا حد');
+            case 2: return('إثنان');
+            case 3: return('ثلاثة');
+            case 4: return('أربعة');
+            case 5: return('خمسة');
+            case 6: return('ستّة');
+            case 7: return('سبعة');
+            case 8: return('ثامنية');
+            case 9: return('تعسة');
+            case 10: return('عشرة');
+            case 11: return('أحد عشر');
+            case 12: return('اثنا عشر');
+            case 13: return('ثلاثة عشر');
+            case 14: return('أربعة عشر');
+            case 15: return('خمسة عشر');
+            case 16: return('ستة عشر');
+            case 17: return('سبعة عشر');
+            case 18: return('ثمانية عشر');
+            case 19: return('تسعة عشر');
+            case 20: return('عشرون');
+            case 21: return('واحد وعشرون');
+            case 22: return('اثنان وعشرون');
+            default: return(no);
+
+        }
+    },
+    numberFourDigit: function(no){
+        if(no <= 999){
+            let s = "000" + no;
+            return s.substr(s.length-4);
+        }
+        else{
+            return no;
+        }
+
     }
 
 
