@@ -157,7 +157,7 @@ router.get('/view/:purchaseID', async (req,res)=>{
     purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID },
         include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
-
+    console.log(data);
     purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
     purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
