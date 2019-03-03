@@ -29,7 +29,7 @@ router.post('/',async(req,res)=>{
         console.log(err)
         if (auth) {
 
-            req.session.user = {id:user.id,userName:user.userName,name:user.fullName};
+            req.session.user = {userID:user.userID,userName:user.userName,name:user.fullName};
             req.session.infoMsg = {code:'success',title:'مرحبا بعودتك',content:'مرحباً بالسيد '+req.session.user.name};
             user.lastLoggedIn = new Date;
             user.save();

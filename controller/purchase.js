@@ -13,7 +13,6 @@ const curPage = 'purchase';
 
 
 router.get('/',async (req,res)=>{
-    console.log(req.session.user);
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}]});
     res.render('purchase/list',{purchases:purchases,curPage});
@@ -54,7 +53,7 @@ router.post('/',auth,async (req,res)=> {
         purchase.LPONo = req.body.LPONo;
         purchase.LPODate = req.body.LPODate;
         purchase.warehouseID = req.body.warehouseID;
-        purchase.userID = req.session.user.id;
+        purchase.userID = req.session.user.userID;
         let result = await purchase.save();
         if(result) {
             let oldItems = await purchaseItemModel.findAll({where: {purchaseID: purchase.purchaseID}});
@@ -109,7 +108,7 @@ router.post('/',auth,async (req,res)=> {
             LPONo : req.body.LPONo,
             LPODate : req.body.LPODate,
             warehouseID : req.body.warehouseID,
-            userID : req.session.user.id,
+            userID : req.session.user.userID,
             itemNo : req.body.itemNo
 
         }
