@@ -13,6 +13,7 @@ const curPage = 'purchase';
 
 
 router.get('/',async (req,res)=>{
+    console.log(req.session.user);
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}]});
     res.render('purchase/list',{purchases:purchases,curPage});
@@ -34,7 +35,7 @@ router.get('/add',  async (req,res)=>{
 });
 
 router.post('/',auth,async (req,res)=> {
-    console.log(req.session.user);
+
     if(req.body.action == 'edit'){
         let { error } = validate(req.body);
         if (error){
