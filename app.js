@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs');
 const express = require("express");
 const morgan = require('morgan')
 const path = require("path");
@@ -15,8 +15,11 @@ const app = express();
 
 app.use('', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({type: 'application/json', limit: '50mb'}));
 
 //session
 app.set('trust proxy', 1) // trust first proxy

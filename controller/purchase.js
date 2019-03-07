@@ -1,6 +1,7 @@
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
+const upload = require('express-fileupload');
 const {purchaseModel,validate} = require('../models/purchaseModel');
 const {purchaseItemModel} = require('../models/purchaseItemModel');
 const {unitModel} = require('../models/unitModel');
@@ -11,10 +12,11 @@ const {warehouseModel} = require('../models/warehouseModel');
 const {itemModel} = require('../models/itemModel');
 const curPage = 'purchase';
 
+router.use(upload());
 
 router.get('/',async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}]});
+    let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     res.render('purchase/list',{purchases:purchases,curPage});
 });
 
@@ -33,7 +35,8 @@ router.get('/add',  async (req,res)=>{
     res.render('purchase/add',{suppliers:suppliers,curPage,data,warehouses});
 });
 
-router.post('/',auth,async (req,res)=> {
+router.post('/',async (req,res)=> {
+
 
     if(req.body.action == 'edit'){
         let { error } = validate(req.body);
@@ -53,7 +56,7 @@ router.post('/',auth,async (req,res)=> {
         purchase.LPONo = req.body.LPONo;
         purchase.LPODate = req.body.LPODate;
         purchase.warehouseID = req.body.warehouseID;
-        purchase.userID = req.session.user.userID;
+        purchase.userID = 1;//req.session.user.userID;
         let result = await purchase.save();
         if(result) {
             let oldItems = await purchaseItemModel.findAll({where: {purchaseID: purchase.purchaseID}});
@@ -79,6 +82,31 @@ router.post('/',auth,async (req,res)=> {
                 }
 
             }
+
+            //checking the attachments
+            if(req.files.attachment){
+                let file = req.files.attachment,
+                    name = file.name,
+                    type = file.mimetype;
+                let uploadpath =  'public/purchaseFiles/' + purchase.purchaseID+'_'+name;
+                file.mv(uploadpath,async function(err){
+                    if(err){
+                        console.log("File Upload Failed",name,err);
+                    }
+                    else {
+                        //delete current file
+                        if(purchase.attachment != ''){
+                            fs.unlink('public/'+purchase.attachment,function (err) {
+                                if(err) return console.log(err);
+                            });
+                        }
+
+                        purchase.attachment = 'purchaseFiles/' +  purchase.purchaseID+'_'+name;
+                        await purchase.save();
+                    }
+                });
+            }
+
             req.session.infoMsg = {code:'success',title:'مبروك',content:'تم تحديث العنصر بنجاح'};
             res.redirect('/purchase');
         }
@@ -108,7 +136,7 @@ router.post('/',auth,async (req,res)=> {
             LPONo : req.body.LPONo,
             LPODate : req.body.LPODate,
             warehouseID : req.body.warehouseID,
-            userID : req.session.user.userID,
+            userID : 1,//req.session.user.userID,
             itemNo : req.body.itemNo
 
         }
@@ -130,6 +158,25 @@ router.post('/',auth,async (req,res)=> {
                 }
 
             }
+
+            //checking the attachments
+            if(req.files.attachment){
+                let file = req.files.attachment,
+                    name = file.name,
+                    type = file.mimetype;
+                let uploadpath =  'public/purchaseFiles/' + purchase.purchaseID+'_'+name;
+                file.mv(uploadpath,async function(err){
+                    if(err){
+                        console.log("File Upload Failed",name,err);
+                    }
+                    else {
+                        purchase.attachment = 'purchaseFiles/' +  purchase.purchaseID+'_'+name;
+                        await purchase.save();
+                    }
+                });
+            }
+
+
             req.session.infoMsg = {code:'success',title:'مبروك',content:'بند جديد تم إنشاؤه'};
             res.redirect('/purchase');
 
@@ -162,7 +209,9 @@ router.get('/view/:purchaseID', async (req,res)=>{
     purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
         include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
-    res.render('purchase/view',{data,purchaseItems});
+    let totalRecords =  await purchaseItemModel.findAndCountAll({ where: {purchaseID: req.params.purchaseID }});
+    let totalPage = Math.ceil(totalRecords.count/10);
+    res.render('purchase/view',{data,purchaseItems,totalPage});
 });
 
 router.get('/search_item/:barcode',  async (req,res)=>{

@@ -42,7 +42,11 @@ module.exports = {
             },
             'typeof': function (l, r) {
                 return typeof l == r;
+            },
+            '%':function(l,r){
+                return ((l != 0) && (l%r==0))?true:false;
             }
+
         };
 
         if (!operators[operator]) {
@@ -58,6 +62,20 @@ module.exports = {
         }
 
     },
+    checkRowTen:function(number,  options){
+        if((number != 0 )&&(number % 10 == 0)){
+            return options.fn(this);
+        }
+        else{
+           return options.inverse(this);
+        }
+    },
+
+    checkPageNumber:function(number){
+        number = number+1;
+        return Math.ceil(number/10);
+    },
+
     dateToStringTime: function (date) {
         return date.toLocaleTimeString();
     },
@@ -135,6 +153,8 @@ module.exports = {
     countOne:function(number){
         return(number+1)
     },
+
+
     arabicLetter: function(no){
         switch (no) {
             case 0: return('صفر');

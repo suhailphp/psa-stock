@@ -1,5 +1,5 @@
 {
-  "name": "Store Application",
+  "name": "Store_Application",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -24,10 +24,12 @@
   "homepage": "https://bitbucket.org/suhailpsa/psa-stock#readme",
   "dependencies": {
     "activedirectory": "^0.7.2",
+    "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "dateformat": "^3.0.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "express-fileupload": "^1.1.1-alpha.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",

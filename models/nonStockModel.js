@@ -4,9 +4,9 @@ const db = require('../config/dbConnection');
 const config = require('../config/app');
 
 
-let purchaseModel = db.define('purchase', {
+let nonStockModel = db.define('nonStock', {
 
-    purchaseID:{
+    nonStockID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
         primaryKey: true
@@ -57,11 +57,11 @@ let purchaseModel = db.define('purchase', {
 
 
 if (config.DB['SYNC']) {
-    purchaseModel.sync({force: config.DB['SYNC_FORCE']});
+    nonStockModel.sync({force: config.DB['SYNC_FORCE']});
 }
 
 function validate(req){
-    const schema = {
+    const schema = Joi.object({
         referenceNo: Joi.string().required(),
         billNo: Joi.string().required(),
         LPONo: Joi.string().required(),
@@ -69,19 +69,11 @@ function validate(req){
         warehouseID: Joi.number().required(),
         date: Joi.date().required(),
         LPODate: Joi.date().required(),
-        purchaseID: Joi.number().allow(''),
-        action: Joi.string().allow(''),
-        itemNo: Joi.number().allow(''),
-        ItemSearch: Joi.string().allow(''),
-        itemID: Joi.array().allow(''),
-        unitID: Joi.array().allow(''),
-        itemSl: Joi.array().allow(''),
-        quantity: Joi.array().allow('')
-    };
+    }).unknown();
 
     return Joi.validate(req, schema);
 }
 
-exports.purchaseModel = purchaseModel;
+exports.nonStockModel = nonStockModel;
 exports.validate = validate;
 

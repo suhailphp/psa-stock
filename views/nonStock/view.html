@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4" dir="rtl">
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="720px;">
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;">سند ايراد محلي</article>
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;"> رقم : <h style="color: red;font-weight: normal">{{numberFourDigit data.referenceNo}}</h>
+         <h style="font-weight: normal;float: left;font-size: 10px;">(1/{{totalPage}})</h>
+    </article>
+    <article style="font-weight: bold"> <h>تم توريد وإضافة المواد الموضحة ادناه بتاريخ :{{ dateNormal data.date}}</h> <h style="float: left">مستودع :  {{data.warehouse.name}}</h></article><br>
+    <article style="font-weight: bold"> <h> من : {{data.supplier.name}}</h> <h style="float: left">العنوان :{{data.supplier.address}}</h></article><br>
+    <article style="font-weight: bold"> <h> بموحب الفاتورة رقم : {{data.LPONo}}</h>  <h style="margin-right: 50px"> بتاريخ :{{ dateNormal data.LPODate}}</h> <h style="float: left">طبقاً لطلب الشراء رقم :{{data.billNo}}</h></article><br>
+
+    <table  class="table table-bordered">
+        <thead>
+        <tr style="height: 10px;">
+            <th >م</th>
+            <th width="15%">الحرف ولرقم</th>
+            <th > النوع</th>
+            <th >الوحدة</th>
+            <th style="width: 10%">رقماً</th>
+            <th style="width: 15%">كتابة</th>
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+        {{#each purchaseItems}}
+
+
+        <!-- check the page is more than ten items -->
+        {{#checkRowTen @index}}
+
+        <!-- closing the current page -->
+            </tbody>
+
+            </table>
+
+
+
+            <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
+            <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../data.user.userName}}&ActionName=userssignature" width="20%" >
+                <h style="float: left">.........................</h></article>
+
+        </section>
+
+        </body>
+
+        <!-- New Page Start -->
+
+
+        <body class="A4" dir="rtl">
+
+        <!-- Each sheet element should have the class "sheet" -->
+        <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+        <section class="sheet padding-10mm">
+
+            <!-- Write HTML just like a web page -->
+            <img src="/images/storeheader.jpg" width="720px;">
+            <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;">سند ايراد محلي</article>
+            <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;"> رقم : <h style="color: red;font-weight: normal">{{numberFourDigit ../data.referenceNo}}</h>
+                <h style="font-weight: normal;float: left;font-size: 10px;">({{checkPageNumber @index}}/{{../totalPage}})</h></article>
+            <article style="font-weight: bold"> <h>تم توريد وإضافة المواد الموضحة ادناه بتاريخ :{{ dateNormal data.date}}</h> <h style="float: left">مستودع :  {{../data.warehouse.name}}</h></article><br>
+            <article style="font-weight: bold"> <h> من : {{../data.supplier.name}}</h> <h style="float: left">العنوان :{{../data.supplier.address}}</h></article><br>
+            <article style="font-weight: bold"> <h> بموحب الفاتورة رقم : {{../data.LPONo}}</h>  <h style="margin-right: 50px"> بتاريخ :{{ dateNormal data.LPODate}}</h> <h style="float: left">طبقاً لطلب الشراء رقم :{{../data.billNo}}</h></article><br>
+
+            <table  class="table table-bordered">
+                <thead>
+                <tr style="height: 10px;">
+                    <th >م</th>
+                    <th width="15%">الحرف ولرقم</th>
+                    <th > النوع</th>
+                    <th >الوحدة</th>
+                    <th style="width: 10%">رقماً</th>
+                    <th style="width: 15%">كتابة</th>
+
+                </tr>
+                <tr>
+
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+        {{/checkRowTen}}
+
+            <tr id="MU{{this.itemSl}}">
+
+                <td style="width: 2%;">{{countOne @index}}</td>
+                <td> {{this.barcode}} </td>
+                <td> {{this.itemName}} </td>
+                <td style="width: 10%;">{{this.unit.name}}</td>
+                <td style="width: 8%;">{{this.quantity}}</td>
+                <td style="width: 10%;">{{arabicLetter this.quantity}}</td>
+            </tr>
+
+        {{/each}}
+
+
+
+
+
+
+
+
+        </tbody>
+
+    </table>
+
+
+
+    <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
+    <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" width="20%" >
+        <h style="float: left">.........................</h></article>
+
+</section>
+
+</body>
+
+
+
+{{#compare data.attachment '!=' NULL}}
+<body class="A4" dir="rtl">
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/{{data.attachment}}" width="720px;">
+
+
+</section>
+
+</body>
+
+{{/compare}}</html>

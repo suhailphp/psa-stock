@@ -22,15 +22,33 @@
 
 
         <li>
-            <a {{#compare curPage '==' 'purchase'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr"  >
+            <a {{#compare curPage '==' 'purchase'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#nonStock"  >
             <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">سند ايراد</span></div><div class="pull-right">
             <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-            <ul id="product_dr" class="collapse collapse-level-1">
+            <ul id="nonStock" class="collapse collapse-level-1">
                 <li>
                     <a href="/purchase/add" > أدخال </a>
                 </li>
                 <li>
                     <a href="/purchase" >قائمة </a>
+                </li>
+
+
+
+            </ul>
+        </li>
+
+
+        <li>
+            <a {{#compare curPage '==' 'nonStock'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr"  >
+            <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">سند ايراد(غير مخزن)</span></div><div class="pull-right">
+            <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="product_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="/nonStock/add" > أدخال </a>
+                </li>
+                <li>
+                    <a href="/nonStock" >قائمة </a>
                 </li>
 
 

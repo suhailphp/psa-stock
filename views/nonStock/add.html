@@ -48,7 +48,7 @@
 
 
 
-                                    <form name="form one" method="post" action="/purchase" id="PurchaseForm" enctype="multipart/form-data"  >
+                                    <form name="form one" method="post" action="/nonStock" id="PurchaseForm" enctype="multipart/form-data" >
 
                                         <div class="row">
 
@@ -201,30 +201,7 @@
                                         </div>
                                         <br>
 
-                                        <div class="row mb-10" >
 
-
-                                            <div class="col-sm-12">
-
-
-                                                <div class="form-group" style="margin-bottom:0;">
-                                                    <div class="input-group wide-tip">
-                                                        <div class="input-group-addon" style="padding-left: 10px; padding-right: 10px;">
-                                                            <i class="fa fa-2x fa-barcode addIcon"></i>
-                                                        </div>
-                                                        <input type="text" onchange="SelectProduct();" name="ItemSearch" class="form-control input-lg ui-autocomplete-input" id="ItemSearch" placeholder="عناصر البحث" autocomplete="off">
-                                                        <div class="input-group-addon" style="padding-left: 10px; padding-right: 10px;">
-                                                            <a href="#" id="addManually1" tabindex="-1"><i class="fa fa-2x fa-plus-circle addIcon" id="addIcon"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <br>
-
-
-                                        </div>
 
                                         <div class="row" id="AllItem">
 
@@ -240,35 +217,88 @@
                                                                         <tr>
                                                                             <th width="5%"></th>
                                                                             <th width="10%">رقم المادة</th>
-                                                                            <th> اسم المادة</th>
-                                                                            <th width="10%"> الوحدة</th>
+                                                                            <th width="50%"> اسم المادة</th>
+                                                                            <th width="15%"> الوحدة</th>
 
-                                                                            <th width="20%">كمية</th>
+                                                                            <th width="15%">كمية</th>
 
                                                                         </tr>
                                                                         </thead>
-                                                                        <tbody>
+                                                                        <tbody >
+                                                                        {{#if editData}}
+                                                                            {{#each purchaseItems}}
 
-                                                                        {{#each purchaseItems}}
+                                                                                <tr id="MU{{this.itemSl}}">
+                                                                                    <input type="hidden" name="itemSl"  value="{{this.itemSl}}"  >
+                                                                                    <td style="width: 2%;"><a href="#" onclick="RemoveItem('{{this.itemSl}}');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
+                                                                                    <td> <input style="text-align: right;"  type="text" name="barcode"  value="{{this.barcode}}" class="form-control"></td>
+                                                                                    <td ><input style="text-align: right;" type="text" class="form-control" name="itemName" value="{{this.itemName}}"  required ></td>
+                                                                                    <td>
+                                                                                        <select class="selectpicker" data-style="btn-default btn-outline" name="unitID"  required>
 
-                                                                            <tr id="MU{{this.itemSl}}">
-                                                                                <input type="hidden" name="itemID"  value="{{this.itemID}}" >
-                                                                                <input type="hidden" name="unitID"  value="{{this.unitID}}" >
-                                                                                <input type="hidden" name="itemSl"  value="{{this.itemSl}}"  >
-                                                                                <td style="width: 2%;"><a href="#" onclick="RemoveItem('{{this.itemSl}}');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
-                                                                                <td> {{this.item.barcode}} </td>
-                                                                                <td> {{this.item.name}} </td>
-                                                                                <td>  {{this.unit.name}}</td>
-
-                                                                                <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="quantity"
-                                                                                                              value="{{this.quantity}}" required="required" ></td>
-
-                                                                            </tr>
-                                                                        {{/each}}
+                                                                                            {{#each ../units}}
+                                                                                            <option {{#compare this.unitID '==' ../this.unitID}}selected{{/compare}} value="{{this.unitID}}" >{{this.name}}</option>
+                                                                                            {{/each}}
 
 
+                                                                                        </select>
+                                                                                    </td>
+
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="quantity"
+                                                                                                                  value="{{this.quantity}}" required="required" ></td>
+                                                                                </tr>
+
+
+                                                                            {{/each}}
+                                                                        {{else}}
+
+                                                                                <tr id="MU1">
+                                                                                    <input type="hidden" name="itemSl"  value="1"  >
+                                                                                    <td style="width: 2%;"><a href="#" onclick="RemoveItem(1);" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
+                                                                                    <td> <input style="text-align: right;"  type="text" name="barcode"  value="1" class="form-control"></td>
+                                                                                    <td ><input style="text-align: right;" type="text" class="form-control" name="itemName"  required ></td>
+                                                                                    <td>
+                                                                                        <select class="selectpicker" data-style="btn-default btn-outline" name="unitID" required>
+
+                                                                                            {{#each units}}
+                                                                                            <option value="{{this.unitID}}" >{{this.name}}</option>
+                                                                                            {{/each}}
+
+
+                                                                                        </select>
+                                                                                    </td>
+
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="quantity"
+                                                                                                                  value="1" required="required" ></td>
+                                                                                </tr>
+
+
+
+                                                                        {{/if}}
 
                                                                         </tbody>
+
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td colspan="2">
+
+                                                                                    <button onclick="addNewField()" class="btn btn-default  btn-rounded btn-block btn-anim" type="button" ><i class="fa fa-check-square"></i><span class="btn-text">إضافة المزيد من البند</span></button>
+
+                                                                                </td>
+
+                                                                                <td colspan="3">
+
+                                                                                </td>
+
+                                                                            </tr>
+
+
+                                                                        </tfoot>
+
+
+
+
+
 
                                                                     </table>
                                                                 </div>
@@ -291,7 +321,7 @@
 
                                             <div class="col-sm-2 pull-right">
                                                 <input type="hidden" name="itemNo" id="itemNo" value="{{#if data.itemNo}}{{data.itemNo}}{{else}}1{{/if}}">
-                                                <input type="hidden" name="purchaseID" id="purchaseID" value="{{#if data.purchaseID}}{{data.purchaseID}}{{else}}1{{/if}}">
+                                                <input type="hidden" name="nonStockID" id="nonStockID" value="{{#if data.nonStockID}}{{data.nonStockID}}{{else}}{{/if}}">
                                                 <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
                                                 <button class="btn btn-primary  btn-rounded btn-block btn-anim" type="button" onclick="SubmitForm();"><i class="fa fa-check-square"></i><span class="btn-text">خضع</span></button>
 
@@ -401,141 +431,55 @@
 
         }
 
-        else if($('#itemNo').val() <= 1)
-        {
-            swal("No Items", "Please add items", "warning");
-        }
         else
         {
-            $("#PurchaseForm").submit();
+            let count = 0;
+            let itemCount = 0;
+            $('input[name^="itemName"]').each(function() {
+                itemCount++;
+                if($(this).val() == ''){
+                    $(this).focus();
+                    swal("Item Name", "Item name cannot be null", "warning");
+                    count++;
+                    return(false);
+                }
+            });
+            if(itemCount == 0){
+                swal("No items", "Please add items", "warning");
+                return(false);
+            }
+            if(count == 0){
+                $("#PurchaseForm").submit();
+            }
+
+
         }
 
     }
-    function SelectProduct()
-    {
-        let ItemSearch 	=	$('#ItemSearch').val();
-        //alert(ItemSearch)
-        $.ajax({
-            url: '/purchase/search_item/'+ItemSearch,
-            type: 'get',
-            success: function(obj) {
 
-                if(obj != '')
-                {
+    function addNewField(){
+        IC++;
+        $('#itemNo').val(IC);
 
-                        IC++;
-                        $('#itemNo').val(IC);
-                        $('#ProductTable tr:last').after('<tr id="MU'+IC+'">'+
-                            '<input type="hidden" name="itemID"  value="'+obj.itemID+'" >'+
-                            '<input type="hidden" name="unitID" value="'+obj.unit.unitID+'" >'+
-                            '<input type="hidden" name="itemSl" value="'+IC+'"  >'+
-                            '<td style="width: 2%;"><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
-                            '<td> '+obj.barcode+' </td>'+
-                            '<td> '+obj.name+' </td>'+
-                            '<td> '+obj.unit.name+' </td>'+
+        $('#ProductTable tbody').append('<tr id="MU'+IC+'">'+
+            '<input type="hidden" name="itemSl"  value="'+IC+'"  >'+
+            '<td><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
+            '<td> <input style="text-align: right;"  type="text" name="barcode"  value="'+IC+'" class="form-control"> </td>'+
+            '<td> <input style="text-align: right;" type="text" class="form-control" name="itemName"  required ></td>'+
+            '<td> <select class="selectpicker" data-style="btn-default btn-outline" name="unitID" required>'+
+            '{{#each units}}'+
+            '<option value="{{this.unitID}}" >{{this.name}}</option>'+
+            '{{/each}} </select></td>'+
+            '<td ><input style="text-align: right;" type="text" class="form-control"  name="quantity" value="1" required="required" ></td>'+
+            '</tr>');
 
-                            '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control"  name="quantity" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
-
-                            '</tr>');
-                        $('#ItemSearch').val('');
-                        $( "#ItemSearch" ).focus();
-
-
-                }
-                else
-                {
-
-                    $.ajax({
-                        url: '/purchase/search_item_det/'+ItemSearch,
-                        type: 'get',
-                        success: function(res) {
-                            console.log(res[0]);
-                            if(res != '')
-                            {
-                                let SelectTable	='<table class="table table-hover display  pb-30" > ';
-                                for(let i=0; i< res.length; i++)
-                                {
-                                    let brc = "'"+res[i].barcode+"'";
-                                    SelectTable	+='<tr onclick="InsertSearch('+brc+');"><td >'+res[i].barcode+'</td>'+
-                                        '<td>'+res[i].name+'</td> <td>'+res[i].unit.name+' ';
-                                }
-                                SelectTable	+=	'<tbody> </table>';
-                                $('#SearchModalContent').html(SelectTable);
-                                $('#SearchModal').modal('toggle');
-
-                            }
-                            else
-                            {
-                                $('#ItemSearch').val('');
-                                $( "#ItemSearch" ).focus();
-                                swal("Not Found!", "not found any matching products", "error");
-                            }
-
-                        },
-                        error: function(xhr, desc, err) {
-                            console.log(xhr);
-                            console.log("Details: " + desc + "\nError:" + err);
-                        }
-                    });
-
-                }
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        });
+        $('.selectpicker').selectpicker('refresh');
 
 
     }
 
-    function InsertSearch(barcode)
-    {
-
-        $.ajax({
-            url: '/purchase/search_item/'+barcode,
-            type: 'get',
-            success: function(obj)
-            {
-                if(obj != '')
-                {
 
 
-                    IC++;
-                    $('#itemNo').val(IC);
-                    $('#ProductTable tr:last').after('<tr id="MU'+IC+'">'+
-                        '<input type="hidden" name="itemID" value="'+obj.itemID+'" >'+
-                        '<input type="hidden" name="unitID" value="'+obj.unit.unitID+'" >'+
-                        '<input type="hidden" name="itemSl" value="'+IC+'"  >'+
-                        '<td style="width: 2%;"><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
-                        '<td> '+obj.barcode+' </td>'+
-                        '<td> '+obj.name+' </td>'+
-                        '<td> '+obj.unit.name+' </td>'+
-
-                        '<td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="quantity" value="1" required="required" onkeyup="PriceChange('+IC+');"></td>'+
-                        '</tr>');
-                    $('#SearchModal').modal('hide');
-                    $('#ItemSearch').val('');
-                    $( "#ItemSearch" ).focus();
-
-                }
-
-
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        });
-    }
-
-
-    function CancelModal(modal)
-    {
-        $('#'+modal).modal('hide');
-        $('#ItemSearch').val('');
-        $( "#ItemSearch" ).focus();
-    }
 
 
 
