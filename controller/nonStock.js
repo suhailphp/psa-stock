@@ -14,14 +14,14 @@ const curPage = 'nonStock';
 
 router.use(upload());
 
-router.get('/',async (req,res)=>{
+router.get('/',auth,async (req,res)=>{
 
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     let purchases = await nonStockModel.findAll({include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
     res.render('nonStock/list',{purchases:purchases,curPage});
 });
 
-router.get('/add',  async (req,res)=>{
+router.get('/add',  auth,async (req,res)=>{
     let suppliers = await supplierModel.findAll();
     let warehouses = await warehouseModel.findAll();
     let units = await unitModel.findAll();
@@ -36,7 +36,7 @@ router.get('/add',  async (req,res)=>{
     res.render('nonStock/add',{suppliers:suppliers,curPage,data,warehouses,units});
 });
 
-router.post('/',async (req,res)=> {
+router.post('/',auth,async (req,res)=> {
 
 
   if(req.body.action == 'edit'){
@@ -58,7 +58,7 @@ router.post('/',async (req,res)=> {
       purchase.LPONo = req.body.LPONo;
       purchase.LPODate = req.body.LPODate;
       purchase.warehouseID = req.body.warehouseID;
-      purchase.userID = 1;//req.session.user.userID;
+      purchase.userID = req.session.user.userID;
       let result = await purchase.save();
       if(result) {
 
@@ -151,7 +151,7 @@ router.post('/',async (req,res)=> {
           LPONo : req.body.LPONo,
           LPODate : req.body.LPODate,
           warehouseID : req.body.warehouseID,
-          userID : 1,//req.session.user.userID,
+          userID : req.session.user.userID,
           itemNo : req.body.itemNo
 
       }

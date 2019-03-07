@@ -14,13 +14,13 @@ const curPage = 'purchase';
 
 router.use(upload());
 
-router.get('/',async (req,res)=>{
+router.get('/',auth,async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     res.render('purchase/list',{purchases:purchases,curPage});
 });
 
-router.get('/add',  async (req,res)=>{
+router.get('/add',  auth,async (req,res)=>{
     let suppliers = await supplierModel.findAll();
     let warehouses = await warehouseModel.findAll();
 
@@ -35,7 +35,7 @@ router.get('/add',  async (req,res)=>{
     res.render('purchase/add',{suppliers:suppliers,curPage,data,warehouses});
 });
 
-router.post('/',async (req,res)=> {
+router.post('/', auth,async (req,res)=> {
 
 
     if(req.body.action == 'edit'){
@@ -56,7 +56,7 @@ router.post('/',async (req,res)=> {
         purchase.LPONo = req.body.LPONo;
         purchase.LPODate = req.body.LPODate;
         purchase.warehouseID = req.body.warehouseID;
-        purchase.userID = 1;//req.session.user.userID;
+        purchase.userID = req.session.user.userID;
         let result = await purchase.save();
         if(result) {
             let oldItems = await purchaseItemModel.findAll({where: {purchaseID: purchase.purchaseID}});
@@ -136,7 +136,7 @@ router.post('/',async (req,res)=> {
             LPONo : req.body.LPONo,
             LPODate : req.body.LPODate,
             warehouseID : req.body.warehouseID,
-            userID : 1,//req.session.user.userID,
+            userID : req.session.user.userID,
             itemNo : req.body.itemNo
 
         }
