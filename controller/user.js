@@ -41,7 +41,7 @@ router.get('/add' ,async (req,res)=>{
 });
 
 router.get('/edit/:id' ,async (req,res)=>{
-    let data = await userModel.findOne({ where: {id: req.params.id }});
+    let data = await userModel.findOne({ where: {userID: req.params.id }});
     let ad = new activeDirectory(Config.DOMAIN);
 
 
