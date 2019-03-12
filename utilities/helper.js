@@ -151,7 +151,7 @@ module.exports = {
         return (amount.toFixed(2))
     },
     countOne:function(number){
-        return(number+1)
+        return(parseInt(number)+1)
     },
 
 
