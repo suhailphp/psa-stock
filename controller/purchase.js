@@ -239,6 +239,13 @@ router.get('/search_item_det/:search',  async (req,res)=>{
 
 router.delete('/:id',async(req,res)=>{
 
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.id }});
+    if(data.attachment != ''){
+        fs.unlink('public/'+data.attachment,function (err) {
+            if(err) return console.log(err);
+        });
+    }
+
     let oldItems = await purchaseItemModel.findAll({where: {purchaseID: req.params.id}});
     oldItems.forEach((element) => {
         //remove quantity from stock
