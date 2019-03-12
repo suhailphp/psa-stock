@@ -1,3 +1,4 @@
+const fs = require('fs');
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
@@ -67,21 +68,38 @@ router.post('/', auth,async (req,res)=> {
             //remove all purchase items
             purchaseItemModel.destroy({where: {purchaseID: purchase.purchaseID}});
             //add purchase items again
-            let items = req.body.itemID.keys();
-            for (let key of items) {
+
+            if(req.body.itemID.constructor === Array){
+                let items = req.body.itemID.keys();
+                for (let key of items) {
+                    let itemModel = {
+                        purchaseID: purchase.purchaseID,
+                        itemID: req.body.itemID[key],
+                        unitID: req.body.unitID[key],
+                        itemSl: req.body.itemSl[key],
+                        quantity: req.body.quantity[key],
+                    }
+                    let purchaseItem = await purchaseItemModel.create(itemModel);
+                    if (purchaseItem) {
+                        await stockAdjust(purchaseItem.itemID, purchaseItem.quantity);
+                    }
+                }
+            }
+            else {
                 let itemModel = {
                     purchaseID: purchase.purchaseID,
-                    itemID: req.body.itemID[key],
-                    unitID: req.body.unitID[key],
-                    itemSl: req.body.itemSl[key],
-                    quantity: req.body.quantity[key],
+                    itemID: req.body.itemID,
+                    unitID: req.body.unitID,
+                    itemSl: req.body.itemSl,
+                    quantity: req.body.quantity,
                 }
                 let purchaseItem = await purchaseItemModel.create(itemModel);
                 if (purchaseItem) {
                     await stockAdjust(purchaseItem.itemID, purchaseItem.quantity);
                 }
-
             }
+
+
 
             //checking the attachments
             if(req.files.attachment){
@@ -120,6 +138,7 @@ router.post('/', auth,async (req,res)=> {
     }
     else
     {
+        //console.log(req.body.itemID);exit;
         let { error } = validate(req.body);
         if (error){
             let ErrMessage = error.details[0].message.replace(/['"]+/g, '');
@@ -143,21 +162,38 @@ router.post('/', auth,async (req,res)=> {
 
         let purchase = await  purchaseModel.create(model);
         if(purchase){
-            let items = req.body.itemID.keys();
-            for (let key of items) {
+
+            if(req.body.itemID.constructor === Array){
+                let items = req.body.itemID.keys();
+                for (let key of items) {
+                    let itemModel = {
+                        purchaseID: purchase.purchaseID,
+                        itemID: req.body.itemID[key],
+                        unitID: req.body.unitID[key],
+                        itemSl: req.body.itemSl[key],
+                        quantity: req.body.quantity[key],
+                    }
+                    let purchaseItem = await purchaseItemModel.create(itemModel);
+                    if(purchaseItem){
+                        await stockAdjust(purchaseItem.itemID,purchaseItem.quantity);
+                    }
+                }
+            }
+            else {
                 let itemModel = {
-                    purchaseID  :   purchase.purchaseID,
-                    itemID  :   req.body.itemID[key],
-                    unitID  :   req.body.unitID[key],
-                    itemSl  :   req.body.itemSl[key],
-                    quantity  :   req.body.quantity[key]
+                    purchaseID: purchase.purchaseID,
+                    itemID: req.body.itemID,
+                    unitID: req.body.unitID,
+                    itemSl: req.body.itemSl,
+                    quantity: req.body.quantity,
                 }
                 let purchaseItem = await purchaseItemModel.create(itemModel);
                 if(purchaseItem){
-                     await stockAdjust(purchaseItem.itemID,purchaseItem.quantity);
+                    await stockAdjust(purchaseItem.itemID,purchaseItem.quantity);
                 }
-
             }
+
+
 
             //checking the attachments
             if(req.files.attachment){
@@ -242,7 +278,7 @@ router.delete('/:id',async(req,res)=>{
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.id }});
     if(data.attachment != ''){
         fs.unlink('public/'+data.attachment,function (err) {
-            if(err) return console.log(err);
+            if(err) return console.error(err);
         });
     }
 

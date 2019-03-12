@@ -61,23 +61,14 @@ if (config.DB['SYNC']) {
 }
 
 function validate(req){
-    const schema = {
-        referenceNo: Joi.string().required(),
+    const schema = Joi.object({
         billNo: Joi.string().required(),
         LPONo: Joi.string().required(),
         supplierID: Joi.number().required(),
         warehouseID: Joi.number().required(),
         date: Joi.date().required(),
-        LPODate: Joi.date().required(),
-        purchaseID: Joi.number().allow(''),
-        action: Joi.string().allow(''),
-        itemNo: Joi.number().allow(''),
-        ItemSearch: Joi.string().allow(''),
-        itemID: Joi.array().allow(''),
-        unitID: Joi.array().allow(''),
-        itemSl: Joi.array().allow(''),
-        quantity: Joi.array().allow('')
-    };
+        LPODate: Joi.date().required()
+    }).unknown();
 
     return Joi.validate(req, schema);
 }
