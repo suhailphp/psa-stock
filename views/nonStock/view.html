@@ -53,7 +53,7 @@
 
 
         <!-- check the page is more than ten items -->
-        {{#checkRowTen @index}}
+        {{#checkRowEight @index}}
 
         <!-- closing the current page -->
             </tbody>
@@ -62,9 +62,13 @@
 
 
 
-            <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
-            <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../data.user.userName}}&ActionName=userssignature" width="20%" >
-                <h style="float: left">.........................</h></article>
+    <article style="position: absolute; bottom: 0;">
+        <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
+        <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../data.user.userName}}&ActionName=userssignature" height="100px" >
+            <h style="float: left">.........................</h></article>
+
+        <img src="/images/storefooter.jpg" width="720px;" >
+    </article>
 
         </section>
 
@@ -106,7 +110,7 @@
                     </tr>
                     </thead>
                     <tbody>
-        {{/checkRowTen}}
+        {{/checkRowEight}}
 
             <tr id="MU{{this.itemSl}}">
 
@@ -133,11 +137,16 @@
 
 
 
-    <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
-    <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" width="20%" >
-        <h style="float: left">.........................</h></article>
+            <article style="position: absolute; bottom: 0;">
+                <article style="font-weight: bold"> <h> وردت بواسطة امين المستودع</h> <h style="float: left">يعتمد ""</h></article><br>
+                <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
+                    <h style="float: left">.........................</h></article>
 
-</section>
+                <img src="/images/storefooter.jpg" width="720px;" >
+            </article>
+
+
+        </section>
 
 </body>
 

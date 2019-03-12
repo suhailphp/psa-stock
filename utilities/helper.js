@@ -67,13 +67,22 @@ module.exports = {
             return options.fn(this);
         }
         else{
-           return options.inverse(this);
+            return options.inverse(this);
+        }
+    },
+
+    checkRowEight:function(number,  options){
+        if((number != 0 )&&(number % 8 == 0)){
+            return options.fn(this);
+        }
+        else{
+            return options.inverse(this);
         }
     },
 
     checkPageNumber:function(number){
         number = number+1;
-        return Math.ceil(number/10);
+        return Math.ceil(number/8);
     },
 
     dateToStringTime: function (date) {

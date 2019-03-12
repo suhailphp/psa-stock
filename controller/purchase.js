@@ -210,7 +210,7 @@ router.get('/view/:purchaseID', async (req,res)=>{
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
         include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
     let totalRecords =  await purchaseItemModel.findAndCountAll({ where: {purchaseID: req.params.purchaseID }});
-    let totalPage = Math.ceil(totalRecords.count/10);
+    let totalPage = Math.ceil(totalRecords.count/8);
     res.render('purchase/view',{data,purchaseItems,totalPage});
 });
 

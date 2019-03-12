@@ -243,7 +243,7 @@ router.get('/view/:nonStockID', async (req,res)=>{
   let purchaseItems = await nonStockItemModel.findAll({ where: {nonStockID: req.params.nonStockID },
       include:[{model:unitModel,required:true}]});
   let totalRecords =  await nonStockItemModel.findAndCountAll({ where: {nonStockID: req.params.nonStockID }});
-  let totalPage = Math.ceil(totalRecords.count/10);
+  let totalPage = Math.ceil(totalRecords.count/8);
 
   res.render('nonStock/view',{data,purchaseItems,totalPage});
 });
