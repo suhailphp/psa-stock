@@ -21,7 +21,7 @@ router.get('/',auth,async (req,res)=>{
     res.render('purchase/list',{purchases:purchases,curPage});
 });
 
-router.get('/add',  auth,async (req,res)=>{
+router.get('/add', auth, async (req,res)=>{
     let suppliers = await supplierModel.findAll();
     let warehouses = await warehouseModel.findAll();
 

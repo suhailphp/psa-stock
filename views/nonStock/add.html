@@ -121,6 +121,7 @@
 
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">من</label>
+                                                    <label class="control-label mb-10  fa fa-plus-square " style="float: left;cursor: pointer" onclick="newSup();">الجديد</label>
                                                     <select class="form-control select2" name="supplierID" id="supplierID" required="required" >
 
                                                         <option value="">اختار</option>
@@ -369,6 +370,62 @@
                 <!-- /.modal -->
 
 
+                <!-- Modal for add new sup -->
+                <div id="SPModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content " id="SPModalContent">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h5 class="modal-title" >أضف المورد</h5>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <div class="form-wrap">
+                                                    <form name="form one" method="post"  >
+
+                                                        <div class="form-group">
+                                                            <label class="control-label mb-10 text-left">اسم </label>
+                                                            <input type="text" name="Sname" id="Sname" required="required"
+                                                                   placeholder="Enter name" class="form-control" >
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label mb-10 text-left">عنوان</label>
+                                                            <input type="text" name="Saddress" id="Saddress" required="required"
+                                                                   placeholder="Enter address" class="form-control" >
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--End -->
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-primary btn-outline btn-icon left-icon" onclick="InsertSup();">
+                                    <i class="fa fa-plus"></i><span> خلق</span>
+                                </button>
+
+                            </div>
+
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+
             </div>
             <!-- /Row -->
 
@@ -454,6 +511,65 @@
 
 
         }
+
+    }
+
+    function newSup(){
+        $('#Sname').val('');
+        $('#Saddress').val('');
+        $('#SPModal').modal('toggle');
+    }
+
+    function InsertSup() {
+        let name = $('#Sname').val();
+        let address = $('#Saddress').val();
+
+        if(name == '')
+        {
+            $('#Sname').focus();
+            swal("Supplier name", "Please enter the name", "warning");
+
+        }
+        else if(address == '')
+        {
+            $('#Saddress').focus();
+            swal("Address", "Please enter the address", "warning");
+
+        }
+        else{
+            $('#SPModal').modal('toggle');
+
+            $.ajax({
+                url: '/supplier/ajax',
+                type: 'post',
+                data: { name: name,address: address},
+                success: function(obj) {
+                    if(obj)
+                    {
+
+                        let data = {
+                            id:obj.supplierID,
+                            text: name
+                        };
+                        let newOption = new Option(data.text, data.id, true, true);
+                        // Append it to the select
+                        $('#supplierID').append(newOption).trigger('change');
+                        swal("new Customer", "new customer created successfully ", "success");
+
+                    }
+
+                },
+                error: function(xhr, desc, err) {
+                    console.log(xhr);
+                    console.log("Details: " + desc + "\nError:" + err);
+                }
+            });
+
+
+        }
+
+
+
 
     }
 

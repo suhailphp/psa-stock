@@ -81,6 +81,20 @@ router.post('/', async (req,res)=>{
     }
 });
 
+router.post('/ajax', async (req,res)=>{
+
+
+        let model = {
+            name : req.body.name,
+            address : req.body.address
+        }
+        let data = await  supplierModel.create(model);
+        if(data){
+            res.send(data)
+        }
+
+});
+
 
 router.delete('/:supplierID',async(req,res)=>{
 
