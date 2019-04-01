@@ -38,6 +38,12 @@ let nonStockModel = db.define('nonStock', {
     userID: {
         type: Sequelize.INTEGER
     },
+    financeUserID: {
+        type: Sequelize.INTEGER
+    },
+    totalAmount: {
+        type: Sequelize.FLOAT
+    },
     attachment:{
         type: Sequelize.STRING(255)
     },
@@ -52,6 +58,14 @@ let nonStockModel = db.define('nonStock', {
     active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
+    },
+    storeSign: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    financeSign: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 });
 

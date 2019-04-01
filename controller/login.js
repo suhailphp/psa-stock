@@ -26,10 +26,8 @@ router.post('/',async(req,res)=>{
 
     let ad = new activeDirectory(Config.DOMAIN);
     ad.authenticate(userName+'@psa.local', password, function (err, auth) {
-        console.log(err)
-        if (auth) {
-
-            req.session.user = {userID:user.userID,userName:user.userName,name:user.fullName};
+          if (auth) {
+            req.session.user = {userID:user.userID,userName:user.userName,name:user.fullName,userRole:user.userRole};
             req.session.infoMsg = {code:'success',title:'مرحبا بعودتك',content:'مرحباً بالسيد '+req.session.user.name};
             user.lastLoggedIn = new Date;
             user.save();

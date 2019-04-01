@@ -73,7 +73,9 @@
                                                     <select class="form-control select2" name="userRole" id="userRole" required="required">
 
                                                         <option {{#compare 'ADMIN' '==' ./data.userRole }}selected{{/compare}} value="ADMIN" >admin</option>
-                                                        <option {{#compare 'USER' '==' ./data.userRole }}selected{{/compare}} value="USER" >user</option>
+                                                        <option {{#compare 'AllStore' '==' ./data.userRole }}selected{{/compare}} value="AllStore" >All Store User</option>
+                                                        <option {{#compare 'StoreUser' '==' ./data.userRole }}selected{{/compare}} value="StoreUser" >Store User</option>
+                                                        <option {{#compare 'Finance' '==' ./data.userRole }}selected{{/compare}} value="Finance" >Finance User</option>
 
 
                                                     </select>
@@ -83,7 +85,7 @@
                                                 <br>
 
                                                 <div class="col-sm-4 col-xs-12 mt-15">
-                                                    <input type="hidden" name="id" value="{{#if data.id}}{{data.id}}{{/if}}" >
+                                                    <input type="hidden" name="userID" value="{{#if data.userID}}{{data.userID}}{{/if}}" >
                                                     <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
                                                     <button class="btn btn-primary  btn-rounded btn-block btn-anim"><i class="fa fa-check-square"></i>
                                                         <span class="btn-text">{{#if editData}}Update{{else}}Add {{/if}}</span></button>

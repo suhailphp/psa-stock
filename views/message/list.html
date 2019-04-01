@@ -51,9 +51,7 @@
                                 <h6 class="panel-title txt-dark">قائمة الصنف</h6>
                             </div>
 
-                            <div class="pull-right">
-                                <a href="/nonStock/add"><div class="pull-left"><i class="fa fa-plus-square mr-5"></i><span class="right-nav-text">اضف جديد</span></div></a>
-                            </div>
+
                             <div class="clearfix"></div>
                         </div>
                         <div class="panel-wrapper collapse in">
@@ -72,8 +70,6 @@
                                                 <th>من</th>
 
 
-
-
                                                 <th class="text-nowrap" width="6%">عمل</th>
                                             </tr>
                                             </thead>
@@ -81,25 +77,23 @@
 
                                             {{#each purchases }}
 
-                                            <tr id="{{this.nonStockID}}">
+                                            <tr id="{{this.purchaseID}}">
 
-                                                <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{this.referenceNo}}</td>
-                                                <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{dateToStringDate this.date}}</td>
-                                                <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{this.billNo}}</td>
-                                                <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{this.supplier.name}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.id}},'{{this.type}}');">{{this.referenceNo}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.id}},'{{this.type}}');">{{dateToStringDate this.date}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.id}},'{{this.type}}');">{{this.billNo}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.id}},'{{this.type}}');">{{this.supplierName}}</td>
+
+
 
 
 
                                                 <td class="text-nowrap">
 
-                                                    <a href="/nonStock/view/{{this.nonStockID}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                    <a href="/message/view/{{this.id}}/{{this.type}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-print text-inverse m-r-10"></i> </a>
+                                                </td>
 
-                                                    <a href="/nonStock/edit/{{this.nonStockID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
-                                                        <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.nonStockID}}');">
-                                                        <i class="fa fa-close text-danger"></i> </a> </td>
                                             </tr>
 
                                             {{else}}
@@ -145,12 +139,6 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal -->
-
-
-
-
-    {{>footer}}
 
 </div>
 <!-- /#wrapper -->
@@ -170,15 +158,14 @@
         //$('#TableData').DataTable({ "lengthChange": false});
     } );
 
-
-    function show(id){
-
-        $.ajax({
-            url: '/nonStock/view_pop/'+id,
+    function show(id,type){
+        //alert(id)
+         $.ajax({
+            url: '/message/view_pop/'+id+'/'+type,
             type: 'get',
             success: function(data) {
-              $('#SPModalContent').html(data);
-               $('#SPModal').modal('toggle');
+                $('#SPModalContent').html(data);
+                $('#SPModal').modal('toggle');
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);
@@ -187,49 +174,6 @@
         }); // end ajax call
     }
 
-    function DeleteItem(id){
 
-
-        swal({
-            title: "تحذير",
-            text: "هل تريد حذف هذا البند ؟",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#f8b32d",
-            confirmButtonText: "نعم",
-            cancelButtonText: "لا",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }, function(isConfirm){
-            if (isConfirm) {
-                $.ajax({
-                    url: 'nonStock/'+id,
-                    type: 'delete',
-                    success: function(data) {
-
-                        if(data == true)
-                        {
-                            //$('table#TableData tr#'+id).remove();
-                            $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
-                            swal("تم الحذف", "تم حذف الملف", "success");
-                        }
-                        else
-                        {
-                            swal("ألغيت", "الملف آمن الآن", "error");
-                        }
-
-                    },
-                    error: function(xhr, desc, err) {
-                        console.log(xhr);
-                        console.log("Details: " + desc + "\nError:" + err);
-                    }
-                }); // end ajax call
-
-            } else {
-                swal("ألغيت", "الملف آمن الآن", "error");
-            }
-        });
-
-    }
 
 </script>

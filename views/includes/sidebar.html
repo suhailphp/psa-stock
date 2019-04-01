@@ -1,12 +1,12 @@
 
 <div class="fixed-sidebar-left">
+
     <ul class="nav navbar-nav side-nav nicescroll-bar">
 
-        <li class="navigation-header">
-            <span>Main</span>
-            <i class="zmdi zmdi-more"></i>
-        </li>
 
+
+
+        <br>
 
         <li>
             <a href="/" >
@@ -14,13 +14,16 @@
         </li>
 
 
+
+        {{#userRoleCheck 'item' user.userRole}}
         <li>
             <a href="/item" {{#compare curPage '==' 'item'}}class="current"{{/compare}}>
                 <div class="pull-left"><i class="fa fa-graduation-cap mr-20"></i><span class="right-nav-text">المواد</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
 
-
+        {{#userRoleCheck 'purchase' user.userRole}}
         <li>
             <a {{#compare curPage '==' 'purchase'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#nonStock"  >
             <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">سند ايراد</span></div><div class="pull-right">
@@ -33,12 +36,18 @@
                     <a href="/purchase" >قائمة </a>
                 </li>
 
+                <li>
+                    <a href="/purchase/finished" >منجز </a>
+                </li>
+
 
 
             </ul>
         </li>
+        {{/userRoleCheck}}
 
 
+        {{#userRoleCheck 'nonStock' user.userRole}}
         <li>
             <a {{#compare curPage '==' 'nonStock'}}class="current"{{/compare}} href="javascript:void(0);" data-toggle="collapse" data-target="#product_dr"  >
             <div class="pull-left"><i class="fa fa-cart-plus mr-20"></i><span class="right-nav-text">سند ايراد(غير مخزن)</span></div><div class="pull-right">
@@ -51,12 +60,18 @@
                     <a href="/nonStock" >قائمة </a>
                 </li>
 
+                <li>
+                    <a href="/nonStock/finished" >منجز </a>
+                </li>
+
 
 
             </ul>
         </li>
+        {{/userRoleCheck}}
 
 
+        {{#userRoleCheck 'issue' user.userRole}}
         <li>
             <a {{#compare curPage '==' 'issue'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#getting_dr" >
             <div class="pull-left"><i class="fa fa-gift mr-20"></i><span class="right-nav-text">سند صرف </span></div><div class="pull-right">
@@ -73,8 +88,10 @@
 
             </ul>
         </li>
+        {{/userRoleCheck}}
 
 
+        {{#userRoleCheck 'return' user.userRole}}
         <li>
             <a {{#compare curPage '==' 'return'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#return_dr" >
             <div class="pull-left"><i class="fa fa-retweet mr-20"></i><span class="right-nav-text">سند ارجاع</span></div><div class="pull-right">
@@ -92,55 +109,63 @@
             </ul>
         </li>
 
+        {{/userRoleCheck}}
 
 
 
-
+        {{#compare user.userRole '!=' 'Finance'}}
         <li><hr class="light-grey-hr mb-10"/></li>
-        <li class="navigation-header">
-            <span>C Panel</span>
-            <i class="zmdi zmdi-more"></i>
-        </li>
+        {{/compare}}
 
+
+        {{#userRoleCheck 'category' user.userRole}}
         <li>
             <a href="/category" {{#compare curPage '==' 'category'}}class="current"{{/compare}}>
                 <div class="pull-left"><i class="fa fa-tasks mr-20"></i><span class="right-nav-text">الفئة</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
 
+
+        {{#userRoleCheck 'warehouse' user.userRole}}
         <li>
             <a href="/warehouse" {{#compare curPage '==' 'warehouse'}}class="current"{{/compare}}>
             <div class="pull-left"><i class="fa fa-bank mr-20"></i><span class="right-nav-text">مستودع</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
 
+        {{#userRoleCheck 'unit' user.userRole}}
         <li>
             <a href="/unit" {{#compare curPage '==' 'unit'}}class="current"{{/compare}}>
             <div class="pull-left"><i class="fa fa-adjust mr-20"></i><span class="right-nav-text">الوحدة</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
 
-
+        {{#userRoleCheck 'supplier' user.userRole}}
         <li>
             <a href="/supplier"  {{#compare curPage '==' 'supplier'}}class="current"{{/compare}}>
             <div class="pull-left"><i class="fa fa-support mr-20"></i><span class="right-nav-text">المورد</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
+        {{#userRoleCheck 'return' user.userRole}}
         <li>
             <a href="/department"  {{#compare curPage '==' 'department'}}class="current"{{/compare}}>
             <div class="pull-left"><i class="fa fa-tree mr-20"></i><span class="right-nav-text">القسم</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
+        {{#userRoleCheck 'staff' user.userRole}}
         <li>
             <a href="/staff" {{#compare curPage '==' 'staff'}}class="current"{{/compare}}>
                 <div class="pull-left"><i class="fa fa-users mr-20"></i><span class="right-nav-text">العاملين</span></div><div class="clearfix"></div></a>
         </li>
+        {{/userRoleCheck}}
 
-        <li>
-            <a href="/user" {{#compare curPage '==' 'user'}}class="current"{{/compare}}>
-            <div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">المستعمل</span></div><div class="clearfix"></div></a>
-        </li>
 
+        {{#userRoleCheck 'report' user.userRole}}
         <li>
             <a {{#compare curPage '==' 'report'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#report_dr" >
             <div class="pull-left"><i class="fa fa-recycle mr-20"></i><span class="right-nav-text">تقارير</span></div><div class="pull-right">
@@ -155,11 +180,62 @@
 
             </ul>
         </li>
+        {{/userRoleCheck}}
+
+            {{#compare user.userRole '==' 'ADMIN'}}
+            <li>
+                <a href="/user" {{#compare curPage '==' 'user'}}class="current"{{/compare}}>
+                <div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">المستعمل</span></div><div class="clearfix"></div></a>
+            </li>
+            {{/compare}}
+
+
 
         <!--<li>-->
             <!--<a href="#" {{#compare curPage '==' 'backup'}}class="current"{{/compare}}>-->
                 <!--<div class="pull-left"><i class="fa fa-database mr-20"></i><span class="right-nav-text">دعم</span></div><div class="clearfix"></div></a>-->
         <!--</li>-->
+
+
+        <li><hr class="light-grey-hr mb-10"/></li>
+
+        {{#userRoleCheck 'message' user.userRole}}
+        <li>
+            <a {{#compare curPage '==' 'message'}}class="current"{{/compare}} href="javascript:void(0);"  data-toggle="collapse" data-target="#message_dr" >
+            <div class="pull-left"><i class="fa fa-envelope mr-20"></i><span class="right-nav-text">الرسالة</span></div><div class="pull-right">
+            <i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="message_dr" class="collapse collapse-level-1">
+
+                {{#compare user.userRole '==' 'Finance'}}
+
+                <li>
+                    <a href="/message/finInbox" > صندوق الوارد</a>
+                </li>
+                <li>
+                    <a href="/message/finFinished" >تم الانتهاء من</a>
+                </li>
+
+                {{else}}
+
+
+
+                <li>
+                    <a href="/message/sendItem" > إرسال العناصر</a>
+                </li>
+                <li>
+                    <a href="/message/finished" >تم الانتهاء من  </a>
+                </li>
+
+                {{/compare}}
+
+
+
+            </ul>
+        </li>
+        {{/userRoleCheck}}
+
+
+
 
     </ul>
 </div>

@@ -78,7 +78,7 @@
             <img style="float: left" src="/images/finance.png" height="160px" >
             {{else}}
             {{#compare data.financeUserID "===" user.userID}}
-            <button style="float: left" name="financeSign" onclick="financeSign()" >التوقيع </button><br><br>
+            <button style="float: left" name="financeSign" onclick="financeSign('{{type}}')" >التوقيع </button><br><br>
             {{/compare}}
             {{/if}}
 
@@ -144,8 +144,8 @@
         <tr id="MU{{this.itemSl}}">
 
             <td style="width: 2%;">{{countOne @index}}</td>
-            <td> {{this.item.barcode}} </td>
-            <td> {{this.item.name}} </td>
+            <td> {{#compare ../type '==' 'purchase'}}{{this.item.barcode}}{{else}}{{this.barcode}}{{/compare}} </td>
+            <td> {{#compare ../type '==' 'purchase'}}{{this.item.name}}{{else}}{{this.itemName}}{{/compare}} </td>
             <td style="width: 10%;">{{this.unit.name}}</td>
             <td style="width: 8%;">{{this.quantity}}</td>
             <td style="width: 10%;">{{arabicLetter this.quantity}}</td>
@@ -184,7 +184,7 @@
             <img style="float: left" src="/images/finance.png" height="160px" >
                 {{else}}
                     {{#compare data.financeUserID "===" user.userID}}
-                        <button style="float: left" name="financeSign" onclick="financeSign()" >التوقيع </button><br><br>
+                        <button style="float: left" name="financeSign" onclick="financeSign('{{type}}')" >التوقيع </button><br><br>
                     {{/compare}}
                 {{/if}}
 
@@ -296,23 +296,13 @@
 
 
 <script type="text/javascript">
-    function storeSign(){
-       $('#SPModal').modal('toggle');
-    }
-    function doStoreSign() {
 
-        let financeUserID = $('#financeUserID').val();
-        if(financeUserID == ""){
-            alert("Please chose the manager")
-        }
-        else{
-            window.location.replace("/purchase/doSign/{{data.purchaseID}}/"+financeUserID);
-        }
-    }
     
-    function financeSign(){
+    function financeSign(type){
+
+        var id = (type == 'purchase')?'{{data.purchaseID}}':'{{data.nonStockID}}';
         if(confirm("هل أنت واثق")){
-            window.location.replace("/purchase/doFinanceSign/{{data.purchaseID}}/");
+            window.location.replace("/message/doFinanceSign/"+id+"/"+type);
         }
     }
 </script>

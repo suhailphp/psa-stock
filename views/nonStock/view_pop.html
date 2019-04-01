@@ -1,0 +1,101 @@
+<!-- Normalize or reset CSS with your favorite library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+<!-- Load paper.css for happy printing -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="100%;">
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;">سند ايراد محلي</article>
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;"> رقم : <h style="color: red !important;font-weight: normal">{{numberFourDigit data.referenceNo}}</h>
+
+    </article>
+    <article style="font-weight: bold"> <h>تم توريد وإضافة المواد الموضحة ادناه بتاريخ :{{ dateNormal data.date}}</h> <h style="float: left">مستودع :  {{data.warehouse.name}}</h></article><br>
+    <article style="font-weight: bold"> <h> من : {{data.supplier.name}}</h> <h style="float: left">العنوان :{{data.supplier.address}}</h></article><br>
+    <article style="font-weight: bold"> <h> بموحب الفاتورة رقم : {{data.LPONo}}</h>  <h style="margin-right: 50px"> بتاريخ :{{ dateNormal data.LPODate}}</h> <h style="float: left">طبقاً لطلب الشراء رقم :{{data.billNo}}</h></article><br>
+
+    <table  class="table table-bordered" >
+        <thead>
+        <tr >
+            <th >م</th>
+            <th width="15%">الحرف ولرقم</th>
+            <th > النوع</th>
+            <th >الوحدة</th>
+            <th style="width: 10%">رقماً</th>
+            <th style="width: 15%">كتابة</th>
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+        {{#each purchaseItems}}
+
+
+
+
+        <tr id="MU{{this.itemSl}}" >
+
+            <td style="width: 2%;">{{countOne @index}}</td>
+            <td> {{this.barcode}} </td>
+            <td> {{this.itemName}} </td>
+            <td style="width: 10%;">{{this.unit.name}}</td>
+            <td style="width: 8%;">{{this.quantity}}</td>
+            <td style="width: 10%;">{{arabicLetter this.quantity}}</td>
+        </tr>
+
+        {{/each}}
+
+
+
+
+
+
+
+
+        </tbody>
+
+        <tfoot>
+        <tr style="font-weight: bold">
+            <td colspan="3"></td>
+            <td colspan="2">إجمالي</td>
+            <td >{{currencyFormat data.totalAmount}}</td>
+        </tr>
+        </tfoot>
+
+    </table>
+
+
+
+    <article >
+        <article style="font-weight: bold"> <h> وردت بواسطة </h> <h style="float: left">يعتمد </h></article><br>
+
+        <article style="font-weight: bold">
+
+            {{#if data.storeSign}}
+            <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
+
+                {{#if data.financeSign}}
+                <img style="float: left" src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{financeUserName}}&ActionName=userssignature" height="100px" >
+                <img style="float: left" src="/images/finance.png" height="140px" >
+
+                {{/if}}
+
+
+            {{/if}}
+        </article>
+
+
+
+        <img src="/images/storefooter.jpg" width="100%;" >
+    </article>
+
+
+</section>
+
+
+
+
+

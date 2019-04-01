@@ -72,7 +72,7 @@ module.exports = {
     },
 
     checkRowEight:function(number,  options){
-        if((number != 0 )&&(number % 8 == 0)){
+        if((number != 0 )&&(number % 7 == 0)){
             return options.fn(this);
         }
         else{
@@ -82,7 +82,7 @@ module.exports = {
 
     checkPageNumber:function(number){
         number = number+1;
-        return Math.ceil(number/8);
+        return Math.ceil(number/7);
     },
 
     dateToStringTime: function (date) {
@@ -202,6 +202,29 @@ module.exports = {
             return no;
         }
 
+    },
+    userRoleCheck: function(page,userRole,options){
+        let storeUser = ['nonStock','unit','supplier','message'];
+        let financeUser = ['message'];
+        if(userRole == 'StoreUser'){
+            if(storeUser.includes(page)){
+                return options.fn(this);
+            }
+            else{
+                return options.inverse(this);
+            }
+        }
+        else if(userRole == 'Finance'){
+            if(financeUser.includes(page)){
+                return options.fn(this);
+            }
+            else{
+                return options.inverse(this);
+            }
+        }
+        else{
+            return options.fn(this);
+        }
     }
 
 

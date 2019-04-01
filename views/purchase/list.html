@@ -65,8 +65,11 @@
                                             <thead>
                                             <tr>
 
-                                                <th>اسم الصنف</th>
-                                                <th>الفئة</th>
+                                                <th>رقم</th>
+                                                <th>تاريخ</th>
+                                                <th>بموحب الفاتورة رقم</th>
+
+                                                <th>من</th>
 
 
 
@@ -80,15 +83,17 @@
 
                                             <tr id="{{this.purchaseID}}">
 
-                                                <td>{{dateToStringDate this.date}}</td>
-                                                <td>{{this.supplier.name}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.purchaseID}});">{{this.referenceNo}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.purchaseID}});">{{dateToStringDate this.date}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.purchaseID}});">{{this.billNo}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.purchaseID}});">{{this.supplier.name}}</td>
 
 
 
                                                 <td class="text-nowrap">
 
-                                                    <a href="/purchase/view/{{this.purchaseID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
-                                                        <i class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                                    <a href="/purchase/view/{{this.purchaseID}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                        <i class="fa fa-print text-inverse m-r-10"></i> </a>
 
                                                     <a href="/purchase/edit/{{this.purchaseID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
@@ -100,7 +105,7 @@
                                             {{else}}
 
                                             <tr id="0">
-                                                <td colspan="2" align="center">No data found</td>
+                                                <td colspan="5" align="center">No data found</td>
                                             </tr>
 
                                             {{/each}}
@@ -130,6 +135,17 @@
     </div>
     <!-- /Main Content -->
 
+    <!-- Modal for add new sup -->
+    <div id="SPModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content " id="SPModalContent" >
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 </div>
 <!-- /#wrapper -->
 
@@ -148,49 +164,85 @@
         //$('#TableData').DataTable({ "lengthChange": false});
     } );
 
+    function show(id){
+
+        $.ajax({
+            url: '/purchase/view_pop/'+id,
+            type: 'get',
+            success: function(data) {
+                $('#SPModalContent').html(data);
+                $('#SPModal').modal('toggle');
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        }); // end ajax call
+    }
 
     function DeleteItem(id){
 
 
-        swal({
-            title: "تحذير",
-            text: "هل تريد حذف هذا البند ؟",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#f8b32d",
-            confirmButtonText: "نعم",
-            cancelButtonText: "لا",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }, function(isConfirm){
-            if (isConfirm) {
-                $.ajax({
-                    url: 'purchase/'+id,
-                    type: 'delete',
-                    success: function(data) {
+            $.ajax({
+                url: 'purchase/checkSign/'+id,
+                type: 'get',
+                success: function(data) {
 
-                        if(data == true)
-                        {
-                            //$('table#TableData tr#'+id).remove();
-                            $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
-                            swal("تم الحذف", "تم حذف الملف", "success");
-                        }
-                        else
-                        {
-                            swal("ألغيت", "الملف آمن الآن", "error");
-                        }
-
-                    },
-                    error: function(xhr, desc, err) {
-                        console.log(xhr);
-                        console.log("Details: " + desc + "\nError:" + err);
+                    if(data == true)
+                    {
+                        swal("تحرير غير ممكن", "بعد تحرير التوقيع غير ممكن", "error");
                     }
-                }); // end ajax call
+                    else
+                    {
+                        swal({
+                            title: "تحذير",
+                            text: "هل تريد حذف هذا البند ؟",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#f8b32d",
+                            confirmButtonText: "نعم",
+                            cancelButtonText: "لا",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        }, function(isConfirm){
+                            if (isConfirm) {
+                                $.ajax({
+                                    url: 'purchase/'+id,
+                                    type: 'delete',
+                                    success: function(data) {
 
-            } else {
-                swal("ألغيت", "الملف آمن الآن", "error");
-            }
-        });
+                                        if(data == true)
+                                        {
+                                            //$('table#TableData tr#'+id).remove();
+                                            $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
+                                            swal("تم الحذف", "تم حذف الملف", "success");
+                                        }
+                                        else
+                                        {
+                                            swal("ألغيت", "الملف آمن الآن", "error");
+                                        }
+
+                                    },
+                                    error: function(xhr, desc, err) {
+                                        console.log(xhr);
+                                        console.log("Details: " + desc + "\nError:" + err);
+                                    }
+                                }); // end ajax call
+
+                            } else {
+                                swal("ألغيت", "الملف آمن الآن", "error");
+                            }
+                        });
+                    }
+
+                },
+                error: function(xhr, desc, err) {
+                    console.log(xhr);
+                    console.log("Details: " + desc + "\nError:" + err);
+                }
+            }); // end ajax call
+
+
 
     }
 

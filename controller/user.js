@@ -71,11 +71,11 @@ router.post('/',async (req,res)=>{
     //for update
     if(req.body.action == 'edit'){
 
-        let user = await userModel.findOne({ where: {userName: req.body.userName , id :{ $ne:req.body.id }} });
+        let user = await userModel.findOne({ where: {userName: req.body.userName , userID :{ $ne:req.body.userID }} });
         if(user){
             req.session.infoMsg = {code:'error',title:'User name taken',content:'please chose other username'}
             req.session.reqBody = req.body;
-            return res.redirect('/user/edit/'+req.body.id);
+            return res.redirect('/user/edit/'+req.body.userID);
         }
 
         ad.findUser(req.body.userName, async function(err, adUser) {
@@ -88,7 +88,7 @@ router.post('/',async (req,res)=>{
                 console.log('User: ' + req.body.userName + ' not found.');
             }
             else {
-                user = await userModel.findOne({ where: {id: req.body.id } });
+                user = await userModel.findOne({ where: {userID: req.body.userID } });
                 user.fullName = adUser.description;
                 user.userName = req.body.userName;
                 user.userRole = req.body.userRole;
@@ -153,7 +153,7 @@ router.post('/',async (req,res)=>{
 
 router.delete('/:id' ,async(req,res)=>{
 
-    const result = await userModel.destroy({where:{id:req.params.id}});
+    const result = await userModel.destroy({where:{userID:req.params.id}});
     if (!result) return res.send(false);
     res.send(true);
 

@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('express-fileupload');
 const {nonStockModel,validate} = require('../models/nonStockModel');
+const {purchaseModel} = require('../models/purchaseModel');
 const {nonStockItemModel} = require('../models/nonStockItemModel');
 const {unitModel} = require('../models/unitModel');
 const {userModel} = require('../models/userModel');
@@ -17,8 +18,21 @@ router.use(upload());
 router.get('/',auth,async (req,res)=>{
 
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let purchases = await nonStockModel.findAll({include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
-    res.render('nonStock/list',{purchases:purchases,curPage});
+    let purchases = await nonStockModel.findAll({where:{storeSign:false},include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
+    //for sign
+    let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
+
+    res.render('nonStock/list',{purchases:purchases,curPage,financeUsers});
+});
+
+router.get('/finished',auth,async (req,res)=>{
+
+    nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let purchases = await nonStockModel.findAll({where:{storeSign:true},include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
+    //for sign
+    let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
+
+    res.render('nonStock/finished',{purchases:purchases,curPage,financeUsers});
 });
 
 router.get('/add',  auth,async (req,res)=>{
@@ -27,10 +41,19 @@ router.get('/add',  auth,async (req,res)=>{
     let units = await unitModel.findAll();
 
     //last reference number
-    let lastPurchase = await nonStockModel.findOne({
+    let lastPurchase = await purchaseModel.findOne({
+        order: [ [ 'purchaseID', 'DESC' ]]
+    });
+
+    //last nonStock number
+    let lastNonStock = await nonStockModel.findOne({
         order: [ [ 'nonStockID', 'DESC' ]]
     });
-    let referenceNo = (lastPurchase && lastPurchase.referenceNo)?lastPurchase.referenceNo+1:1;
+
+    let referenceNoPurchase = (lastPurchase && lastPurchase.referenceNo)?lastPurchase.referenceNo+1:1;
+    let referenceNoNonStock = (lastNonStock && lastNonStock.referenceNo)?lastNonStock.referenceNo+1:1;
+    let referenceNo = (referenceNoPurchase >= referenceNoNonStock)?referenceNoNonStock:referenceNoNonStock;
+
     let data = {date : new Date(),LPODate: new Date(),referenceNo: referenceNo};
 
     res.render('nonStock/add',{suppliers:suppliers,curPage,data,warehouses,units});
@@ -58,6 +81,7 @@ router.post('/',auth,async (req,res)=> {
       purchase.LPONo = req.body.LPONo;
       purchase.LPODate = req.body.LPODate;
       purchase.warehouseID = req.body.warehouseID;
+      purchase.totalAmount = req.body.totalAmount;
       purchase.userID = req.session.user.userID;
       let result = await purchase.save();
       if(result) {
@@ -151,6 +175,7 @@ router.post('/',auth,async (req,res)=> {
           LPONo : req.body.LPONo,
           LPODate : req.body.LPODate,
           warehouseID : req.body.warehouseID,
+          totalAmount : req.body.totalAmount,
           userID : req.session.user.userID,
           itemNo : req.body.itemNo
 
@@ -233,7 +258,7 @@ router.get('/edit/:nonStockID', async (req,res)=>{
   res.render('nonStock/add',{data,suppliers,purchaseItems,curPage,editData:true,warehouses,units});
 });
 
-router.get('/view/:nonStockID', async (req,res)=>{
+router.get('/view_pop/:nonStockID', async (req,res)=>{
   nonStockModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
   nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
   nonStockModel.belongsTo(userModel, {foreignKey: 'userID'});
@@ -242,10 +267,56 @@ router.get('/view/:nonStockID', async (req,res)=>{
   nonStockItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
   let purchaseItems = await nonStockItemModel.findAll({ where: {nonStockID: req.params.nonStockID },
       include:[{model:unitModel,required:true}]});
-  let totalRecords =  await nonStockItemModel.findAndCountAll({ where: {nonStockID: req.params.nonStockID }});
-  let totalPage = Math.ceil(totalRecords.count/8);
 
-  res.render('nonStock/view',{data,purchaseItems,totalPage});
+
+  var financeUserName = "";
+  if(data.financeSign){
+      var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
+      financeUserName = financeUser.userName;
+  }
+
+
+  res.render('nonStock/view_pop',{data,purchaseItems,financeUserName});
+});
+
+router.get('/view/:nonStockID', async (req,res)=>{
+    nonStockModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
+    nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    nonStockModel.belongsTo(userModel, {foreignKey: 'userID'});
+    let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID },
+        include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+    nonStockItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
+    let purchaseItems = await nonStockItemModel.findAll({ where: {nonStockID: req.params.nonStockID },
+        include:[{model:unitModel,required:true}]});
+    let totalRecords =  await nonStockItemModel.findAndCountAll({ where: {nonStockID: req.params.nonStockID }});
+    let totalPage = Math.ceil(totalRecords.count/7);
+    let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
+
+    var financeUserName = "";
+    if(data.financeSign){
+        var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
+        financeUserName = financeUser.userName;
+    }
+
+
+    res.render('nonStock/view',{data,purchaseItems,totalPage,financeUsers,financeUserName});
+});
+
+router.get('/doFinanceSign/:nonStockID/', auth,async (req,res)=>{
+    let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID }});
+    data.financeSign = true;
+    await data.save();
+    res.redirect('/nonStock/view/'+req.params.nonStockID);
+
+});
+
+router.get('/doSign/:nonStockID/:financeUserID', auth,async (req,res)=>{
+    let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID }});
+    data.financeUserID = req.params.financeUserID;
+    data.storeSign = true;
+    await data.save();
+    res.redirect('/nonStock/view/'+req.params.nonStockID);
+
 });
 
 router.get('/search_item/:barcode',  async (req,res)=>{
@@ -253,6 +324,17 @@ router.get('/search_item/:barcode',  async (req,res)=>{
   let data = await itemModel.findOne({ where: {barcode: req.params.barcode },
            include:[{model:unitModel,required:true}]});
   res.send(data);
+});
+
+router.get('/checkSign/:nonStockID', auth,async (req,res)=>{
+    let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID }});
+    if(data.storeSign){
+        res.send(true)
+    }
+    else {
+        res.send(false)
+    }
+
 });
 
 

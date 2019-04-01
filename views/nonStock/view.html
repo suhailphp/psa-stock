@@ -14,16 +14,20 @@
     <!-- Set page size here: A5, A4 or A3 -->
     <!-- Set also "landscape" if you need -->
     <style>@page { size: A4 }</style>
+
+    <style>
+        article { margin-top: -2px !important; }
+        table { margin-top: -15px !important; }
+
+    </style>
+
 </head>
 
 <!-- Set "A5", "A4" or "A3" for class name -->
 <!-- Set also "landscape" if you need -->
 <body class="A4" dir="rtl">
 
-<style>
-    article { margin-top: -2px !important; }
-    table { margin-top: -15px !important; }
-</style>
+
 
 <!-- Each sheet element should have the class "sheet" -->
 <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
@@ -68,9 +72,28 @@
 
 
     <article style="position: absolute; bottom: 0;">
-        <article style="font-weight: bold"> <h> وردت بواسطة</h> <h style="float: left">يعتمد ""</h></article><br>
-        <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../data.user.userName}}&ActionName=userssignature" height="100px" >
-            <h style="float: left">.........................</h></article>
+        <article style="font-weight: bold"> <h> وردت بواسطة</h> <h style="float: left">يعتمد </h></article><br>
+
+        <article style="font-weight: bold">
+
+            {{#if ../data.storeSign}}
+            <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../data.user.userName}}&ActionName=userssignature" height="100px" >
+
+            {{#if ../data.financeSign}}
+            <img style="float: left" src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../financeUserName}}&ActionName=userssignature" height="100px" >
+            <img style="float: left" src="/images/finance.png" height="160px" >
+            {{else}}
+            {{#compare ../data.financeUserID "===" ../user.userID}}
+            <button style="float: left" name="financeSign" onclick="financeSign()" >التوقيع </button><br><br>
+            {{/compare}}
+            {{/if}}
+
+            {{else}}
+            {{#compare ../data.userID "===" ../user.userID}}
+            <button name="storeSign" onclick="storeSign()" >التوقيع </button><br><br>
+            {{/compare}}
+            {{/if}}
+        </article>
 
         <img src="/images/storefooter.jpg" width="720px;" >
     </article>
@@ -139,9 +162,10 @@
         </tbody>
 
             <tfoot>
-                <tr>
-                    <td colspan="2">Total Amount</td>
-                    <td colspan="4">AED : 2500</td>
+                <tr style="font-weight: bold">
+                    <td colspan="3"></td>
+                    <td colspan="2">إجمالي</td>
+                    <td >{{currencyFormat data.totalAmount}}</td>
                 </tr>
             </tfoot>
 
@@ -150,11 +174,32 @@
 
 
             <article style="position: absolute; bottom: 0;">
-                <article style="font-weight: bold"> <h> وردت بواسطة </h> <h style="float: left">يعتمد ""</h></article><br>
-                <article style="font-weight: bold"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
-                    <h style="float: left">.........................</h></article>
+                <article style="font-weight: bold"> <h> وردت بواسطة </h> <h style="float: left">يعتمد </h></article><br>
 
-                <img src="/images/storefooter.jpg" width="720px;" >
+                <article style="font-weight: bold">
+
+                    {{#if data.storeSign}}
+                    <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
+
+                        {{#if data.financeSign}}
+                    <img style="float: left" src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{financeUserName}}&ActionName=userssignature" height="100px" >
+                    <img style="float: left" src="/images/finance.png" height="160px" >
+                        {{else}}
+                        {{#compare data.financeUserID "===" user.userID}}
+                            <button style="float: left" name="financeSign" onclick="financeSign()" >التوقيع </button><br><br>
+                        {{/compare}}
+                        {{/if}}
+
+                    {{else}}
+                    {{#compare data.userID "===" user.userID}}
+                    <button name="storeSign" onclick="storeSign()" >التوقيع </button><br><br>
+                    {{/compare}}
+                    {{/if}}
+                </article>
+
+
+
+                    <img src="/images/storefooter.jpg" width="720px;" >
             </article>
 
 
@@ -180,3 +225,91 @@
 </body>
 
 {{/compare}}</html>
+
+
+
+<!-- Modal for add new sup -->
+<div id="SPModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content " id="SPModalContent">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" >التوقيع
+                </h5>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="form-wrap">
+                                    <form name="form one" method="post"  >
+
+                                        <div class="form-group">
+                                            <label class="control-label mb-10 text-left">المدير المالي
+                                            </label>
+                                            <select class="form-control"  name="financeUserID" id="financeUserID" required >
+                                                <option value="">يرجى اختيار
+                                                </option>
+
+                                                {{#each financeUsers}}
+                                                <option value="{{this.userID}}" >{{this.fullName}}</option>
+                                                {{/each}}
+
+
+                                            </select>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--End -->
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary btn-outline btn-icon left-icon" onclick="doStoreSign();">
+                    <i class="fa fa-user-plus"></i><span> إضافة التوقيع</span>
+                </button>
+                (بعد التوقيع لا يمكنك تعديل عملية الشراء
+                )
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{{>footer}}
+
+
+<script type="text/javascript">
+    function storeSign(){
+        $('#SPModal').modal('toggle');
+    }
+    function doStoreSign() {
+
+        let financeUserID = $('#financeUserID').val();
+        if(financeUserID == ""){
+            alert("Please chose the manager")
+        }
+        else{
+            window.location.replace("/nonStock/doSign/{{data.nonStockID}}/"+financeUserID);
+        }
+    }
+
+    function financeSign(){
+        if(confirm("هل أنت واثق")){
+            window.location.replace("/nonStock/doFinanceSign/{{data.nonStockID}}/");
+        }
+    }
+</script>

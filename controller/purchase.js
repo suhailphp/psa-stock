@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('express-fileupload');
 const {purchaseModel,validate} = require('../models/purchaseModel');
+const {nonStockModel} = require('../models/nonStockModel');
 const {purchaseItemModel} = require('../models/purchaseItemModel');
 const {unitModel} = require('../models/unitModel');
 const {userModel} = require('../models/userModel');
@@ -17,8 +18,16 @@ router.use(upload());
 
 router.get('/',auth,async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let purchases = await purchaseModel.findAll({include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
+    let purchases = await purchaseModel.findAll({where:{storeSign:false},
+        include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     res.render('purchase/list',{purchases:purchases,curPage});
+});
+
+router.get('/finished',auth,async (req,res)=>{
+    purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let purchases = await purchaseModel.findAll({where:{storeSign:true},
+        include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
+    res.render('purchase/finished',{purchases:purchases,curPage});
 });
 
 router.get('/add', auth, async (req,res)=>{
@@ -30,7 +39,16 @@ router.get('/add', auth, async (req,res)=>{
         order: [ [ 'purchaseID', 'DESC' ]]
     });
 
-    let referenceNo = (lastPurchase && lastPurchase.referenceNo)?lastPurchase.referenceNo+1:1;
+    //last reference number
+    let lastNonStock = await nonStockModel.findOne({
+        order: [ [ 'nonStockID', 'DESC' ]]
+    });
+
+    let referenceNoPurchase = (lastPurchase && lastPurchase.referenceNo)?lastPurchase.referenceNo+1:1;
+    let referenceNoNonStock = (lastNonStock && lastNonStock.referenceNo)?lastNonStock.referenceNo+1:1;
+
+    let referenceNo = (referenceNoPurchase >= referenceNoNonStock)?referenceNoNonStock:referenceNoNonStock;
+
     let data = {date : new Date(),LPODate: new Date(),referenceNo: referenceNo};
 
     res.render('purchase/add',{suppliers:suppliers,curPage,data,warehouses});
@@ -57,6 +75,7 @@ router.post('/', auth,async (req,res)=> {
         purchase.LPONo = req.body.LPONo;
         purchase.LPODate = req.body.LPODate;
         purchase.warehouseID = req.body.warehouseID;
+        purchase.totalAmount = req.body.totalAmount;
         purchase.userID = req.session.user.userID;
         let result = await purchase.save();
         if(result) {
@@ -155,6 +174,7 @@ router.post('/', auth,async (req,res)=> {
             LPONo : req.body.LPONo,
             LPODate : req.body.LPODate,
             warehouseID : req.body.warehouseID,
+            totalAmount : req.body.totalAmount,
             userID : req.session.user.userID,
             itemNo : req.body.itemNo
 
@@ -225,17 +245,49 @@ router.post('/', auth,async (req,res)=> {
 });
 
 router.get('/edit/:purchaseID', async (req,res)=>{
+
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
+
+    //check the store sign is finished
+    if(data.storeSign){
+        req.session.infoMsg = {code:'error',title:'تحرير غير ممكن',content:'بعد تحرير التوقيع غير ممكن'};
+        res.redirect('/purchase/finished')
+    }
+    else{
+        purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
+        purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
+        let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
+            include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
+        let suppliers = await supplierModel.findAll();
+        let warehouses = await warehouseModel.findAll();
+        res.render('purchase/add',{data,suppliers,purchaseItems,curPage,editData:true,warehouses});
+    }
+
+
+});
+
+
+router.get('/view_pop/:purchaseID', auth,async (req,res)=>{
+    purchaseModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
+    purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID },
+        include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
     purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
     purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
-                            include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
-    let suppliers = await supplierModel.findAll();
-    let warehouses = await warehouseModel.findAll();
-    res.render('purchase/add',{data,suppliers,purchaseItems,curPage,editData:true,warehouses});
+        include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
+
+    var financeUserName = "";
+    if(data.financeSign){
+        var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
+        financeUserName = financeUser.userName;
+    }
+
+    res.render('purchase/view_pop',{data,purchaseItems,financeUserName});
 });
 
-router.get('/view/:purchaseID', async (req,res)=>{
+router.get('/view/:purchaseID', auth,async (req,res)=>{
     purchaseModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
@@ -246,8 +298,45 @@ router.get('/view/:purchaseID', async (req,res)=>{
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
         include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
     let totalRecords =  await purchaseItemModel.findAndCountAll({ where: {purchaseID: req.params.purchaseID }});
-    let totalPage = Math.ceil(totalRecords.count/8);
-    res.render('purchase/view',{data,purchaseItems,totalPage});
+    let totalPage = Math.ceil(totalRecords.count/7);
+    let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
+
+    var financeUserName = "";
+    if(data.financeSign){
+        var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
+        financeUserName = financeUser.userName;
+    }
+
+    res.render('purchase/view',{data,purchaseItems,totalPage,financeUsers,financeUserName});
+});
+
+
+router.get('/doFinanceSign/:purchaseID/', auth,async (req,res)=>{
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
+    data.financeSign = true;
+    await data.save();
+    res.redirect('/purchase/view/'+req.params.purchaseID);
+
+});
+
+router.get('/doSign/:purchaseID/:financeUserID', auth,async (req,res)=>{
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
+    data.financeUserID = req.params.financeUserID;
+    data.storeSign = true;
+    await data.save();
+    res.redirect('/purchase/view/'+req.params.purchaseID);
+
+});
+
+router.get('/checkSign/:purchaseID', auth,async (req,res)=>{
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
+    if(data.storeSign){
+        res.send(true)
+    }
+    else {
+        res.send(false)
+    }
+
 });
 
 router.get('/search_item/:barcode',  async (req,res)=>{
