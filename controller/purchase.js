@@ -18,14 +18,14 @@ router.use(upload());
 
 router.get('/',auth,async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let purchases = await purchaseModel.findAll({where:{storeSign:false},
+    let purchases = await purchaseModel.findAll({where:{storeSign:false,userID:req.session.user.userID},
         include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     res.render('purchase/list',{purchases:purchases,curPage});
 });
 
 router.get('/finished',auth,async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let purchases = await purchaseModel.findAll({where:{storeSign:true},
+    let purchases = await purchaseModel.findAll({where:{storeSign:true,userID:req.session.user.userID},
         include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     res.render('purchase/finished',{purchases:purchases,curPage});
 });

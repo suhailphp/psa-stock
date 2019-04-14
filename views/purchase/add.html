@@ -294,7 +294,7 @@
                                                         <button type="button" class="btn btn-default" >إجمالي</button>
                                                     </div>
                                                     <input type="text" class="form-control" id="totalAmount" name="totalAmount"  style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
-                                                           value="{{#if data.totalAmount}}{{currencyFormat data.totalAmount}}{{/if}}">
+                                                           value="{{#if data.totalAmount}}{{currencyFormat data.totalAmount}}{{else}}0{{/if}}">
                                                 </div>
                                             </div>
 

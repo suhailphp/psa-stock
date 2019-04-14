@@ -70,11 +70,11 @@
 
         <article style="font-weight: bold">
 
-            {{#if data.storeSign}}
-            <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
+            {{#if ../data.storeSign}}
+            <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../data.user.userName}}&ActionName=userssignature" height="100px" >
 
-            {{#if data.financeSign}}
-            <img style="float: left" src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{financeUserName}}&ActionName=userssignature" height="100px" >
+            {{#if ../data.financeSign}}
+            <img style="float: left" src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{../financeUserName}}&ActionName=userssignature" height="100px" >
             <img style="float: left" src="/images/finance.png" height="160px" >
             {{else}}
             {{#compare data.financeUserID "===" user.userID}}
