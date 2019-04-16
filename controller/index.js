@@ -21,7 +21,7 @@ router.get('/',auth,async (req,res)=>{
 
     let totalIssues = await issueModel.count({
         where: {
-            date: {
+            createdOn: {
                 $gte: moment().subtract(1, 'days').toDate()
             }
         }
@@ -30,7 +30,7 @@ router.get('/',auth,async (req,res)=>{
 
     let Purcahse = await purchaseModel.count({
         where: {
-            date: {
+            createdOn: {
                 $gte: moment().subtract(1, 'days').toDate()
             }
         }
@@ -38,7 +38,7 @@ router.get('/',auth,async (req,res)=>{
 
     let nonStock = await nonStockModel.count({
         where: {
-            date: {
+            createdOn: {
                 $gte: moment().subtract(1, 'days').toDate()
             }
         }
