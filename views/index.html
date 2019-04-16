@@ -21,82 +21,86 @@
         <div class="container-fluid pt-25">
 
 
-
-
-
             <!-- Row -->
             <div class="row">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-
-                    <iframe src="/menu" frameborder="0" style="width: 100%; height: 600px;"></iframe>
-
-                </div>
-
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-
-
-                        <img src="images/homeleft.jpg" style=" width:500px; height:600px;" alt="">
-
-                </div>
-
-            </div>
-            <!-- /Row -->
-            <!-- Row -->
-
-
-
-
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="panel panel-refresh">
-                        <div class="refresh-container">
-                            <div class="la-anim-1"></div>
-                        </div>
-                        <div class="panel-heading">
-                            <div class="pull-left">
-                                <h6 class="panel-title txt-dark">آخر خمس قضايا</h6>
-                            </div>
-                            <div class="pull-right">
-
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
                         <div class="panel-wrapper collapse in">
-                            <div class="panel-body row pa-0">
-                                <div class="table-wrap">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover mb-0">
-                                            <thead>
-                                            <tr>
-                                                <th>تاريخ</th>
-                                                <th>نوع</th>
-                                                <th>إلى</th>
-                                                <th>عمل</th>
-
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {{#each issues }}
-                                            <tr>
-                                                <td>{{dateToStringDate this.date}}</td>
-                                                <td>{{#compare this.type '==' 'staff'}}العاملين{{else}}القسم{{/compare}}</td>
-                                                <td>{{#compare this.type '==' 'staff'}}{{this.staff.name}}{{else}}{{this.department.name}}{{/compare}}</td>
-                                                <td class="text-nowrap">
-
-                                                    <a href="/issue/edit/{{this.issueID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
-                                                        <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                 </td>
-
-                                            {{else}}
-
-                                            <tr id="0">
-                                                <td colspan="2" align="center">No data found</td>
-                                            </tr>
-
-                                            {{/each}}
-
-                                            </tbody>
-                                        </table>
+                            <div class="panel-body pa-0">
+                                <div class="sm-data-box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
+                                                <span class="txt-dark block counter"><span class="counter-anim">{{totalPurchase}}</span></span>
+                                                <span class="weight-500 uppercase-font block font-13">  سند ايراد اليوم</span>
+                                            </div>
+                                            <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
+                                                <i class="icon-list data-right-rep-icon txt-light-grey"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body pa-0">
+                                <div class="sm-data-box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
+                                                <span class="txt-dark block counter"><span class="counter-anim">{{totalIssue}}</span></span>
+                                                <span class="weight-500 uppercase-font block">سند صرف اليوم</span>
+                                            </div>
+                                            <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
+                                                <i class="icon-control-rewind data-right-rep-icon txt-light-grey"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body pa-0">
+                                <div class="sm-data-box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
+                                                <span class="txt-dark block counter"><span class="counter-anim">{{totalItem}}</span></span>
+                                                <span class="weight-500 uppercase-font block">مجموع البنود</span>
+                                            </div>
+                                            <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
+                                                <i class="icon-layers data-right-rep-icon txt-light-grey"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body pa-0">
+                                <div class="sm-data-box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
+                                                <span class="txt-dark block counter"><span class="counter-anim">{{totalUser}}</span></span>
+                                                <span class="weight-500 uppercase-font block">مجموع المستخدمين</span>
+                                            </div>
+                                            <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
+                                                <i class="icon-user data-right-rep-icon txt-light-grey"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -104,9 +108,210 @@
                     </div>
                 </div>
             </div>
+            <!-- /Row -->
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default card-view panel-refresh">
+                        <div class="refresh-container">
+                            <div class="la-anim-1"></div>
+                        </div>
+                        <div class="panel-heading">
+                            <div class="pull-left">
+                                <h6 class="panel-title txt-dark">قائمة المستودعات</h6>
+                        </div>
+                            <div class="pull-right">
+                                <a href="#" class="pull-left inline-block refresh mr-15">
+                                    <i class="zmdi zmdi-replay"></i>
+                                </a>
+                                <div class="pull-left inline-block dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert"></i></a>
+                                    <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
+                                        <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Devices</a></li>
+                                        <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>General</a></li>
+                                        <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>Referral</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div id="e_chart_2" class="" style="height:215px;"></div>
+                                <hr class="light-grey-hr row mt-10 mb-15"/>
+                                <div class="label-chatrs">
+                                    <div class="">
+                                        <span class="clabels clabels-lg inline-block bg-purple mr-10 pull-left"></span>
+                                        <span class="clabels-text font-12 inline-block txt-dark capitalize-font pull-left"><span class="block font-15 weight-500 mb-5">المستودعات</span><span class="block txt-grey">356 سند ايراد</span></span>
+                                        <div id="sparkline_1" class="pull-right" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <hr class="light-grey-hr row mt-10 mb-15"/>
+                                <div class="label-chatrs">
+                                    <div class="">
+                                        <span class="clabels clabels-lg inline-block bg-yellow mr-10 pull-left"></span>
+                                        <span class="clabels-text font-12 inline-block txt-dark capitalize-font pull-left"><span class="block font-15 weight-500 mb-5">التموين والاعاشة	</span><span class="block txt-grey">36 سند ايراد</span></span>
+                                        <div id="sparkline_2" class="pull-right" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <hr class="light-grey-hr row mt-10 mb-15"/>
+                                <div class="label-chatrs">
+                                    <div class="">
+                                        <span class="clabels clabels-lg inline-block bg-red mr-10 pull-left"></span>
+                                        <span class="clabels-text font-12 inline-block txt-dark capitalize-font pull-left"><span class="block font-15 weight-500 mb-5">قسم تقنية المعلومات</span><span class="block txt-grey">245 سند ايراد</span></span>
+                                        <div id="sparkline_3" class="pull-right" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-        </div>
+
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default card-view panel-refresh">
+                        <div class="refresh-container">
+                            <div class="la-anim-1"></div>
+                        </div>
+                        <div class="panel-heading">
+                            <div class="pull-left">
+                                <h6 class="panel-title txt-dark">تاريخ المشتريات</h6>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="pull-left inline-block refresh mr-15">
+                                    <i class="zmdi zmdi-replay"></i>
+                                </a>
+                                <a href="#" class="pull-left inline-block full-screen mr-15">
+                                    <i class="zmdi zmdi-fullscreen"></i>
+                                </a>
+                                <div class="pull-left inline-block dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert"></i></a>
+                                    <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
+                                        <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Devices</a></li>
+                                        <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>General</a></li>
+                                        <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>Referral</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div id="e_chart_1" class="" style="height:313px;"></div>
+                                <ul class="flex-stat mt-40">
+                                    <li>
+                                        <span class="block">Weekly Users</span>
+                                        <span class="block txt-dark weight-500 font-18"><span class="counter-anim">3,24,222</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="block">Monthly Users</span>
+                                        <span class="block txt-dark weight-500 font-18"><span class="counter-anim">1,23,432</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="block">Trend</span>
+                                        <span class="block">
+												<i class="zmdi zmdi-trending-up txt-success font-24"></i>
+											</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+            <!--&lt;!&ndash; Row &ndash;&gt;-->
+            <!--<div class="row">-->
+                <!--<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">-->
+
+                    <!--<iframe src="/menu" frameborder="0" style="width: 100%; height: 600px;"></iframe>-->
+
+                <!--</div>-->
+
+                <!--<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">-->
+
+
+                        <!--<img src="images/homeleft.jpg" style=" width:500px; height:600px;" alt="">-->
+
+                <!--</div>-->
+
+            <!--</div>-->
+            <!--&lt;!&ndash; /Row &ndash;&gt;-->
+            <!--&lt;!&ndash; Row &ndash;&gt;-->
+
+
+
+
+            <!--<div class="row">-->
+                <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
+                    <!--<div class="panel panel-refresh">-->
+                        <!--<div class="refresh-container">-->
+                            <!--<div class="la-anim-1"></div>-->
+                        <!--</div>-->
+                        <!--<div class="panel-heading">-->
+                            <!--<div class="pull-left">-->
+                                <!--<h6 class="panel-title txt-dark">آخر خمس قضايا</h6>-->
+                            <!--</div>-->
+                            <!--<div class="pull-right">-->
+
+                            <!--</div>-->
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                        <!--<div class="panel-wrapper collapse in">-->
+                            <!--<div class="panel-body row pa-0">-->
+                                <!--<div class="table-wrap">-->
+                                    <!--<div class="table-responsive">-->
+                                        <!--<table class="table table-hover mb-0">-->
+                                            <!--<thead>-->
+                                            <!--<tr>-->
+                                                <!--<th>تاريخ</th>-->
+                                                <!--<th>نوع</th>-->
+                                                <!--<th>إلى</th>-->
+                                                <!--<th>عمل</th>-->
+
+                                            <!--</tr>-->
+                                            <!--</thead>-->
+                                            <!--<tbody>-->
+                                            <!--{{#each issues }}-->
+                                            <!--<tr>-->
+                                                <!--<td>{{dateToStringDate this.date}}</td>-->
+                                                <!--<td>{{#compare this.type '==' 'staff'}}العاملين{{else}}القسم{{/compare}}</td>-->
+                                                <!--<td>{{#compare this.type '==' 'staff'}}{{this.staff.name}}{{else}}{{this.department.name}}{{/compare}}</td>-->
+                                                <!--<td class="text-nowrap">-->
+
+                                                    <!--<a href="/issue/edit/{{this.issueID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">-->
+                                                        <!--<i class="fa fa-pencil text-inverse m-r-10"></i> </a>-->
+                                                 <!--</td>-->
+
+                                            <!--{{else}}-->
+
+                                            <!--<tr id="0">-->
+                                                <!--<td colspan="2" align="center">No data found</td>-->
+                                            <!--</tr>-->
+
+                                            <!--{{/each}}-->
+
+                                            <!--</tbody>-->
+                                        <!--</table>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+        <!--</div>-->
 
         {{>footer}}
 
