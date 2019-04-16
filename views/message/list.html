@@ -92,6 +92,19 @@
 
                                                     <a href="/message/view/{{this.id}}/{{this.type}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-print text-inverse m-r-10"></i> </a>
+
+                                                    {{#compare this.attachment '!=' NULL}}
+
+                                                    <a href="/{{this.attachment}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Attachments">
+                                                        <i class="fa fa-file text-inverse m-r-10"></i> </a>
+
+                                                    {{else}}
+
+                                                    <a href="#"  class="mr-25" data-toggle="tooltip" data-original-title="Null">
+                                                        <i class="fa fa-stop text-inverse m-r-10"></i> </a>
+
+                                                    {{/compare}}
+
                                                 </td>
 
                                             </tr>

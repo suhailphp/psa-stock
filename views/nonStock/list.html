@@ -92,14 +92,32 @@
 
                                                 <td class="text-nowrap">
 
-                                                    <a href="/nonStock/view/{{this.nonStockID}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                    <a href="/nonStock/view/{{this.nonStockID}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="View">
                                                         <i class="fa fa-print text-inverse m-r-10"></i> </a>
+
+                                                    {{#compare this.attachment '!=' NULL}}
+
+                                                    <a href="/{{this.attachment}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Attachments">
+                                                        <i class="fa fa-file text-inverse m-r-10"></i> </a>
+
+                                                    {{else}}
+
+                                                    <a href="#"  class="mr-25" data-toggle="tooltip" data-original-title="Null">
+                                                        <i class="fa fa-stop text-inverse m-r-10"></i> </a>
+
+                                                    {{/compare}}
+
 
                                                     <a href="/nonStock/edit/{{this.nonStockID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
 
                                                     <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.nonStockID}}');">
-                                                        <i class="fa fa-close text-danger"></i> </a> </td>
+                                                        <i class="fa fa-close text-danger"></i> </a>
+
+
+
+
+                                                </td>
                                             </tr>
 
                                             {{else}}
