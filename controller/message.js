@@ -190,7 +190,7 @@ router.get('/finFinished',auth,async (req,res)=>{
 });
 
 
-router.get('/finPrint',async (req,res)=>{
+router.get('/finPrint',auth,async (req,res)=>{
 
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     let purchases = await purchaseModel.findAll({where:{storeSign:true,financeSign:true},
@@ -232,7 +232,7 @@ router.get('/finPrint',async (req,res)=>{
     //res.send(newData);exit;
 
 
-    res.render('message/list',{purchases:newData,curPage});
+    res.render('message/list',{purchases:newData,curPage:'finPrint'});
 });
 
 
