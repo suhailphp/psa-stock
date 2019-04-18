@@ -190,6 +190,54 @@ router.get('/finFinished',auth,async (req,res)=>{
 });
 
 
+router.get('/finPrint',async (req,res)=>{
+
+    purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let purchases = await purchaseModel.findAll({where:{storeSign:true,financeSign:true},
+        include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
+    nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let nonStocks = await nonStockModel.findAll({where:{storeSign:true,financeSign:true},
+        include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
+
+    var data = [];
+
+    for (const key in purchases) {
+        let element = {};
+        let value = purchases[key];
+        element.id= value.purchaseID;
+        element.referenceNo= value.referenceNo;
+        element.billNo= value.billNo;
+        element.date= value.date;
+        element.supplierName= value.supplier.name;
+        element.type='purchase';
+        element.attachment =value.attachment;
+        data.push(element);
+    }
+
+    for (const key in nonStocks) {
+        let element = {};
+        let value = nonStocks[key];
+        element.id= value.nonStockID;
+        element.referenceNo= value.referenceNo;
+        element.billNo= value.billNo;
+        element.date= value.date;
+        element.supplierName= value.supplier.name;
+        element.type='nonStock';
+        element.attachment =value.attachment;
+
+        data.push(element);
+    }
+
+    let newData = data.sort(dynamicSort("referenceNo"));
+    //res.send(newData);exit;
+
+
+    res.render('message/list',{purchases:newData,curPage});
+});
+
+
+
+
 
 
 
@@ -309,3 +357,18 @@ router.get('/view/:id/:type', async (req,res)=>{
 
 
 module.exports = router;
+
+
+
+
+function dynamicSort(property) {
+    var sortOrder = -1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
