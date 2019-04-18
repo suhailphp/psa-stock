@@ -83,6 +83,7 @@ router.get('/finished',auth,async (req,res)=>{
         element.date= value.date;
         element.supplierName= value.supplier.name;
         element.type='purchase';
+        element.attachment =value.attachment;
         data.push(element);
     }
 
@@ -95,6 +96,7 @@ router.get('/finished',auth,async (req,res)=>{
         element.date= value.date;
         element.supplierName= value.supplier.name;
         element.type='nonStock';
+        element.attachment =value.attachment;
 
         data.push(element);
     }
@@ -122,6 +124,7 @@ router.get('/finInbox',auth,async (req,res)=>{
         element.date= value.date;
         element.supplierName= value.supplier.name;
         element.type='purchase';
+        element.attachment =value.attachment;
         data.push(element);
     }
 
@@ -134,6 +137,7 @@ router.get('/finInbox',auth,async (req,res)=>{
         element.date= value.date;
         element.supplierName= value.supplier.name;
         element.type='nonStock';
+        element.attachment =value.attachment;
 
         data.push(element);
     }
@@ -164,6 +168,7 @@ router.get('/finFinished',auth,async (req,res)=>{
         element.date= value.date;
         element.supplierName= value.supplier.name;
         element.type='purchase';
+        element.attachment =value.attachment;
         data.push(element);
     }
 
@@ -176,6 +181,7 @@ router.get('/finFinished',auth,async (req,res)=>{
         element.date= value.date;
         element.supplierName= value.supplier.name;
         element.type='nonStock';
+        element.attachment =value.attachment;
 
         data.push(element);
     }
