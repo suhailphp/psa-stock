@@ -89,7 +89,6 @@
         <tr id="MU{{this.itemSl}}">
 
             <td style="width: 2%;">{{countOne @index}}</td>
-            <td> {{#compare ../type '==' 'purchase'}}{{this.item.barcode}}{{else}}{{this.barcode}}{{/compare}} </td>
             <td> {{#compare ../type '==' 'purchase'}}{{this.item.name}}{{else}}{{this.itemName}}{{/compare}} </td>
             <td style="width: 10%;">{{this.unit.name}}</td>
             <td style="width: 8%;">{{this.quantity}}</td>
