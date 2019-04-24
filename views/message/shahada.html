@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+
+
+    <style>
+        article { margin-top: -2px !important; }
+        table { margin-top: -15px !important; }
+    </style>
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4" dir="rtl">
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="720px;">
+
+
+
+    <br>
+    <br>
+
+    <article style="align-content: right;font-size: 14px;font-weight: bold;text-align: right;">
+         التاريخ : {{ dateNormal data.date}}
+    </article>
+
+    <br>
+    <br>
+
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;">الموضوع: شهادة إنجاز
+    </article>
+
+    <br>
+    <br>
+
+
+
+    <article style="align-content: right;font-size: 14px;font-weight: bold;text-align: right;">
+        نرفق لسعادتكم فاتورة رقم ({{data.LPONo}})  بتاريخ {{ dateNormal data.date}}  بقيمة ({{currencyFormat data.totalAmount}} درهم)
+        من قبل {{data.supplier.name}}
+
+    </article>
+<br>
+    <article style="align-content: right;font-size: 14px;font-weight: bold;text-align: right;">
+        عبارة
+    </article>
+
+
+
+
+
+
+
+
+<br><br>
+
+    <table  class="table table-bordered">
+
+        <tbody>
+
+        {{#each purchaseItems}}
+
+        {{#checkRowEight @index}}
+            {{break}}
+        {{/checkRowEight}}
+
+        <!-- check the page is more than ten items -->
+
+
+
+        <tr id="MU{{this.itemSl}}">
+
+            <td style="width: 2%;">{{countOne @index}}</td>
+            <td> {{#compare ../type '==' 'purchase'}}{{this.item.barcode}}{{else}}{{this.barcode}}{{/compare}} </td>
+            <td> {{#compare ../type '==' 'purchase'}}{{this.item.name}}{{else}}{{this.itemName}}{{/compare}} </td>
+            <td style="width: 10%;">{{this.unit.name}}</td>
+            <td style="width: 8%;">{{this.quantity}}</td>
+            <td style="width: 10%;">{{arabicLetter this.quantity}}</td>
+        </tr>
+        {{/each}}
+
+
+
+        </tbody>
+
+
+
+
+
+
+    </table>
+
+
+    <br>
+    <article style="align-content: right;font-size: 14px;font-weight: bold;text-align: right;">
+        هذا ونود أن نؤكد بأن شركة {{data.supplier.name}} قامت بعمل اللازم حسب الأصول
+    </article>
+
+
+    <article style="position: absolute; bottom: 0;">
+        <article style="font-weight: bold"> <h> وردت بواسطة </h> <h style="float: left">يعتمد </h></article><br>
+
+
+        <article style="font-weight: bold">
+
+            {{#if data.storeSign}}
+                <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
+
+                {{#if data.financeSign}}
+            <img style="float: left" src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{financeUserName}}&ActionName=userssignature" height="100px" >
+
+                {{/if}}
+
+
+            {{/if}}
+
+
+
+            </article>
+
+        <img src="/images/storefooter.jpg" width="720px;" >
+    </article>
+
+
+</section>
+
+
+
+</body>
+
+</html>
+
+<!--{{#compare data.attachment '!=' NULL}}-->
+<!--<body class="A4" dir="rtl">-->
+
+<!--&lt;!&ndash; Each sheet element should have the class "sheet" &ndash;&gt;-->
+<!--&lt;!&ndash; "padding-**mm" is optional: you can set 10, 15, 20 or 25 &ndash;&gt;-->
+<!--<section class="sheet padding-10mm">-->
+
+    <!--&lt;!&ndash; Write HTML just like a web page &ndash;&gt;-->
+    <!--<img src="/{{data.attachment}}" width="720px;">-->
+
+
+<!--</section>-->
+
+<!--</body>-->
+
+<!--{{/compare}}-->
+
+
+
+
+
+<!-- Modal for add new sup -->
+<div id="SPModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content " id="SPModalContent">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" >التوقيع
+                </h5>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="form-wrap">
+                                    <form name="form one" method="post"  >
+
+                                        <div class="form-group">
+                                            <label class="control-label mb-10 text-left">المدير المالي
+                                            </label>
+                                            <select class="form-control"  name="financeUserID" id="financeUserID" required >
+                                                <option value="">يرجى اختيار
+                                                </option>
+
+                                                {{#each financeUsers}}
+                                                    <option value="{{this.userID}}" >{{this.fullName}}</option>
+                                                {{/each}}
+
+
+                                            </select>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--End -->
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary btn-outline btn-icon left-icon" onclick="doStoreSign();">
+                    <i class="fa fa-user-plus"></i><span> إضافة التوقيع</span>
+                </button>
+                (بعد التوقيع لا يمكنك تعديل عملية الشراء
+                )
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{{>footer}}
+
+
+<script type="text/javascript">
+
+    
+    function financeSign(type){
+
+        var id = (type == 'purchase')?'{{data.purchaseID}}':'{{data.nonStockID}}';
+        if(confirm("هل أنت واثق")){
+            window.location.replace("/message/doFinanceSign/"+id+"/"+type);
+        }
+    }
+</script>
+

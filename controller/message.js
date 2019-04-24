@@ -353,6 +353,54 @@ router.get('/view/:id/:type', async (req,res)=>{
 
 });
 
+router.get('/shahada/:id/:type', async (req,res)=>{
+
+    if(req.params.type == 'purchase'){
+        purchaseModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
+        purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+        purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
+        let data = await purchaseModel.findOne({ where: {purchaseID: req.params.id },
+            include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+        purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
+        purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
+        let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.id },
+            include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
+        let totalRecords =  await purchaseItemModel.findAndCountAll({ where: {purchaseID: req.params.id }});
+        let totalPage = Math.ceil(totalRecords.count/7);
+        let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
+
+        var financeUserName = "";
+        if(data.financeSign){
+            var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
+            financeUserName = financeUser.userName;
+        }
+        res.render('message/shahada',{data,purchaseItems,totalPage,financeUsers,financeUserName,type:req.params.type});
+    }
+    else{
+        nonStockModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
+        nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+        nonStockModel.belongsTo(userModel, {foreignKey: 'userID'});
+        let data = await nonStockModel.findOne({ where: {nonStockID: req.params.id },
+            include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+        nonStockItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
+        let purchaseItems = await nonStockItemModel.findAll({ where: {nonStockID: req.params.id },
+            include:[{model:unitModel,required:true}]});
+        let totalRecords =  await nonStockItemModel.findAndCountAll({ where: {nonStockID: req.params.id }});
+        let totalPage = Math.ceil(totalRecords.count/7);
+        let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
+
+        var financeUserName = "";
+        if(data.financeSign){
+            var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
+            financeUserName = financeUser.userName;
+        }
+
+
+        res.render('message/shahada',{data,purchaseItems,totalPage,financeUsers,financeUserName,type:req.params.type});
+    }
+
+});
+
 
 
 
