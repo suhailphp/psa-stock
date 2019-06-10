@@ -5,6 +5,7 @@ const _ = require('underscore');
 const {itemModel} = require('../models/itemModel');
 const {purchaseItemModel} = require('../models/purchaseItemModel');
 const {purchaseModel} = require('../models/purchaseModel');
+const {nonStockModel} = require('../models/nonStockModel');
 const {issueItemModel} = require('../models/issueItemModel');
 const {issueModel} = require('../models/issueModel');
 const {returnItemModel} = require('../models/returnItemModel');
@@ -17,7 +18,7 @@ const helper = require('../utilities/helper');
 
 const curPage = 'report';
 
-router.get('/item', async (req,res)=>{
+router.get('/item', auth, async (req,res)=>{
     let items = await itemModel.findAll();
     res.render('report/item',{curPage,items});
 });
@@ -75,6 +76,61 @@ router.get('/item_report/:itemID', async (req,res)=>{
     //console.log(resArray)
    // resArray = _.sortBy(resArray,'createdOn').reverse();
     res.send(resArray);
+});
+
+
+router.get('/purchase', auth,async (req,res)=>{
+
+
+    var where = '';
+
+    if(req.session.user.userRole == 'allStore'){
+        where = {warehouseID:'1'};
+    }
+    else if(req.session.user.userRole == 'storeUser'){
+        where = {warehouseID:'99966'};
+    }
+
+
+
+
+
+    purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let purchases = await purchaseModel.findAll({where,
+        include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
+    nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let nonStocks = await nonStockModel.findAll({where:{},
+        include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
+
+    var data = [];
+
+    for (const key in purchases) {
+        let element = {};
+        let value = purchases[key];
+        element.id= value.purchaseID;
+        element.referenceNo= value.referenceNo;
+        element.billNo= value.billNo;
+        element.date= value.date;
+        element.supplierName= value.supplier.name;
+        element.type='purchase';
+        element.attachment =value.attachment;
+        data.push(element);
+    }
+
+    for (const key in nonStocks) {
+        let element = {};
+        let value = nonStocks[key];
+        element.id= value.nonStockID;
+        element.referenceNo= value.referenceNo;
+        element.billNo= value.billNo;
+        element.date= value.date;
+        element.supplierName= value.supplier.name;
+        element.type='nonStock';
+        element.attachment =value.attachment;
+
+        data.push(element);
+    }
+    res.render('report/purchase',{curPage,data,totalPurchase:data.length});
 });
 
 
