@@ -84,7 +84,7 @@ router.get('/purchase', auth,async (req,res)=>{
 
     var where = '';
 
-    if(req.session.user.userRole == 'allStore'){
+    if(req.session.user.userRole == 'AllStore'){
         where = {warehouseID:'1'};
     }
     else {
