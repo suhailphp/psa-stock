@@ -99,7 +99,7 @@ router.get('/purchase', auth,async (req,res)=>{
     let purchases = await purchaseModel.findAll({where,
         include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let nonStocks = await nonStockModel.findAll({where:{},
+    let nonStocks = await nonStockModel.findAll({where,
         include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
 
     var data = [];
