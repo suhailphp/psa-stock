@@ -88,7 +88,7 @@ router.get('/purchase', auth,async (req,res)=>{
         where = {warehouseID:'1'};
     }
     else {
-        where = '';
+        where = {userID:req.session.userID};
     }
 
 
