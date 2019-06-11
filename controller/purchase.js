@@ -25,8 +25,9 @@ router.get('/',auth,async (req,res)=>{
 
 router.get('/finished',auth,async (req,res)=>{
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    purchaseModel.belongsTo(userModel, {foreignKey: 'financeUserID'});
     let purchases = await purchaseModel.findAll({where:{storeSign:true,userID:req.session.user.userID},
-        include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
+        include:[{model:supplierModel,required:true},{model:userModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
     res.render('purchase/finished',{purchases:purchases,curPage});
 });
 
