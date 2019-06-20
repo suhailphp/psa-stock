@@ -94,6 +94,11 @@ module.exports = {
         return Math.ceil(number/7);
     },
 
+    checkPageNumberIssue:function(number){
+        number = number+1;
+        return Math.ceil(number/6);
+    },
+
     dateToStringTime: function (date) {
         return date.toLocaleTimeString();
     },
