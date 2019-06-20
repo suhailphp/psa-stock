@@ -131,11 +131,7 @@
             <th style="width: 15%">كتابة</th>
 
         </tr>
-        <tr>
 
-
-
-        </tr>
         </thead>
         <tbody>
         {{/checkRowEight}}
@@ -296,10 +292,20 @@
 
 
 <script type="text/javascript">
+
+    window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+    }
+
+
     function storeSign(){
-       $('#SPModal').modal('toggle');
+        //location.reload();
+        $('#SPModal').modal('toggle');
     }
     function doStoreSign() {
+
+        location.reload();
 
         let financeUserID = $('#financeUserID').val();
         if(financeUserID == ""){

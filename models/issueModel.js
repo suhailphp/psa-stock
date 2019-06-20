@@ -40,6 +40,21 @@ let issueModel = db.define('issue', {
     active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
+    },
+    userID: {
+        type: Sequelize.INTEGER
+    },
+    warehouseID: {
+        type: Sequelize.INTEGER
+    },
+    idaraID: {
+        type: Sequelize.INTEGER
+    },
+    traslNO: {
+        type: Sequelize.STRING(255)
+    },
+    description:{
+        type: Sequelize.STRING(255)
     }
 });
 
@@ -60,7 +75,10 @@ function validate(req){
         ItemSearch: Joi.string().allow(''),
         itemID: Joi.array().allow(''),
         itemSl: Joi.array().allow(''),
-        quantity: Joi.array().allow('')
+        quantity: Joi.array().allow(''),
+        idaraID: Joi.string().allow(''),
+        traslNO: Joi.string().allow(''),
+        description: Joi.string().allow('')
     };
 
     return Joi.validate(req, schema);

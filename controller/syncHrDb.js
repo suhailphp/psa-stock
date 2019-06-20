@@ -77,11 +77,15 @@ function addStaff() {
         let staff = await getEmpDataFromHR();
 
         staff.forEach((st)=>{
+
+
             staffAr.push({
                 militaryNo : st.MilitaryNo,
                 name : st.Emp_Name,
                 rank : st.Grade_Ar,
-                departmentID : st.Section
+                departmentID : st.Section,
+                userName: st.Emp_Email.substring(0, st.Emp_Email.lastIndexOf("@"))
+
             });
         });
 

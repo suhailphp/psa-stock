@@ -119,6 +119,34 @@
 
                                             </div>
 
+                                            <div class="col-sm-3">
+                                                <div class="form-group" >
+                                                <label class="control-label mb-10">إلى</label>
+                                                <select class="form-control select2" name="idaraID" id="idaraID" required="required" >
+
+                                                    <option value="">اختار</option>
+                                                    {{#each idara}}
+                                                    <option value="{{this.idaraID}}" {{#compare this.idaraID '==' ../data.idaraID}}selected{{/compare}}>{{this.name}}</option>
+                                                    {{/each}}
+
+
+                                                </select>
+                                            </div>
+
+                                            </div>
+
+                                <div class="col-sm-3">
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 text-left">بموجب طلب صرف مواد / كتاب رقم </label>
+                                        <input type="text" name="traslNO" id="traslNO" required="required"  class="form-control"
+                                               value="{{#if data.traslNO}}{{ data.traslNO}}{{/if}}" >
+                                    </div>
+
+                                </div>
+
 
 
 
@@ -209,7 +237,15 @@
 
 
 
+                                            <div class="col-sm-6 ">
 
+                                                <div class="form-group">
+
+                                                    <textarea name="description" placeholder="ملاحظات" class="form-control">{{#if data.description}}{{ data.description}}{{/if}}</textarea>
+                                                </div>
+
+
+                                            </div>
 
 
                                             <div class="col-sm-2 pull-right">

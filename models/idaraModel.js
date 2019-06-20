@@ -4,21 +4,15 @@ const db = require('../config/dbConnection');
 const config = require('../config/app');
 
 
-let staffModel = db.define('staff', {
+let idaraModel = db.define('idara', {
 
-    militaryNo:{
+    idaraID:{
         type: Sequelize.INTEGER,
         autoIncrement : true,
         primaryKey: true
     },
     name: {
         type: Sequelize.STRING(255)
-    },
-    rank: {
-        type: Sequelize.STRING(255)
-    },
-    departmentID: {
-        type: Sequelize.INTEGER
     },
     createdOn: {
         type: Sequelize.DATE,
@@ -31,17 +25,15 @@ let staffModel = db.define('staff', {
     active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
-    },
-    userName:{
-        type: Sequelize.STRING(255)
     }
 });
 
 
 if (config.DB['SYNC']) {
-    staffModel.sync({force: config.DB['SYNC_FORCE']});
+    idaraModel.sync({force: config.DB['SYNC_FORCE']});
 }
 
 
-exports.staffModel = staffModel;
+
+exports.idaraModel = idaraModel;
 

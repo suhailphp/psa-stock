@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+
+
+    <style>
+        article { margin-top: -2px !important; }
+        table { margin-top: -15px !important; }
+    </style>
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4" dir="rtl">
+
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="720px;">
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;">سند صرف  محلي</article>
+    <article style="align-content: center;font-size: 18px;font-weight: bold;text-align: center;"> رقم : <h style="color: red !important;font-weight: normal">{{numberFourDigit data.issueID}}</h>
+        <h style="font-weight: normal;float: left;font-size: 10px;">(1/{{totalPage}})</h></article>
+
+
+    <article style="font-weight: bold;text-align: left"> <h >مستودع :{{ data.warehouse.name}}</h></article><br>
+    <article style="font-weight: bold;text-align: left"> <h > تم توريد وإضافة المواد الموضحة ادناه بتاريخ :{{ dateNormal data.date}}</h></article>
+
+
+    <article style="font-weight: bold;text-align: right"> <h >إ لي : {{ data.idara.name}}</h></article><br>
+    <article style="font-weight: bold;text-align: right"> <h > بموجب طلب صرف مواد / كتاب رقم :{{ data.traslNO}}</h>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <h> بتاريخ :{{ dateNormal data.date}}</h></article>
+    <br>
+
+
+
+
+
+
+    <br>
+    <br>
+
+    <table  class="table table-bordered">
+        <thead>
+        <tr style="height: 10px;">
+            <th >م</th>
+            <th width="15%">الحرف ولرقم</th>
+            <th > النوع</th>
+            <th >الوحدة</th>
+            <th style="width: 10%">رقماً</th>
+            <th style="width: 15%">كتابة</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {{#each issueItems}}
+
+
+        <tr id="MU{{this.itemSl}}">
+
+            <td style="width: 2%;">{{countOne @index}}</td>
+            <td> {{this.item.barcode}} </td>
+            <td> {{this.item.name}} </td>
+            <td style="width: 10%;">{{this.unit.name}}</td>
+            <td style="width: 8%;">{{this.quantity}}</td>
+            <td style="width: 10%;">{{arabicLetter this.quantity}}</td>
+        </tr>
+
+
+        {{/each}}
+
+
+
+        </tbody>
+
+
+        <tr>
+            <td colspan="6">{{data.description}}</td>
+        </tr>
+
+        <tfoot>
+        <td colspan="6" style="text-align: center;font-weight: bold">تم إستلام المواد الموضحة أعلاه  بحالة جيدة</td>
+        </tfoot>
+
+
+
+    </table>
+
+
+    <article style="position: absolute; bottom: 0;">
+
+
+        <article style="font-weight: bold">
+
+            <table id="footTab" style="width: 100%">
+                <thead>
+                <tr >
+
+
+                    <th > المستخدم</th>
+                    <th >المستخدم</th>
+                    <th >مصدق</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                    </tr>
+
+                    <tr>
+                        <td>{{data.user.fullName}}</td>
+                        <td>{{data.staff.name}}</td>
+                        <td>مدير فرع المستودعات</td>
+                    </tr>
+
+                    <tr>
+                        <td><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" ></td>
+                        <td><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.staff.userName}}&ActionName=userssignature" height="100px" ></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </article>
+
+        <img src="/images/storefooter.jpg" width="720px;" >
+        <br>
+
+
+    </article>
+
+
+
+
+</section>
+
+
+
+
+
+
+</body>
+
+</html>
+
+<!--{{#compare data.attachment '!=' NULL}}-->
+<!--<body class="A4" dir="rtl">-->
+
+<!--&lt;!&ndash; Each sheet element should have the class "sheet" &ndash;&gt;-->
+<!--&lt;!&ndash; "padding-**mm" is optional: you can set 10, 15, 20 or 25 &ndash;&gt;-->
+<!--<section class="sheet padding-10mm">-->
+
+    <!--&lt;!&ndash; Write HTML just like a web page &ndash;&gt;-->
+    <!--<img src="/{{data.attachment}}" width="720px;">-->
+
+
+<!--</section>-->
+
+<!--</body>-->
+
+<!--{{/compare}}-->
+
+
+
+
+
+<!-- Modal for add new sup -->
+
+<!-- /.modal -->
+{{>footer}}
+
+
+<script type="text/javascript">
+
+
+</script>
+

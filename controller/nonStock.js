@@ -321,6 +321,16 @@ router.get('/doSign/:nonStockID/:financeUserID', auth,async (req,res)=>{
 
 });
 
+router.get('/recall/:nonStockID/', auth,async (req,res)=>{
+    let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID }});
+    data.financeUserID = null;
+    data.storeSign = false;
+    await data.save();
+    req.session.infoMsg = {code:'warning',title:'سند ايراد يتذكر',content:'بموحب الفاتورة رقم '+data.billNo};
+    res.redirect('/nonStock/');
+
+});
+
 router.get('/search_item/:barcode',  async (req,res)=>{
   itemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
   let data = await itemModel.findOne({ where: {barcode: req.params.barcode },

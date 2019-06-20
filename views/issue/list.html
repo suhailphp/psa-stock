@@ -69,9 +69,6 @@
                                                 <th>نوع</th>
                                                 <th>إلى</th>
 
-
-
-
                                                 <th class="text-nowrap" width="6%">عمل</th>
                                             </tr>
                                             </thead>
@@ -87,6 +84,9 @@
 
 
                                                 <td class="text-nowrap">
+
+                                                    <a href="#" onclick="action('/issue/view/{{this.issueID}}');" class="mr-25" data-toggle="tooltip" data-original-title="Action">
+                                                        <i class="fa fa-print text-inverse m-r-10"></i> </a>
 
                                                     <a href="/issue/edit/{{this.issueID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
@@ -144,6 +144,11 @@
         $('#TableData').DataTable({"aaSorting": []});
         //$('#TableData').DataTable({ "lengthChange": false});
     } );
+
+
+    function action(url){
+        window.open(url,'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    }
 
 
     function DeleteItem(id){

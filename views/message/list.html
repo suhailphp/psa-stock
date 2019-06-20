@@ -90,7 +90,7 @@
 
                                                 <td class="text-nowrap">
 
-                                                    <a href="/message/view/{{this.id}}/{{this.type}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="print">
+                                                    <a href="#" onclick="action('/message/view/{{this.id}}/{{this.type}}')" class="mr-25" data-toggle="tooltip" data-original-title="Action">
                                                         <i class="fa fa-print text-inverse m-r-10"></i> </a>
 
                                                     <a href="/message/shahada/{{this.id}}/{{this.type}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="Shahada">
@@ -188,6 +188,10 @@
                 console.log("Details: " + desc + "\nError:" + err);
             }
         }); // end ajax call
+    }
+
+    function action(url){
+        window.open(url,'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     }
 
 

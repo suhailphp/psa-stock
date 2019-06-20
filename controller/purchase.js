@@ -329,6 +329,17 @@ router.get('/doSign/:purchaseID/:financeUserID', auth,async (req,res)=>{
 
 });
 
+
+router.get('/recall/:purchaseID/', auth,async (req,res)=>{
+    let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
+    data.financeUserID = null;
+    data.storeSign = false;
+    await data.save();
+    req.session.infoMsg = {code:'warning',title:'سند ايراد يتذكر',content:'بموحب الفاتورة رقم '+data.billNo};
+    res.redirect('/purchase/');
+
+});
+
 router.get('/checkSign/:purchaseID', auth,async (req,res)=>{
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID }});
     if(data.storeSign){

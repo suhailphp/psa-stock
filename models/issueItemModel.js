@@ -22,6 +22,9 @@ let issueItemModel = db.define('issue_item', {
     },
     quantity: {
         type: Sequelize.FLOAT
+    },
+    unitID: {
+        type: Sequelize.INTEGER
     }
 
 

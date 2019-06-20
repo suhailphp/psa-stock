@@ -23,7 +23,7 @@
             <!-- Title -->
             <div class="row heading-bg">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h5 class="txt-dark">الشراء</h5>
+                    <h5 class="txt-dark">سند ايراد(غير مخزن)</h5>
                 </div>
                 <!-- Breadcrumb -->
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
@@ -32,7 +32,7 @@
 
                         <li><a href="/"> الصفحة الرئيسية </a></li>
 
-                        <li class="active"><span> الشراء </span></li>
+                        <li class="active"><span> سند ايراد(غير مخزن) </span></li>
 
                     </ol>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="panel panel-default card-view">
                         <div class="panel-heading">
                             <div class="pull-left">
-                                <h6 class="panel-title txt-dark">قائمة الصنف</h6>
+                                <h6 class="panel-title txt-dark">سند ايراد</h6>
                             </div>
 
                             <div class="pull-right">
@@ -94,7 +94,7 @@
 
                                                 <td class="text-nowrap">
 
-                                                    <a href="/nonStock/view/{{this.nonStockID}}" target="_blank" class="mr-25" data-toggle="tooltip" data-original-title="View">
+                                                    <a href="#" onclick="action('/nonStock/view/{{this.nonStockID}}')" class="mr-25" data-toggle="tooltip" data-original-title="Action">
                                                         <i class="fa fa-print text-inverse m-r-10"></i> </a>
 
                                                     {{#compare this.attachment '!=' NULL}}
@@ -205,6 +205,10 @@
                 console.log("Details: " + desc + "\nError:" + err);
             }
         }); // end ajax call
+    }
+
+    function action(url){
+        window.open(url,'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     }
 
     function DeleteItem(id){

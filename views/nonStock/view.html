@@ -295,6 +295,12 @@
 
 
 <script type="text/javascript">
+
+    window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+    }
+
     function storeSign(){
         $('#SPModal').modal('toggle');
     }
