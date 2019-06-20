@@ -56,7 +56,7 @@ router.get('/view/:issueID', auth,async (req,res)=>{
     let issueItems = await issueItemModel.findAll({ where: {issueID: req.params.issueID },
         include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
     let totalRecords =  await issueItemModel.findAndCountAll({ where: {issueID: req.params.issueID }});
-    let totalPage = Math.ceil(totalRecords.count/7);
+    let totalPage = Math.ceil(totalRecords.count/5);
 
     //console.log(data)
     res.render('issue/view',{data,issueItems,totalPage});
