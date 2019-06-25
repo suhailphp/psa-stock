@@ -156,7 +156,7 @@
 
                                         <option value="">اختار</option>
                                         {{#each warehouse}}
-                                        <option value="{{this.militaryNo}}" {{#compare this.warehouseID '==' ../data.warehouseID}}selected{{/compare}}> {{this.warehouseID}} : {{this.name}} </option>
+                                        <option value="{{this.warehouseID}}" {{#compare this.warehouseID '==' ../data.warehouseID}}selected{{/compare}} > {{this.name}} </option>
                                         {{/each}}
 
 
