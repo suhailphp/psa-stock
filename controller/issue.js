@@ -18,7 +18,7 @@ const curPage = 'issue';
 router.get('/',auth, async (req,res)=>{
     issueModel.belongsTo(staffModel, {foreignKey: 'militaryNo'});
     issueModel.belongsTo(departmentModel, {foreignKey: 'departmentID'});
-    let issues = await issueModel.findAll({include:[{model:staffModel},{model:departmentModel}]});
+    let issues = await issueModel.findAll({include:[{model:staffModel},{model:departmentModel}],order: [ [ 'issueID', 'DESC' ]]});
     res.render('issue/list',{curPage,issues});
 });
 
@@ -26,8 +26,9 @@ router.get('/add',auth, async (req,res)=>{
     let departments = await departmentModel.findAll();
     let idara = await idaraModel.findAll();
     let staffs = await staffModel.findAll();
+    let warehouse = await warehouseModel.findAll();
     let data = {date : new Date()};
-    res.render('issue/add',{curPage,departments,idara,staffs,data});
+    res.render('issue/add',{curPage,departments,idara,staffs,data,warehouse});
 });
 
 router.get('/edit/:issueID',auth, async (req,res)=>{
@@ -38,7 +39,8 @@ router.get('/edit/:issueID',auth, async (req,res)=>{
    let departments = await departmentModel.findAll();
     let idara = await idaraModel.findAll();
     let staffs = await staffModel.findAll();
-   res.render('issue/add',{curPage,data,departments,staffs,issueItems,idara,editData:true});
+    let warehouse = await warehouseModel.findAll();
+    res.render('issue/add',{curPage,data,departments,staffs,issueItems,idara,warehouse,editData:true});
 });
 
 
@@ -83,7 +85,7 @@ router.post('/',async (req,res)=>{
         issue.traslNO = req.body.traslNO;
         issue.description = req.body.description;
         issue.userID = req.session.user.userID;
-        issue.warehouseID = 1;
+        issue.warehouseID = req.body.warehouseID;
         let result = await issue.save();
         if(result) {
             let oldItems = await issueItemModel.findAll({where: {issueID: issue.issueID}});
@@ -144,7 +146,7 @@ router.post('/',async (req,res)=>{
             traslNO : req.body.traslNO,
             description : req.body.description,
             userID : req.session.user.userID,
-            warehouseID : 1
+            warehouseID : req.body.warehouseID
         }
 
         let issue = await  issueModel.create(model);

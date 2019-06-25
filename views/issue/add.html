@@ -148,6 +148,22 @@
                                 </div>
 
 
+                                <div class="col-sm-3">
+
+                                    <div class="form-group" i>
+                                    <label class="control-label mb-10">المستودع</label>
+                                    <select class="form-control select2" name="warehouseID" id="warehouseID" required="required" >
+
+                                        <option value="">اختار</option>
+                                        {{#each warehouse}}
+                                        <option value="{{this.militaryNo}}" {{#compare this.warehouseID '==' ../data.warehouseID}}selected{{/compare}}> {{this.warehouseID}} : {{this.name}} </option>
+                                        {{/each}}
+
+
+                                    </select>
+                                </div>
+
+
 
 
 
