@@ -78,7 +78,8 @@ function validate(req){
         quantity: Joi.array().allow(''),
         idaraID: Joi.string().allow(''),
         traslNO: Joi.string().allow(''),
-        description: Joi.string().allow('')
+        description: Joi.string().allow(''),
+        warehouseID: Joi.string().allow('')
     };
 
     return Joi.validate(req, schema);
