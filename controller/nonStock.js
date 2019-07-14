@@ -267,6 +267,11 @@ router.get('/view_pop/:nonStockID', async (req,res)=>{
   nonStockModel.belongsTo(userModel, {foreignKey: 'userID'});
   let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID },
       include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+
+  //for user Rank
+  let rank = await staffModel.findOne({where:{userName:data.user.userName}});
+  data.user.rank = rank.rank;
+
   nonStockItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
   let purchaseItems = await nonStockItemModel.findAll({ where: {nonStockID: req.params.nonStockID },
       include:[{model:unitModel,required:true}]});
@@ -276,10 +281,13 @@ router.get('/view_pop/:nonStockID', async (req,res)=>{
   if(data.financeSign){
       var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
       financeUserName = financeUser.userName;
+      var financeFullName = financeUser.fullName;
+      var financeRank = await staffModel.findOne({where:{userName:financeUserName}});
+      financeRank = financeRank.rank;
   }
 
 
-  res.render('nonStock/view_pop',{data,purchaseItems,financeUserName});
+  res.render('nonStock/view_pop',{data,purchaseItems,financeUserName,financeFullName,financeRank});
 });
 
 router.get('/view/:nonStockID', async (req,res)=>{
