@@ -189,7 +189,6 @@ router.delete('/:id',async(req,res)=>{
         await issueStockAdjust(element.itemID,issue.type,issue.militaryNo,issue.departmentID, element.quantity, 'delete');
         //delete if stock is zero
         await issueStockDelete();
-
     });
     //remove all purchase items
     issueItemModel.destroy({where: {issueID: req.params.id}});

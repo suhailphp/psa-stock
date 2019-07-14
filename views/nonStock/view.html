@@ -72,7 +72,8 @@
 
 
     <article style="position: absolute; bottom: 0;">
-        <article style="font-weight: bold"> <h> وردت بواسطة</h> <h style="float: left">يعتمد </h></article><br>
+        <article style="font-weight: bold"> <h> وردت بواسطة  {{#if ../data.storeSign}}  :  {{../data.user.rank}} / {{../data.user.fullName}}  {{/if}} </h>
+                                <h style="float: left">يعتمد {{#if ../data.financeSign}}  :  {{../financeRank}} / {{../financeFullName}}  {{/if}} </h></article><br>
 
         <article style="font-weight: bold">
 
@@ -174,11 +175,13 @@
 
 
             <article style="position: absolute; bottom: 0;">
-                <article style="font-weight: bold"> <h> وردت بواسطة </h> <h style="float: left">يعتمد </h></article><br>
+                <article style="font-weight: bold"> <h>  وردت بواسطة {{#if data.storeSign}}  :  {{data.user.rank}} / {{data.user.fullName}}  {{/if}}  </h>
+                                        <h style="float: left">يعتمد {{#if data.financeSign}}  :  {{financeRank}} / {{financeFullName}}  {{/if}} </h></article><br>
 
                 <article style="font-weight: bold">
 
                     {{#if data.storeSign}}
+
                     <img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" >
 
                         {{#if data.financeSign}}

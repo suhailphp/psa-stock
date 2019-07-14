@@ -8,6 +8,7 @@ const {purchaseModel} = require('../models/purchaseModel');
 const {nonStockItemModel} = require('../models/nonStockItemModel');
 const {unitModel} = require('../models/unitModel');
 const {userModel} = require('../models/userModel');
+const {staffModel} = require('../models/staffModel');
 const {supplierModel} = require('../models/supplierModel');
 const {warehouseModel} = require('../models/warehouseModel');
 const {tempItemModel} = require('../models/tempItemModel');
@@ -287,6 +288,9 @@ router.get('/view/:nonStockID', async (req,res)=>{
     nonStockModel.belongsTo(userModel, {foreignKey: 'userID'});
     let data = await nonStockModel.findOne({ where: {nonStockID: req.params.nonStockID },
         include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+    //for user Rank
+    let rank = await staffModel.findOne({where:{userName:data.user.userName}});
+    data.user.rank = rank.rank;
     nonStockItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await nonStockItemModel.findAll({ where: {nonStockID: req.params.nonStockID },
         include:[{model:unitModel,required:true}]});
@@ -294,14 +298,16 @@ router.get('/view/:nonStockID', async (req,res)=>{
     let totalPage = Math.ceil(totalRecords.count/7);
     let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
 
-    var financeUserName = "";
     if(data.financeSign){
         var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
-        financeUserName = financeUser.userName;
+        var financeUserName = financeUser.userName;
+        var financeFullName = financeUser.fullName;
+        var financeRank = await staffModel.findOne({where:{userName:financeUserName}});
+        financeRank = financeRank.rank;
     }
 
 
-    res.render('nonStock/view',{data,purchaseItems,totalPage,financeUsers,financeUserName});
+    res.render('nonStock/view',{data,purchaseItems,totalPage,financeUsers,financeUserName,financeFullName,financeRank});
 });
 
 router.get('/doFinanceSign/:nonStockID/', auth,async (req,res)=>{
