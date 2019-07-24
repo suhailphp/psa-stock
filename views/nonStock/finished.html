@@ -71,6 +71,9 @@
                                                 <th>تمويل المستخدم</th>
 
 
+                                                <th>اجمالي</th>
+
+
 
 
                                                 <th class="text-nowrap" width="6%">الحالة</th>
@@ -88,6 +91,8 @@
                                                 <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{this.billNo}}</td>
                                                 <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{this.supplier.name}}</td>
                                                 <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{this.user.fullName}}</td>
+                                                <td style="cursor: pointer" onclick="show({{this.nonStockID}});">{{currencyFormat this.totalAmount}}</td>
+
 
 
 
