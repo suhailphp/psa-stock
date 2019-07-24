@@ -12,6 +12,7 @@ const {stockModel,stockAdjust} = require('../models/stockModel');
 const {supplierModel} = require('../models/supplierModel');
 const {warehouseModel} = require('../models/warehouseModel');
 const {itemModel} = require('../models/itemModel');
+const {staffModel} = require('../models/staffModel');
 const curPage = 'purchase';
 
 router.use(upload());
@@ -268,12 +269,18 @@ router.get('/edit/:purchaseID', async (req,res)=>{
 });
 
 
-router.get('/view_pop/:purchaseID', auth,async (req,res)=>{
+router.get('/view_pop/:purchaseID', async (req,res)=>{
     purchaseModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
     purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID },
         include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+
+    //for user Rank
+    let rank = await staffModel.findOne({where:{userName:data.user.userName}});
+    data.user.rank = rank.rank;
+
+
     purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
     purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
@@ -283,9 +290,12 @@ router.get('/view_pop/:purchaseID', auth,async (req,res)=>{
     if(data.financeSign){
         var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
         financeUserName = financeUser.userName;
+        var financeFullName = financeUser.fullName;
+        var financeRank = await staffModel.findOne({where:{userName:financeUserName}});
+        financeRank = financeRank.rank;
     }
 
-    res.render('purchase/view_pop',{data,purchaseItems,financeUserName});
+    res.render('purchase/view_pop',{data,purchaseItems,financeUserName,financeFullName,financeRank});
 });
 
 router.get('/view/:purchaseID', auth,async (req,res)=>{
@@ -294,6 +304,12 @@ router.get('/view/:purchaseID', auth,async (req,res)=>{
     purchaseModel.belongsTo(userModel, {foreignKey: 'userID'});
     let data = await purchaseModel.findOne({ where: {purchaseID: req.params.purchaseID },
         include:[{model:warehouseModel,required:true},{model:supplierModel,required:true},{model:userModel,required:true}]});
+
+    //for user Rank
+    let rank = await staffModel.findOne({where:{userName:data.user.userName}});
+    data.user.rank = rank.rank;
+
+
     purchaseItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
     purchaseItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
     let purchaseItems = await purchaseItemModel.findAll({ where: {purchaseID: req.params.purchaseID },
@@ -306,9 +322,12 @@ router.get('/view/:purchaseID', auth,async (req,res)=>{
     if(data.financeSign){
         var financeUser = await userModel.findOne({where:{userID:data.financeUserID}});
         financeUserName = financeUser.userName;
+        var financeFullName = financeUser.fullName;
+        var financeRank = await staffModel.findOne({where:{userName:financeUserName}});
+        financeRank = financeRank.rank;
     }
 
-    res.render('purchase/view',{data,purchaseItems,totalPage,financeUsers,financeUserName});
+    res.render('purchase/view',{data,purchaseItems,totalPage,financeUsers,financeUserName,financeFullName,financeRank});
 });
 
 
