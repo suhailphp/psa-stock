@@ -19,7 +19,7 @@ router.post('/',async(req,res)=>{
 
     let user = await userModel.findOne({ where: {userName: userName,active: true }});
 
-    res.send(user);exit;
+
 
     if(!user){
         req.session.infoMsg = {code:'error',title:'Login Error',content:'User name or password not matching'}
@@ -27,6 +27,9 @@ router.post('/',async(req,res)=>{
     }
 
     let ad = new activeDirectory(Config.DOMAIN);
+
+    res.send(ad);exit;
+
     ad.authenticate(userName+'@psa.local', password, function (err, auth) {
           if (auth) {
             req.session.user = {userID:user.userID,userName:user.userName,name:user.fullName,userRole:user.userRole};
