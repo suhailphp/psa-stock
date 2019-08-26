@@ -11,7 +11,7 @@ const {departmentModel} = require('../models/departmentModel');
 
 const router = express.Router();
 
-router.get('/',auth,async (req,res)=>{
+router.get('/',async (req,res)=>{
 
 
 
