@@ -21,12 +21,12 @@ router.post('/',async(req,res)=>{
 
     let user = await userModel.findOne({ where: {userName: userName,active: true }});
 
-    //for temp login
-    if(userName == 'malraeesi'){
-        req.session.user = {userID:user.userID,userName:user.userName,name:user.fullName,userRole:user.userRole};
-        req.session.infoMsg = {code:'success',title:'مرحبا بعودتك',content:'مرحباً بالسيد '+req.session.user.name};
-        return res.redirect('/');
-    }
+    // //for temp login
+    // if(userName == 'malraeesi'){
+    //     req.session.user = {userID:user.userID,userName:user.userName,name:user.fullName,userRole:user.userRole};
+    //     req.session.infoMsg = {code:'success',title:'مرحبا بعودتك',content:'مرحباً بالسيد '+req.session.user.name};
+    //     return res.redirect('/');
+    // }
 
 
 
