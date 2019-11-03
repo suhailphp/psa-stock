@@ -59,6 +59,7 @@ router.get('/add', auth, async (req,res)=>{
 router.post('/', auth,async (req,res)=> {
 
 
+
     if(req.body.action == 'edit'){
         let { error } = validate(req.body);
         if (error){
