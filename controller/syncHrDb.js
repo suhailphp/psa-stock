@@ -8,6 +8,24 @@ let DBHR = require('../config/dbConnectionHR')
 
 
 router.get('/', async (req, res) => {
+
+
+    try{
+        let count = await updateStaff();
+        console.log(count+' staffs new created');
+    }
+    catch (err) {
+        console.log(err.message())
+    }
+
+    res.send('Sync success');
+
+
+
+});
+
+
+router.get('/add', async (req, res) => {
     //add department data to our data base
     let countDep = await departmentModel.findAndCountAll();
     if(countDep && countDep.count > 0){
@@ -68,6 +86,40 @@ function addDepartment() {
 
     })
 }
+
+
+async function updateStaff() {
+    return new Promise(async (resolve, reject)=> {
+
+        let staffs = await getEmpDataFromHR();
+
+        let count = 0
+
+        for (const key in staffs) {
+            let st = staffs[key]
+
+            let staff =  await staffModel.findOne({where:{militaryNo:st.MilitaryNo}})
+
+            if(!staff || staff.militaryNo != st.MilitaryNo){
+                let staffAr = {
+                    militaryNo : st.MilitaryNo,
+                    name : st.Emp_Name,
+                    rank : st.Grade_Ar,
+                    departmentID : st.Section,
+                    userName: st.Emp_Email.substring(0, st.Emp_Email.lastIndexOf("@"))
+                }
+                await staffModel.create(staffAr)
+                count++
+            }
+
+        }
+
+        resolve(count)
+
+    })
+}
+
+
 //add staff data
 
 
