@@ -469,17 +469,19 @@ rs<!-- Preloader -->
     function checkBillNo(){
         let billNo = $('#billNo').val()
         let supplierID = $('#supplierID').val()
+        let nonStockID = $('#nonStockID').val()
 
         if(billNo != '' && supplierID != ''){
             $.ajax({
                 url: '/purchase/checkBillNoAjax',
                 type: 'post',
-                data: { billNo: billNo,supplierID: supplierID},
+                data: { billNo: billNo,supplierID: supplierID,nonStockID:nonStockID},
                 success: function(obj) {
                     if(obj && obj.billNo == billNo)
                     {
 
-                        $('#billNo').val(null)
+                        $('#billNo').val(null);
+                        $('#billNo').focus();
                         swal("Duplicate Invoice", "This invoice already entered ", "error");
 
                     }

@@ -422,19 +422,22 @@ router.post('/checkBillNoAjax', async (req,res)=> {
     let {billNo} = req.body
     let {supplierID} = req.body
 
-    res.send({billNo:billNo})
+    let purchaseID = (req.body.purchaseID)?req.body.purchaseID:null
+    let nonStockID = (req.body.nonStockID)?req.body.nonStockID:null
 
-    // let purchase = await purchaseModel.findOne({where: {supplierID:supplierID,billNo:billNo}})
-    // let nonStock = nonStockModel.findOne({where: {supplierID:supplierID,billNo:billNo}})
-    // if(purchase && purchase.billNo == billNo){
-    //     res.send({billNo:purchase.billNo})
-    // }
-    // else if(nonStock && nonStock.billNo == billNo){
-    //     res.send({billNo:nonStock.billNo})
-    // }
-    // else{
-    //     res.send(null)
-    // }
+
+
+    let purchase = await purchaseModel.findOne({where: {supplierID:supplierID,billNo:billNo,purchaseID:{$ne:purchaseID}}})
+    let nonStock = await nonStockModel.findOne({where: {supplierID:supplierID,billNo:billNo,nonStockID:{$ne:nonStockID}}})
+    if(purchase && purchase.billNo == billNo){
+        res.send({billNo:purchase.billNo})
+    }
+    else if(nonStock && nonStock.billNo == billNo){
+        res.send({billNo:nonStock.billNo})
+    }
+    else{
+        res.send(null)
+    }
 
 
 });
