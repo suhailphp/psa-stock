@@ -498,6 +498,8 @@ rs<!-- Preloader -->
     //for form submit
     function SubmitForm()
     {
+        checkBillNo()
+
         if($('#referenceNo').val() == '')
         {
             $('#referenceNo').focus();
