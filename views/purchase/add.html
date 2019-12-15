@@ -105,7 +105,7 @@
                                                 <div class="form-group ">
                                                     <label class="control-label mb-10 text-left">بموحب الفاتورة رقم </label>
                                                     <input type="text" class="form-control" id="billNo" name="billNo" placeholder="بموحب الفاتورة رقم " required="required"
-                                                           value="{{#if data.billNo}}{{data.billNo}}{{/if}}">
+                                                           value="{{#if data.billNo}}{{data.billNo}}{{/if}}" onchange="checkBillNo()">
                                                 </div>
 
 
@@ -122,7 +122,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">من</label>
                                                     <label class="control-label mb-10  fa fa-plus-square " style="float: left;cursor: pointer" onclick="newSup();">الجديد</label>
-                                                    <select class="form-control select2" name="supplierID" id="supplierID" required="required" >
+                                                    <select class="form-control select2" name="supplierID" id="supplierID" required="required" onchange="checkBillNo()" >
 
                                                         <option value="">اختار</option>
                                                         {{#each suppliers}}
@@ -435,6 +435,34 @@
 
     let IC 	=	parseInt($('#itemNo').val());
 
+
+    //check the invoice already entered
+    function checkBillNo(){
+        let billNo = $('#billNo').val()
+        let supplierID = $('#supplierID').val()
+
+        if(billNo != '' && supplierID != ''){
+            $.ajax({
+                url: '/purchase/checkBillNoAjax',
+                type: 'post',
+                data: { billNo: billNo,supplierID: supplierID},
+                success: function(obj) {
+                    if(obj && obj.billNo == billNo)
+                    {
+
+                        $('#billNo').val(null)
+                        swal("Duplicate Invoice", "This invoice already entered ", "error");
+
+                    }
+
+                },
+                error: function(xhr, desc, err) {
+                    console.log(xhr);
+                    console.log("Details: " + desc + "\nError:" + err);
+                }
+            });
+        }
+    }
 
     //for form submit
     function SubmitForm()
