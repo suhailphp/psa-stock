@@ -31,7 +31,7 @@ router.get('/item_report/:itemID', async (req,res)=>{
 
     //for getting opening stock
     let item = await itemModel.findOne({where:{itemID:req.params.itemID}})
-    resArray.push({"date": helper.dateToDMY(item.createdOn),"createdOn":item, "description": "كمية الافتتاح",
+    resArray.push({"type":'item',"id":item.itemID,"reference":item.barcode, "date": helper.dateToDMY(item.createdOn),"createdOn":item.createdOn, "description": "كمية الافتتاح",
         "quantity":item.openingStock,"vendor":'--',"style":"success"});
 
     purchaseItemModel.belongsTo(purchaseModel, {foreignKey: 'purchaseID'});
@@ -39,7 +39,7 @@ router.get('/item_report/:itemID', async (req,res)=>{
     for(let element of purchases){
         let supplier =  await supplierModel.findOne({ where: {supplierID: element.purchase.supplierID }});
         vendor = supplier.name;
-        resArray.push({"date": helper.dateToDMY(element.purchase.date),"createdOn":element.purchase.createdOn, "description": "سند ايراد",
+        resArray.push({"type":'purchase',"id":element.purchase.purchaseID,"reference":element.purchase.referenceNo, "date": helper.dateToDMY(element.purchase.date),"createdOn":element.purchase.createdOn, "description": "سند ايراد",
             "quantity":element.quantity,"vendor":vendor,"style":"success"});
     }
 
@@ -54,7 +54,7 @@ router.get('/item_report/:itemID', async (req,res)=>{
             let department =  await departmentModel.findOne({ where: {departmentID: element.issue.departmentID }});
             vendor = department.name;
         }
-        resArray.push({"date": helper.dateToDMY(element.issue.date),"createdO n":element.issue.createdOn, "description": "سند صرف ",
+        resArray.push({"type":'issue',"id":element.issue.issueID,"reference":element.issue.issueID,"date": helper.dateToDMY(element.issue.date),"createdO n":element.issue.createdOn, "description": "سند صرف ",
             "quantity":element.quantity,"vendor":vendor,"style":"danger"});
     }
 
@@ -70,11 +70,56 @@ router.get('/item_report/:itemID', async (req,res)=>{
             vendor = department.name;
         }
 
-        resArray.push({"date": helper.dateToDMY(element.return.date),"createdOn":element.return.createdOn, "description": "سند ارجاع",
+        resArray.push({"type":'return',"id":element.return.returnID,"reference":element.return.returnID,"date": helper.dateToDMY(element.return.date),"createdOn":element.return.createdOn, "description": "سند ارجاع",
             "quantity":element.quantity,"vendor":vendor,"style":"success"});
     }
     //console.log(resArray)
    // resArray = _.sortBy(resArray,'createdOn').reverse();
+    res.send(resArray);
+});
+
+
+router.get('/staff',  async (req,res)=>{
+    let staffs = await staffModel.findAll();
+    res.render('report/staff',{curPage,staffs});
+});
+
+router.get('/staff_report/:militaryNo', async (req,res)=>{
+
+    let resArray = [];
+    let vendor = '';
+
+
+
+    issueItemModel.belongsTo(issueModel, {foreignKey: 'issueID'});
+    issueModel.belongsTo(staffModel, {foreignKey: 'militaryNo'});
+    let issues = await issueItemModel.findAll({
+        include:[{model:issueModel,required:true,
+            where: {militaryNo: req.params.militaryNo },
+            include:{model:staffModel,required:true}}]});
+    for(let element of issues){
+
+        resArray.push({"type":'issue',"id":element.issue.issueID,"reference":element.issue.issueID,"date": helper.dateToDMY(element.issue.date),"createdO n":element.issue.createdOn, "description": "سند صرف ",
+            "quantity":element.quantity,"vendor":element.issue.staff.name,"style":"danger"});
+    }
+
+    // returnItemModel.belongsTo(returnModel, {foreignKey: 'returnID'});
+    // let returns = await returnItemModel.findAll({where: {itemID: req.params.itemID },include:[{model:returnModel,required:true}]});
+    // for(let element of returns){
+    //     if(element.return.type  === 'staff'){
+    //         let staff =  await staffModel.findOne({ where: {militaryNo: element.return.militaryNo }});
+    //         vendor = staff.name;
+    //     }
+    //     else{
+    //         let department =  await departmentModel.findOne({ where: {departmentID: element.return.departmentID }});
+    //         vendor = department.name;
+    //     }
+    //
+    //     resArray.push({"date": helper.dateToDMY(element.return.date),"createdOn":element.return.createdOn, "description": "سند ارجاع",
+    //         "quantity":element.quantity,"vendor":vendor,"style":"success"});
+    // }
+    //console.log(resArray)
+    // resArray = _.sortBy(resArray,'createdOn').reverse();
     res.send(resArray);
 });
 

@@ -48,12 +48,12 @@
 
                     <div class="form-group">
                         <label class="control-label mb-10"> المواد</label>
-                        <select class="selectpicker select2" data-style="btn-success btn-outline" name="itemID" id="itemID" onchange="itemSelect();">
+                        <select class="selectpicker select2" data-style="btn-success btn-outline" name="militaryNo" id="militaryNo" onchange="staffSelect();">
 
 
                             <option value="">اختار</option>
-                            {{#each items}}
-                            <option value="{{this.itemID}}" >{{this.barcode}} - {{this.name}}</option>
+                            {{#each staffs}}
+                            <option value="{{this.militaryNo}}" >{{this.rank}} - {{this.name}} - {{this.militaryNo}}</option>
                             {{/each}}
 
 
@@ -62,27 +62,27 @@
 
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="float: left">
-                    <div class="panel panel-default card-view pa-0">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pa-0">
-                                <div class="sm-data-box">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                <span class="txt-dark block counter"><span class="counter-anim" id="stockLeft">0</span></span>
-                                                <span class="weight-500 uppercase-font block">الأسهم المتبقية</span>
-                                            </div>
-                                            <div class="col-xs-6 text-center  pl-0 pr-0 pt-25  data-wrap-right">
-                                                <div id="sparkline_4" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="float: left">-->
+                    <!--<div class="panel panel-default card-view pa-0">-->
+                        <!--<div class="panel-wrapper collapse in">-->
+                            <!--<div class="panel-body pa-0">-->
+                                <!--<div class="sm-data-box">-->
+                                    <!--<div class="container-fluid">-->
+                                        <!--<div class="row">-->
+                                            <!--<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">-->
+                                                <!--<span class="txt-dark block counter"><span class="counter-anim" id="stockLeft">0</span></span>-->
+                                                <!--<span class="weight-500 uppercase-font block">الأسهم المتبقية</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-xs-6 text-center  pl-0 pr-0 pt-25  data-wrap-right">-->
+                                                <!--<div id="sparkline_4" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
 
 
@@ -103,7 +103,7 @@
 
                                             <thead>
                                             <th>رقم</th>
-                                            <th>تاريخ</th>
+                                                <th>تاريخ</th>
                                                 <th>وصف</th>
                                                 <th>بائع</th>
                                                 <th>كمية</th>
@@ -136,20 +136,6 @@
 
     </div>
     <!-- /Main Content -->
-
-    <!-- Modal for add new sup -->
-    <div id="SPModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content " id="SPModalContent" >
-
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-
-
 
 </div>
 <!-- /#wrapper -->
@@ -187,30 +173,13 @@
 
 
 
-    function itemSelect(){
-        let itemID = $('#itemID').val();
-        //set the stock
-        $.ajax({
-            url: '/report/item_stock/'+itemID,
-            type: 'get',
-            success: function(res) {
-                if(res > 0)
-                {
-                    $('#stockLeft').html(res);
-                    let counterAnim = $('.counter-anim');
-                    counterAnim.counterUp({ delay: 10,time: 1000});
-                }
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        });
+    function staffSelect(){
+        let militaryNo = $('#militaryNo').val();
 
 
         //get the history
         $.ajax({
-            url: '/report/item_report/'+itemID,
+            url: '/report/staff_report/'+militaryNo,
             type: 'get',
             success: function(res) {
 
@@ -222,10 +191,7 @@
                     for(let i=0; i< res.length; i++)
                     {
                         let reference = res[i].reference;
-                        if(res[i].type == 'purchase'){
-                            reference = '<a href="#" onclick="showPurchase('+res[i].id+')">'+res[i].reference+'</a>';
-                        }
-                        else if(res[i].type == 'issue'){
+                        if(res[i].type == 'issue'){
                             let url = '/issue/view/'+res[i].id
                             reference = '<a href="#" onclick="action(\''+url+'\')">'+res[i].reference+'</a>';
                         }
@@ -255,32 +221,9 @@
         });
     }
 
-
-
-    function showPurchase(id){
-
-        $.ajax({
-            url: '/purchase/view_pop/'+id,
-            type: 'get',
-            success: function(data) {
-                $('#SPModalContent').html(data);
-                $('#SPModal').modal('toggle');
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        }); // end ajax call
-    }
-
-
-
     function action(url){
         window.open(url,'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     }
-
-
-
 
 
 
