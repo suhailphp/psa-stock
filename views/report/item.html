@@ -189,7 +189,7 @@
 
     function itemSelect(){
         let itemID = $('#itemID').val();
-        $('#stockLeft').html(0);
+        $('#stockLeft').html('0');
         //set the stock
         $.ajax({
             url: '/report/item_stock/'+itemID,
