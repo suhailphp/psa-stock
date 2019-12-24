@@ -70,7 +70,7 @@
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                <span class="txt-dark block counter"><span class="counter-anim" id="stockLeft">0</span></span>
+                                                <span class="txt-dark block counter" id="stockLeft"><span class="counter-anim" >0</span></span>
                                                 <span class="weight-500 uppercase-font block">الأسهم المتبقية</span>
                                             </div>
                                             <div class="col-xs-6 text-center  pl-0 pr-0 pt-25  data-wrap-right">
@@ -195,12 +195,19 @@
             url: '/report/item_stock/'+itemID,
             type: 'get',
             success: function(res) {
-                if(res > 0)
+                if(res)
                 {
-                    $('#stockLeft').html(res);
+                    if(res >0){
+                        $('#stockLeft').html('<span class="counter-anim" >'+res+'</span>');
+
+                    }
+                    else{
+                        $('#stockLeft').html('<span class="counter-anim" >'+Math.abs(res)+'</span>-');
+                    }
                     let counterAnim = $('.counter-anim');
                     counterAnim.counterUp({ delay: 10,time: 1000});
                 }
+
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);

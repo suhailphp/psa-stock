@@ -1,6 +1,8 @@
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
+
+const sequelize = require('sequelize');
 const _ = require('underscore');
 const {itemModel} = require('../models/itemModel');
 const {purchaseItemModel} = require('../models/purchaseItemModel');
@@ -18,7 +20,7 @@ const helper = require('../utilities/helper');
 
 const curPage = 'report';
 
-router.get('/item', auth, async (req,res)=>{
+router.get('/item',  async (req,res)=>{
     let items = await itemModel.findAll();
     res.render('report/item',{curPage,items});
 });
@@ -91,16 +93,20 @@ router.get('/staff_report/:militaryNo', async (req,res)=>{
 
 
 
+
+    issueItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
     issueItemModel.belongsTo(issueModel, {foreignKey: 'issueID'});
     issueModel.belongsTo(staffModel, {foreignKey: 'militaryNo'});
+
     let issues = await issueItemModel.findAll({
-        include:[{model:issueModel,required:true,
+        include:[{model:itemModel,required:true},
+            {model:issueModel,required:true,
             where: {militaryNo: req.params.militaryNo },
             include:{model:staffModel,required:true}}]});
     for(let element of issues){
 
         resArray.push({"type":'issue',"id":element.issue.issueID,"reference":element.issue.issueID,"date": helper.dateToDMY(element.issue.date),"createdO n":element.issue.createdOn, "description": "سند صرف ",
-            "quantity":element.quantity,"vendor":element.issue.staff.name,"style":"danger"});
+            "quantity":element.quantity,"vendor":element.item.name,"style":"danger"});
     }
 
     // returnItemModel.belongsTo(returnModel, {foreignKey: 'returnID'});
@@ -181,8 +187,38 @@ router.get('/purchase', auth,async (req,res)=>{
 
 
 router.get('/item_stock/:itemID', async (req,res)=>{
-    let stock = await stockModel.findOne({ where: {itemID: req.params.itemID }});
-    res.send(''+stock.quantity);
+    //let stock = await stockModel.findOne({ where: {itemID: req.params.itemID }});
+
+    let stock = 0;
+
+    let item = await itemModel.findOne({where:{itemID:req.params.itemID}})
+
+    stock = (item.openingStock && item.openingStock > 0)? stock+item.openingStock:stock;
+
+    let purchases = await purchaseItemModel.findAll({
+            attributes: [[sequelize.fn('sum', sequelize.col('quantity')), 'total']],
+            where: {itemID: req.params.itemID },
+            group : ['itemID'],
+            raw: true,
+            order: sequelize.literal('total DESC')
+        });
+
+    stock = (purchases[0].total && purchases[0].total > 0)? stock+purchases[0].total:stock;
+
+    let issues = await issueItemModel.findAll({
+        attributes: [[sequelize.fn('sum', sequelize.col('quantity')), 'total']],
+        where: {itemID: req.params.itemID },
+        group : ['itemID'],
+        raw: true,
+        order: sequelize.literal('total DESC')
+    });
+
+    stock = (issues[0].total && issues[0].total > 0)? stock-issues[0].total:stock;
+
+   // console.log(item.openingStock,purchases,issues,stock)
+
+
+    res.send(''+stock);
 });
 
 
