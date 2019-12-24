@@ -215,7 +215,7 @@ router.get('/item_stock/:itemID', async (req,res)=>{
 
     stock = (issues[0].total && issues[0].total > 0)? stock-issues[0].total:stock;
 
-   // console.log(item.openingStock,purchases,issues,stock)
+    console.log(item.openingStock,purchases,issues,stock)
 
 
     res.send(''+stock);
