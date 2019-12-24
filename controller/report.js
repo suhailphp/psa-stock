@@ -193,7 +193,7 @@ router.get('/item_stock/:itemID', async (req,res)=>{
 
     let item = await itemModel.findOne({where:{itemID:req.params.itemID}})
 
-    stock = (item.openingStock && item.openingStock > 0)? stock+item.openingStock:stock;
+    let openingStock  = (item.openingStock && item.openingStock > 0)? item.openingStock:0;
 
     let purchases = await purchaseItemModel.findAll({
             attributes: [[sequelize.fn('sum', sequelize.col('quantity')), 'total']],
@@ -203,7 +203,8 @@ router.get('/item_stock/:itemID', async (req,res)=>{
             order: sequelize.literal('total DESC')
         });
 
-    stock = (purchases[0].total && purchases[0].total > 0)? stock+purchases[0].total:stock;
+
+    let totalPurchase = ((purchases.length > 0) && purchases[0].total > 0)? purchases[0].total:0;
 
     let issues = await issueItemModel.findAll({
         attributes: [[sequelize.fn('sum', sequelize.col('quantity')), 'total']],
@@ -213,9 +214,10 @@ router.get('/item_stock/:itemID', async (req,res)=>{
         order: sequelize.literal('total DESC')
     });
 
-    stock = (issues[0].total && issues[0].total > 0)? stock-issues[0].total:stock;
+    let totalIssue = ((issues.length > 0) && issues[0].total > 0)? issues[0].total:0;
 
-    console.log(item.openingStock,purchases,issues,stock)
+    stock = (openingStock+totalPurchase)-totalIssue
+    console.log(openingStock,totalPurchase,totalIssue,stock)
 
 
     res.send(''+stock);
