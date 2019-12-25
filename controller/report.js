@@ -217,7 +217,7 @@ router.get('/item_stock/:itemID', async (req,res)=>{
     let totalIssue = ((issues.length > 0) && issues[0].total > 0)? issues[0].total:0;
 
     stock = (openingStock+totalPurchase)-totalIssue
-    console.log(openingStock,totalPurchase,totalIssue,stock)
+    //console.log(openingStock,totalPurchase,totalIssue,stock)
 
 
     res.send(''+stock);

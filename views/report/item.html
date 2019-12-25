@@ -198,11 +198,11 @@
                 if(res)
                 {
                     if(res >-1){
-                        $('#stockLeft').html('<span class="counter-anim" >'+res+'</span>');
+                        $('#stockLeft').html('<span style="color: green" class="counter-anim" >'+res+'</span>');
 
                     }
                     else{
-                        $('#stockLeft').html('<span class="counter-anim" >'+Math.abs(res)+'</span>-');
+                        $('#stockLeft').html('<span style="color: red" class="counter-anim" >'+Math.abs(res)+'</span>-');
                     }
                     let counterAnim = $('.counter-anim');
                     counterAnim.counterUp({ delay: 10,time: 1000});
