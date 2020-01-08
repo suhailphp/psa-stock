@@ -66,6 +66,7 @@
                                             <thead>
                                             <tr>
 
+                                                <th>رقم</th>
                                                 <th>تاريخ</th>
                                                 <th>نوع</th>
                                                 <th>إلى</th>
@@ -79,7 +80,9 @@
 
                                             <tr id="{{this.issueID}}">
 
+                                                <td>{{this.issueID}}</td>
                                                 <td>{{dateToStringDate this.date}}</td>
+
                                                 <td>{{#compare this.type '==' 'staff'}}العاملين{{else}}القسم{{/compare}}</td>
                                                 <td>{{#compare this.type '==' 'staff'}}{{this.staff.name}}{{else}}{{this.department.name}}{{/compare}}</td>
 
