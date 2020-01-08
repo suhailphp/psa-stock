@@ -64,6 +64,34 @@ router.get('/view/:issueID', auth,async (req,res)=>{
     res.render('issue/view',{data,issueItems,totalPage});
 });
 
+
+router.get('/viewAll/', auth,async (req,res)=>{
+    issueModel.belongsTo(staffModel, {foreignKey: 'militaryNo'});
+    issueModel.belongsTo(departmentModel, {foreignKey: 'departmentID'});
+    issueModel.belongsTo(userModel, {foreignKey: 'userID'});
+    issueModel.belongsTo(warehouseModel, {foreignKey: 'warehouseID'});
+    issueModel.belongsTo(idaraModel, {foreignKey: 'idaraID'});
+    let data = await issueModel.findAll({ where: {active: true},
+        include:[{model:staffModel,required:false},{model:departmentModel,required:false},{model:userModel,required:true},{model:warehouseModel,required:false},{model:idaraModel,required:false}]});
+
+    let keys = data.keys();
+    for (let key of keys) {
+
+        issueItemModel.belongsTo(itemModel, {foreignKey: 'itemID'});
+        issueItemModel.belongsTo(unitModel, {foreignKey: 'unitID'});
+        data[key].issueItems = await issueItemModel.findAll({ where: {issueID: data[key].issueID },
+            include:[{model:itemModel,required:true},{model:unitModel,required:true}]});
+        data[key].totalRecords =  await issueItemModel.findAndCountAll({ where: {issueID: data[key].issueID }});
+        data[key].totalPage = Math.ceil(data[key].totalRecords.count/5);
+
+    }
+
+
+
+    //console.log(data)
+    res.render('issue/viewAll',{data});
+});
+
 router.post('/',async (req,res)=>{
     if(req.body.action == 'edit'){
         let { error } = validate(req.body);

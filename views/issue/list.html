@@ -48,7 +48,8 @@
                     <div class="panel panel-default card-view">
                         <div class="panel-heading">
                             <div class="pull-left">
-                                <h6 class="panel-title txt-dark">قائمة الصنف</h6>
+                                <h6 class="panel-title txt-dark">
+                                    <i class="fa fa-print mr-5" style="cursor: pointer" onclick="action('/issue/viewAll');""></i>قائمة الصنف</h6>
                             </div>
 
                             <div class="pull-right">
@@ -149,6 +150,8 @@
     function action(url){
         window.open(url,'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     }
+
+
 
 
     function DeleteItem(id){

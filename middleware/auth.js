@@ -6,9 +6,9 @@ module.exports = function(req,res,next){
     //console.log(req.session.user);
 
     if(!req.session.user){
-        req.session.infoMsg = {code:'warning',title:'Please Login',content:'Must be login to use the application'};
+        //req.session.infoMsg = {code:'warning',title:'Please Login',content:'Must be login to use the application'};
 
-        return res.redirect('/login');
+        //return res.redirect('/login');
     }
 
     next();
