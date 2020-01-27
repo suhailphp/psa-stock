@@ -91,7 +91,7 @@
 
             {{else}}
             {{#compare ../data.userID "===" ../user.userID}}
-            <button name="storeSign" onclick="storeSign()" >التوقيع </button><br><br>
+            <a name="storeSign" style="cursor: pointer" onclick="storeSign()" >التوقيع </a><br><br>
             {{/compare}}
             {{/if}}
         </article>
@@ -195,7 +195,7 @@
 
                     {{else}}
                     {{#compare data.userID "===" user.userID}}
-                    <button name="storeSign" onclick="storeSign()" >التوقيع </button><br><br>
+                    <a name="storeSign" style="cursor: pointer" onclick="storeSign()" >التوقيع </a><br><br>
                     {{/compare}}
                     {{/if}}
                 </article>
