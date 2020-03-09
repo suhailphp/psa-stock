@@ -1,0 +1,485 @@
+rs<!-- Preloader -->
+<div class="preloader-it">
+    <div class="la-anim-1"></div>
+</div>
+<!-- /Preloader -->
+<div class="wrapper theme-1-active pimary-color-pink">
+    <!-- Top Menu Items -->
+    {{>header}}
+    <!-- /Top Menu Items -->
+
+    <!-- Left Sidebar Menu -->
+    {{>sidebar}}
+    <!-- /Left Sidebar Menu -->
+
+
+
+
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark"> فاتورة ضريبية</h5>
+                </div>
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb" >
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+                        <li><a href="/taxInvoice"><span>  فاتورة ضريبية </span></a></li>
+                        <li class="active"><span> {{#if editData}}تحديث{{else}}أضف{{/if}}  فاتورة ضريبية </span></li>
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            </div>
+            <!-- /Title -->
+
+            <!-- Row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default card-view">
+
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div class="form-wrap">
+
+
+
+                                    <form name="form one" method="post" action="/taxInvoice" id="PurchaseForm" enctype="multipart/form-data" >
+
+                                        <div class="row">
+
+
+                                            <div class="col-sm-3">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم</label>
+                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم" required="required" readonly
+                                                           value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="col-sm-3">
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left">التاريخ</label>
+                                                    <input type="date" name="date" id="date" required="required"  class="form-control"
+                                                           value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+
+
+                                        <div class="form-group ">
+                                            <label class="control-label mb-10 text-left">السيد / السادة </label>
+                                            <input type="text" class="form-control" id="customer" name="customer" placeholder="السيد / السادة " required="required"
+                                                   value="{{#if data.customer}}{{data.customer}}{{/if}}">
+                                        </div>
+
+
+
+                                    </div>
+
+
+
+
+                                </div>
+                                        <div class="row">
+
+
+                                        <div class="col-sm-6">
+
+
+                                            <div class="form-group ">
+                                                <label class="control-label mb-10 text-left">العنوان  </label>
+                                                <input type="text" class="form-control" id="title" name="title" placeholder="العنوان" required="required"
+                                                       value="{{#if data.title}}{{data.title}}{{/if}}">
+                                            </div>
+
+
+
+                                        </div>
+
+                                            <div class="col-sm-6">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">الرقم الضريبي للعميل  </label>
+                                                    <input type="text" class="form-control" id="customerTRN" name="customerTRN" placeholder="الرقم الضريبي للعميل" required="required"
+                                                           value="{{#if data.customerTRN}}{{data.customerTRN}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                        <br>
+
+
+
+                                        <div class="row" id="AllItem">
+
+                                            <div class="col-sm-12 ">
+                                                <div class="panel ">
+
+                                                    <div class="panel-wrapper collapse in">
+                                                        <div class="panel-body">
+                                                            <div class="table-wrap">
+                                                                <div class="table-responsive">
+                                                                    <table id="ProductTable" class="table table-hover display  pb-30" >
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th width="5%"></th>
+
+                                                                            <th width="50%"> الــبــيـــــــــان</th>
+
+
+                                                                            <th width="15%">الكمية</th>
+                                                                            <th width="15%">السعر</th>
+                                                                            <th width="15%">الإجمالي</th>
+
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody >
+                                                                        {{#if editData}}
+                                                                            {{#each invoiceItems}}
+
+                                                                                <tr id="MU{{this.itemSl}}">
+                                                                                    <input type="hidden" name="itemSl"  value="{{this.itemSl}}"  >
+                                                                                    <td style="width: 2%;"><a href="#" onclick="RemoveItem('{{this.itemSl}}');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
+
+                                                                                    <td ><input style="text-align: right;" type="text" class="form-control" name="itemName" value="{{this.itemName}}"  required ></td>
+
+
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="quantity" id="quantity{{this.itemSl}}" value="{{this.quantity}}" required="required" onkeyup="priceChange('{{this.itemSl}}','quantity')" ></td>
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="price" id="price{{this.itemSl}}"  value="{{currencyFormat this.price}}" required="required" onkeyup="priceChange('{{this.itemSl}}','price')" ></td>
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="amount" id="amount{{this.itemSl}}"  value="{{currencyFormat this.amount}}" required="required" onkeyup="priceChange('{{this.itemSl}}','amount')" ></td>
+                                                                                </tr>
+
+
+                                                                            {{/each}}
+                                                                        {{else}}
+
+                                                                                <tr id="MU1">
+                                                                                    <input type="hidden" name="itemSl"  value="1"  >
+                                                                                    <td style="width: 2%;"><a href="#" onclick="RemoveItem(1);" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>
+
+                                                                                    <td ><input style="text-align: right;" type="text" class="form-control" name="itemName"  required ></td>
+
+
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="quantity" id="quantity1" value="1" required="required" onkeyup="priceChange(1,'quantity')" ></td>
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="price" id="price1" value="0" required="required" onkeyup="priceChange(1,'price')" ></td>
+                                                                                    <td style="width: 8%;"><input style="text-align: right;" type="text" class="form-control" name="amount" id="amount1" value="0" required="required" onkeyup="priceChange(1,'amount')" ></td>
+                                                                                </tr>
+
+
+
+                                                                        {{/if}}
+
+                                                                        </tbody>
+
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td colspan="2">
+
+                                                                                    <button onclick="addNewField()" class="btn btn-default  btn-rounded btn-block btn-anim" type="button" ><i class="fa fa-check-square"></i><span class="btn-text">إضافة المزيد من البند</span></button>
+
+                                                                                </td>
+
+                                                                                <td colspan="3">
+
+                                                                                </td>
+
+                                                                            </tr>
+
+
+                                                                        </tfoot>
+
+
+
+
+
+
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                        <div class="row">
+
+                                            <div class="col-sm-8">
+
+                                            <div class="form-group " >
+                                                <textarea  style="min-height: 145px;" class="form-control" id="note" name="note" placeholder="المجموع بالدرهم (بالإضافة إلى قيمة الضريبة المضافة)">{{#if data.note}}{{data.note}}{{/if}}</textarea>
+
+                                            </div>
+                                            </div>
+
+
+                                            <div class="col-sm-4">
+                                                <div class="input-group has-default">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-default" style="min-width: 200px" >إجمالي</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="totalAmount" name="totalAmount"  style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.totalAmount}}{{currencyFormat data.totalAmount}}{{else}}0{{/if}}" readonly>
+                                                </div>
+                                                <div class="input-group has-default" style="margin-top: 10px;">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-default" style="min-width: 200px" >الضريبة  5 %</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="tax" name="tax"  style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.tax}}{{currencyFormat data.tax}}{{else}}0{{/if}}" readonly>
+                                                </div>
+                                                <div class="input-group has-default" style="margin-top: 10px;">
+                                                    <div class="input-group-btn" >
+                                                        <button type="button" class="btn btn-default" style="min-width: 200px" > الإجمالي النهائي</button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="grandTotal" name="grandTotal"  style="font-size:15px; font-weight: bold;text-align:right;background-color: #fff;"
+                                                           value="{{#if data.grandTotal}}{{currencyFormat data.grandTotal}}{{else}}0{{/if}}" readonly>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="col-sm-4 pull-right" style="margin-top: 50px;">
+                                                <input type="hidden" name="itemNo" id="itemNo" value="{{#if data.itemNo}}{{data.itemNo}}{{else}}1{{/if}}">
+                                                <input type="hidden" name="taxInvoiceID" id="taxInvoiceID" value="{{#if data.taxInvoiceID}}{{data.taxInvoiceID}}{{else}}{{/if}}">
+                                                <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
+                                                <button class="btn btn-primary  btn-rounded btn-block btn-anim" type="button" onclick="SubmitForm();"><i class="fa fa-check-square"></i><span class="btn-text">خضع</span></button>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <!-- /Row -->
+
+
+
+
+
+
+        </div>
+
+        {{>footer}}
+
+    </div>
+    <!-- /Main Content -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- JavaScript -->
+
+<script type="text/javascript">
+
+    /* Select2 Init*/
+    $(".select2").select2();
+
+    let IC 	=	parseInt($('#itemNo').val());
+
+
+    function priceChange(itemSl,type) {
+        let quantity = parseFloat($('#quantity'+itemSl).val());
+        let price = parseFloat($('#price'+itemSl).val());
+        let amount = parseFloat($('#amount'+itemSl).val());
+        if(type === 'amount'){
+            price = amount/quantity;
+            price = (Math.round(price * 100) / 100).toFixed(2);
+            $('#price'+itemSl).val(price);
+        }
+        else {
+            amount = quantity*price;
+            amount = (Math.round(amount * 100) / 100).toFixed(2);
+            $('#amount'+itemSl).val(amount);
+        }
+        totalChange();
+    }
+
+    function totalChange() {
+
+        let totalAmount = 0;
+        $('input[name^="amount"]').each(function() {
+            let amount = parseFloat($(this).val());
+            if(amount && amount > 0){
+                totalAmount = totalAmount+amount;
+            }
+        });
+
+        var tax = (totalAmount * 5) / 100;
+        let grandTotal = totalAmount + tax;
+
+        tax = (Math.round(tax * 100) / 100).toFixed(2);
+        totalAmount = (Math.round(totalAmount * 100) / 100).toFixed(2);
+        grandTotal = (Math.round(grandTotal * 100) / 100).toFixed(2);
+
+        $('#totalAmount').val(totalAmount);
+        $('#tax').val(tax);
+        $('#grandTotal').val(grandTotal);
+    }
+
+
+
+    //for form submit
+    function SubmitForm()
+    {
+
+
+        if($('#referenceNo').val() == '')
+        {
+            $('#referenceNo').focus();
+            swal("Reference Number", "Please enter the reference number", "warning");
+
+        }
+        else if($('#customer').val() == '')
+        {
+            $('#customer').focus();
+            swal("Customer Name", "Please enter customer name", "warning");
+
+        }
+        else if($('#title').val() == '')
+        {
+            $('#title').focus();
+            swal("Title", "Please enter Title", "warning");
+
+        }
+        else if($('#customerTRN').val() == '')
+        {
+            $('#customerTRN').focus();
+            swal("TRN", "Please enter Customer TRN Number", "warning");
+
+        }
+
+
+        else
+        {
+            let count = 0;
+            let itemCount = 0;
+            $('input[name^="itemName"]').each(function() {
+                itemCount++;
+                if($(this).val() == ''){
+                    $(this).focus();
+                    swal("Item Name", "Item name cannot be null", "warning");
+                    count++;
+                    return(false);
+                }
+            });
+            if(itemCount == 0){
+                swal("No items", "Please add items", "warning");
+                return(false);
+            }
+            if(count == 0){
+                $("#PurchaseForm").submit();
+            }
+
+
+        }
+
+    }
+
+
+
+    function addNewField(){
+        IC++;
+        $('#itemNo').val(IC);
+
+        $('#ProductTable tbody').append('<tr id="MU'+IC+'">'+
+            '<input type="hidden" name="itemSl"  value="'+IC+'"  >'+
+            '<td><a href="#" onclick="RemoveItem('+IC+');" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> </td>'+
+            '<td> <input style="text-align: right;" type="text" class="form-control" name="itemName"  required ></td>'+
+            '<td ><input style="text-align: right;" type="text" class="form-control"  name="quantity" id="quantity'+IC+'" value="1" required="required" onkeyup="priceChange('+IC+',\'quantity\')" ></td>'+
+            '<td ><input style="text-align: right;" type="text" class="form-control"  name="price" id="price'+IC+'" value="0" required="required" onkeyup="priceChange('+IC+',\'price\')" ></td>'+
+            '<td ><input style="text-align: right;" type="text" class="form-control"  name="amount" id="amount'+IC+'" value="0" required="required" onkeyup="priceChange('+IC+',\'amount\')" ></td>'+
+            '</tr>');
+
+        $('.selectpicker').selectpicker('refresh');
+
+
+    }
+
+
+
+
+
+
+
+    function RemoveItem(id)
+    {
+
+        swal({
+            title: "تحذير",
+            text: "هل تريد حذف هذا البند ؟",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f8b32d",
+            confirmButtonText: "نعم",
+            cancelButtonText: "لا",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm){
+            if (isConfirm) {
+
+                var Price 		=	$('#price'+id).val();
+                $('#MU'+id).hide('slow', function(){ $('#MU'+id).remove(); });
+                swal("Deleted!", "Your file has been deleted.", "success");
+
+            }
+        });
+
+
+
+    }
+
+
+
+</script>
+
+<!-- jQuery -->

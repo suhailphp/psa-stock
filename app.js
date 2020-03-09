@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require('morgan')
 const path = require("path");
 const session = require("express-session");
+var redisStore = require('connect-redis')(session);
 const exphbr = require("express-handlebars");
 const helper = require('./utilities/helper');
 const bodyParser = require('body-parser');
@@ -21,10 +22,22 @@ app.use(bodyParser.json({type: 'application/json', limit: '50mb'}));
 
 //session
 app.set('trust proxy', 1) // trust first proxy
+/**
+ *
+ *   Session Config
+ *   Stores in Redis
+ *
+ */
+const redis = require('redis')
+let client = redis.createClient()
 app.use(session({
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true
+    name: 'PSA-STORE',
+    resave: false,
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'sdfdsfds&^%*&^%*dsfdsfdsf&',
+    cookie: {maxAge: 7 * 24 * 60 * 1000}, // Default 1 Day , On Remember me 7 Days
+    store: new redisStore({prefix: 'PSA-STORE-SESS:', client}),
+    expires: true
 }));
 
 

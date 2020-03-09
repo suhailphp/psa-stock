@@ -4,7 +4,12 @@
             <div class="logo-wrap">
                 <a href="/">
                     <img class="brand-img" src="/images/logo.png" width="30" alt="brand"/>
-                    <span  class="brand-text">قسم المستودعات</span>
+
+                    {{#compare user.userRole '==' 'Finance'}}
+                        <span  class="brand-text">قسم المالية</span>
+                    {{else}}
+                        <span  class="brand-text">قسم المستودعات</span>
+                    {{/compare}}
                 </a>
             </div>
         </div>

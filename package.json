@@ -1,6 +1,6 @@
 {
   "name": "Store_Application",
-  "version": "1.0.0",
+  "version": "1.9.3",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "dependencies": {
     "activedirectory": "^0.7.2",
     "body-parser": "^1.18.3",
+    "connect-redis": "^4.0.4",
     "crypto": "^1.0.1",
     "dateformat": "^3.0.3",
     "dotenv": "^6.2.0",
@@ -37,6 +38,7 @@
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
+    "redis": "^3.0.2",
     "sequelize": "^4.41.0",
     "tedious": "^3.0.1",
     "underscore": "^1.9.1"
