@@ -467,10 +467,10 @@ rs<!-- Preloader -->
         }, function(isConfirm){
             if (isConfirm) {
 
-                var Price 		=	$('#price'+id).val();
-                $('#MU'+id).hide('slow', function(){ $('#MU'+id).remove(); });
-                swal("Deleted!", "Your file has been deleted.", "success");
-
+                $('#MU'+id).hide('slow', function(){
+                    $('#MU'+id).remove();
+                    totalChange();
+                });
             }
         });
 
