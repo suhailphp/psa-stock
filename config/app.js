@@ -44,6 +44,12 @@ module.exports = {
         baseDN: process.env.AD_BASE_DN,
         username: process.env.AD_USERNAME,
         password: process.env.AD_PASSWORD
+    },
+
+    AUTH: {
+        SERVER_URL: process.env.SERVER_URL,
+        CLIENT_ID: process.env.CLIENT_ID,
+        CLIENT_SECRET: process.env.CLIENT_SECRET,
     }
 
 }

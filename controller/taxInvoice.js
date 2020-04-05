@@ -62,7 +62,7 @@ router.post('/',auth,async (req,res)=> {
       if(result) {
 
           //remove all purchase items
-          taxInvoiceItemModel.destroy({where: {taxInvoiceID: invoice.taxInvoiceID}});
+          await taxInvoiceItemModel.destroy({where: {taxInvoiceID: invoice.taxInvoiceID}});
 
 
           if(req.body.itemName.constructor === Array)

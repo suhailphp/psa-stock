@@ -41,6 +41,18 @@ app.use(session({
 }));
 
 
+//auth
+const strategy = require('./middleware/strategy');
+app.use(strategy({
+    authServerURL: config.AUTH.SERVER_URL,
+    hostURL: config.HOST_URL,
+    clientID: config.AUTH.CLIENT_ID,
+    clientSecret: config.AUTH.CLIENT_SECRET,
+    sessionKey: 'UserName',
+    failureRedirect: '/login?error=1'
+}))
+
+
 
 //handle bars
 let hbs = exphbr.create({

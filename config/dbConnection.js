@@ -24,6 +24,9 @@ let db = new Sequelize(dbName, dbUsername, dbPassword, {
         min: 0,
         idle: 10000
     },
+    dialectOptions: {
+        encrypt: false
+    },
     logging: Config.DB['QUERY_LOG']
 });
 
