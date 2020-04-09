@@ -90,7 +90,7 @@ router.post('/',auth,async (req,res)=> {
       if(result) {
 
           //remove all purchase items
-          nonStockItemModel.destroy({where: {nonStockID: purchase.nonStockID}});
+          await nonStockItemModel.destroy({where: {nonStockID: purchase.nonStockID}});
 
 
           if(req.body.itemName.constructor === Array)
