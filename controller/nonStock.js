@@ -18,8 +18,15 @@ router.use(upload());
 
 router.get('/',auth,async (req,res)=>{
 
+    if(req.session.user.userRole == 'ADMIN'){
+        let where = {storeSign:false}
+    }
+    else{
+        let where = {storeSign:false,userID:req.session.user.userID}
+    }
+
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
-    let purchases = await nonStockModel.findAll({where:{storeSign:false,userID:req.session.user.userID},include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
+    let purchases = await nonStockModel.findAll({where:where,include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
     //for sign
     let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
 
@@ -28,9 +35,17 @@ router.get('/',auth,async (req,res)=>{
 
 router.get('/finished',auth,async (req,res)=>{
 
+    if(req.session.user.userRole == 'ADMIN'){
+        let where = {storeSign:true}
+    }
+    else{
+        let where = {storeSign:true,userID:req.session.user.userID}
+    }
+
+
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     nonStockModel.belongsTo(userModel, {foreignKey: 'financeUserID'});
-    let purchases = await nonStockModel.findAll({where:{storeSign:true},
+    let purchases = await nonStockModel.findAll({where:where,
                     include:[{model:supplierModel,required:true},{model:userModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
     //for sign
     let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
