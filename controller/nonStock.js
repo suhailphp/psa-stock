@@ -30,7 +30,7 @@ router.get('/finished',auth,async (req,res)=>{
 
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
     nonStockModel.belongsTo(userModel, {foreignKey: 'financeUserID'});
-    let purchases = await nonStockModel.findAll({where:{storeSign:true,userID:req.session.user.userID},
+    let purchases = await nonStockModel.findAll({where:{storeSign:true},
                     include:[{model:supplierModel,required:true},{model:userModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
     //for sign
     let financeUsers = await userModel.findAll({where:{userRole:'Finance'}});
