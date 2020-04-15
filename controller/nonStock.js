@@ -18,11 +18,13 @@ router.use(upload());
 
 router.get('/',auth,async (req,res)=>{
 
+    let where = '';
+
     if(req.session.user.userRole == 'ADMIN'){
-        let where = {storeSign:false}
+         where = {storeSign:false}
     }
     else{
-        let where = {storeSign:false,userID:req.session.user.userID}
+         where = {storeSign:false,userID:req.session.user.userID}
     }
 
     nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
@@ -35,11 +37,12 @@ router.get('/',auth,async (req,res)=>{
 
 router.get('/finished',auth,async (req,res)=>{
 
+    let where = '';
     if(req.session.user.userRole == 'ADMIN'){
-        let where = {storeSign:true}
+        where = {storeSign:true}
     }
     else{
-        let where = {storeSign:true,userID:req.session.user.userID}
+        where = {storeSign:true,userID:req.session.user.userID}
     }
 
 
