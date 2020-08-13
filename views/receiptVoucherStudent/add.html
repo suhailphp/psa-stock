@@ -1,0 +1,398 @@
+rs<!-- Preloader -->
+<div class="preloader-it">
+    <div class="la-anim-1"></div>
+</div>
+<!-- /Preloader -->
+<div class="wrapper theme-1-active pimary-color-pink">
+    <!-- Top Menu Items -->
+    {{>header}}
+    <!-- /Top Menu Items -->
+
+    <!-- Left Sidebar Menu -->
+    {{>sidebar}}
+    <!-- /Left Sidebar Menu -->
+
+
+
+
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark"> فاتورة ضريبية</h5>
+                </div>
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb" >
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+                        <li><a href="/receiptVoucher"><span> ســنــد قــبــض   </span></a></li>
+                        <li class="active"><span> {{#if editData}}تحديث{{else}}أضف{{/if}}   ســنــد قــبــض  </span></li>
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            </div>
+            <!-- /Title -->
+
+            <!-- Row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default card-view">
+
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div class="form-wrap">
+
+
+
+                                    <form name="form one" method="post" action="/receiptVoucherStudent" id="PurchaseForm" enctype="multipart/form-data" >
+
+                                        <div class="row">
+
+
+                                            <div class="col-sm-4">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم   السند </label>
+                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم" required="required" readonly
+                                                           value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="col-sm-4">
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left"> تاريخ  السند</label>
+                                                    <input type="date" name="date" id="date" required="required"  class="form-control"
+                                                           value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-4">
+
+                                                    <div class="form-group ">
+                                                        <label class="control-label mb-10 text-left">الرقم الاكاديمي </label>
+                                                        <input type="text" class="form-control" id="studentNumber" name="studentNumber" placeholder="الرقم الاكاديمي" required="required"
+                                                               value="{{#if data.studentNumber}}{{data.studentNumber}}{{/if}}">
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+
+
+
+                                </div>
+                                        <div class="row">
+
+                                            <div class="col-sm-6">
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">الاسم   </label>
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder="الاسمة " required="required"
+                                                           value="{{#if data.name}}{{data.name}}{{/if}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">الدفعه   </label>
+                                                    <input type="text" class="form-control" id="grade" name="grade" placeholder="الدفعه " required="required"
+                                                           value="{{#if data.grade}}{{data.grade}}{{/if}}">
+                                                </div>
+                                            </div>
+
+
+
+
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group ">
+                                                <label class="control-label mb-10 text-left">رقم الهاتف   </label>
+                                                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="رقم الهاتف" required="required"
+                                                       value="{{#if data.mobile}}{{data.mobile}}{{/if}}">
+                                            </div>
+
+                                        </div>
+
+                                            <div class="col-sm-6">
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">البريد الالكتروني </label>
+                                                    <input type="text" class="form-control" id="email" name="email" placeholder="البريد الالكتروني " required="required"
+                                                           value="{{#if data.email}}{{data.email}}{{/if}}">
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+
+                                </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12" >
+
+                                                <input class="input input-radio" type="radio" name="courseType" id="courseType2" value="Higher" checked onchange="changeCSType()">
+                                                <label for="courseType2">
+                                                    برنامج الماجستير
+                                                </label>
+
+                                                <input  class="input input-radio" type="radio" name="courseType" id="courseType1" value="PHD" onchange="changeCSType()" >
+                                                <label for="courseType1">
+                                                    برنامج الدكتوراة
+                                                </label>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6" >
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">التخصص</label>
+                                                    <select class="form-control select2" name="courseName" id="courseName" required="required"  >
+                                                        <option value="">اختار</option>
+                                                            <option value="بحث جنائي">بحث جنائي</option>
+                                                            <option value="ادراة الشرطة">ادراة الشرطة</option>
+                                                            <option value="الجودة والتميز">الجودة والتميز</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6" id="reasonHigher" >
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">التخصص</label>
+                                                    <select class="form-control select2" name="reason1" id="reason1" required="required"  >
+
+
+                                                        <option value="استدراكي (1)">استدراكي (1) </option>
+                                                        <option value="استدراكي (2)">استدراكي (2)</option>
+                                                        <option value="فصل دراسي الأول">فصل دراسي الأول</option>
+                                                        <option value="فصل دراسي ثاني">فصل دراسي ثاني</option>
+                                                        <option value="تسجيل رسالة">تسجيل رسالة </option>
+                                                        <option value="تمديد رسالة">تمديد رسالة</option>
+                                                        <option value="مواد إعادة">مواد إعادة</option>
+                                                        <option value="اسم المادة">اسم المادة</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                                <div class="col-sm-6" id="reasonPHD" style="display: none" >
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">التخصص</label>
+                                                        <select class="form-control select2" name="reason2" id="reason2" required="required"  >
+                                                            <option value="فصل دراسي اول">فصل دراسي اول</option>
+                                                            <option value="فصل دراسي ثاني">فصل دراسي ثاني</option>
+                                                            <option value="رسالة سنة أولى">رسالة سنة أولى</option>
+                                                            <option value="رسالة سنة ثانية ">رسالة سنة ثانية </option>
+                                                            <option value="رسالة سنة ثالثة">رسالة سنة ثالثة</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group " >
+                                                <label class="control-label mb-10 text-left">ملاحظات</label>
+                                                <textarea style="min-height: 50px;"  name="statement" placeholder="ملاحظات " class="form-control" placeholder="الــبــيــان ">{{#if data.statement}}{{data.statement}}{{/if}}</textarea>
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">مبلغ وقدره / درهم   </label>
+                                                    <input type="text" class="form-control" id="sumOfDhm" name="sumOfDhm" placeholder="مبلغ وقدره / درهم " required="required"
+                                                           value="{{#if data.sumOfDhm}}{{data.sumOfDhm}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-sm-12">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">نقداُ /    </label>
+                                                    <input type="text" class="form-control" id="cash" name="cash" placeholder="نقداُ /    " required="required"
+                                                           value="{{#if data.cash}}{{data.cash}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-sm-4">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">       شيك / رقم </label>
+                                                    <input type="text" class="form-control" id="chequeNo" name="chequeNo" placeholder="شيك / رقم" required="required"
+                                                           value="{{#if data.chequeNo}}{{data.chequeNo}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-sm-4">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">البنك </label>
+                                                    <input type="text" class="form-control" id="bank" name="bank" placeholder="البنك" required="required"
+                                                           value="{{#if data.bank}}{{data.bank}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-sm-4">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">التاريخ</label>
+                                                    <input type="date" class="form-control" id="chequeDate" name="chequeDate" placeholder="التاريخ" required="required"
+                                                           value="{{#if data.chequeDate}}{{dateToChrome data.chequeDate}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+
+
+                                            <div class="col-sm-4 pull-right" style="margin-top: 50px;">
+
+                                                <input type="hidden" name="receiptVoucherStudentID" id="receiptVoucherStudentID" value="{{#if data.receiptVoucherStudentID}}{{data.receiptVoucherStudentID}}{{else}}{{/if}}">
+                                                <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
+                                                <button class="btn btn-primary  btn-rounded btn-block btn-anim" type="button" onclick="SubmitForm();"><i class="fa fa-check-square"></i><span class="btn-text">خضع</span></button>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <!-- /Row -->
+
+
+
+
+
+
+        </div>
+
+        {{>footer}}
+
+    </div>
+    <!-- /Main Content -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- JavaScript -->
+
+<script type="text/javascript">
+
+    /* Select2 Init*/
+    $(".select2").select2();
+
+    function changeCSType(){
+        let courseType = $("input[name='courseType']:checked").val();
+        if(courseType == 'PHD'){
+            $('#reasonHigher').hide("slow")
+            $('#reasonPHD').show( "slow");
+        }
+        else{
+            $('#reasonPHD').hide("slow")
+            $('#reasonHigher').show("slow")
+        }
+    }
+
+    //for form submit
+    function SubmitForm()
+    {
+
+
+        if($('#referenceNo').val() == '')
+        {
+            $('#referenceNo').focus();
+            swal("Reference Number", "Please enter the reference number", "warning");
+
+        }
+        else if($('#customer').val() == '')
+        {
+            $('#customer').focus();
+            swal("Customer Name", "Please enter customer name", "warning");
+
+        }
+        else if($('#title').val() == '')
+        {
+            $('#title').focus();
+            swal("Title", "Please enter Title", "warning");
+
+        }
+
+
+        else
+        {
+            $("#PurchaseForm").submit();
+
+
+        }
+
+    }
+
+
+
+
+
+</script>
+
+<!-- jQuery -->

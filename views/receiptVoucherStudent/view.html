@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+
+    <style>
+        article { margin-top: -2px !important; }
+        table { margin-top: -15px !important; }
+
+    </style>
+
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4" dir="rtl">
+
+
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="720px;" style="margin-bottom: 9px" >
+
+    <table  class="table table-bordered"  >
+        <thead>
+
+        <tr >
+            <th style="width: 50%;font-size: 14px;">
+                <span> سنــــد قبض  الكتروني</span>
+                <span style="float: left">  RECEIPT VOUCHER</span>
+            </th>
+            <th style="width: 50%;font-size: 14px;">
+                <span>رقم الفاتورة </span>
+                <span style="margin-right: 75px;color: #ff0000 !important;">   {{numberFourDigit data.referenceNo}}</span>
+                <span style="float: left">   INVOICE No</span>
+            </th>
+        </tr>
+        <tr >
+            <th style="width: 50%;font-size: 14px;">
+                <span>التاريخ       </span>
+                <span style="margin-right: 75px;">   {{ dateNormal data.date}}</span>
+                <span style="float: left">   Date</span>
+            </th>
+            <th style="font-size: 14px;" colspan="2">
+                <span>الرقم الاكاديمي     </span>
+                <span style="margin-right: 20px;">{{data.studentNumber}}</span>
+                <span style="float: left"></span>
+            </th>
+        </tr>
+
+
+
+        <tr >
+
+            <th style="width: 50%;font-size: 14px;">
+                <span style="font-weight: bold">الاسم   </span>
+                <span style="margin-right: 75px;">   {{ data.name}}</span>
+                <span style="float: left;font-weight: bold;">Mr. / M/s</span>
+            </th>
+            <th style="font-size: 14px;" colspan="2">
+                <span>الدفعه      </span>
+                <span style="margin-right: 20px;">{{data.grade}}</span>
+                <span style="float: left">Grade</span>
+            </th>
+
+
+
+        </tr>
+        <tr >
+            <th style="font-size:  13px;" >
+                <span style="font-weight: bold">رقم الهاتف    </span>
+                <span style="margin-right: 13px;">{{ data.mobile}}</span>
+                <span style="float: left;font-weight: bold">Mobile</span>
+            </th>
+
+            <th style="font-size:  13px;" >
+                <span style="font-weight: bold">البريد الالكتروني  </span>
+                <span style="margin-right: 13px;">{{ data.email}}</span>
+                <span style="float: left;font-weight: bold">Email</span>
+            </th>
+
+        </tr>
+
+        <tr >
+            <th colspan="2" style="font-size:  13px;" >
+                <span style="font-weight: bold">البرنامج</span>
+                <span style="margin-right: 13px;">{{#compare data.courseType '===' 'PHS'}}برنامج الدكتوراة{{else}}برنامج الماجستير {{/compare}}</span>
+            </th>
+
+
+        </tr>
+
+        <tr >
+            <th style="font-size:  13px;" >
+                <span style="font-weight: bold">التخصص   </span>
+                <span style="margin-right: 13px;">{{ data.courseName}}</span>
+                <span style="float: left;font-weight: bold"></span>
+            </th>
+
+            <th style="font-size:  13px;" >
+                <span style="font-weight: bold">التخصص  </span>
+                <span style="margin-right: 13px;">{{ data.reason}}</span>
+                <span style="float: left;font-weight: bold"></span>
+            </th>
+
+        </tr>
+
+        <tr >
+            <th colspan="2" style="font-size:  13px;" >
+                <span style="font-weight: bold">ملاحظات   </span>
+                <span style="margin-right: 13px;">{{ data.statement}}</span>
+            </th>
+
+
+        </tr>
+
+
+    </table>
+
+    <br>
+    <br>
+
+    <table  class="table table-bordered" style="color: #0c0c0c"   >
+
+
+
+
+        <tr >
+            <td colspan="3" style="font-size:  13px;" >
+                <span style="font-weight: bold">مبلغ وقدره / درهم   </span>
+                <span style="margin-right: 20px;">{{ data.sumOfDhm}}</span>
+                <span style="float: left;font-weight: bold">The Sum of Dhs</span>
+
+            </td>
+
+        </tr>
+        <tr >
+            <td colspan="3" style="font-size:  13px;" >
+
+
+                <span style="font-weight: bold">نقداُ /   </span>
+                <span style="margin-right: 13px;">{{ data.cash}}</span>
+                <span style="float: left;font-weight: bold">Cash</span>
+            </td>
+
+        </tr>
+        <tr >
+            <td style="font-size:  13px;" >
+
+
+                <span style="font-weight: bold;"> شيك / رقم </span>
+                <span style="margin-right: 13px;">{{ data.chequeNo}}</span>
+                <span style="float: left;font-weight: bold;">Cheque No </span>
+            </td>
+
+            <td style="font-size:  13px;" >
+
+
+                <span style="font-weight: bold;">    البنك   </span>
+                <span style="margin-right: 13px;">{{ data.bank}}</span>
+                <span style="float: left;font-weight: bold;">Bank  </span>
+            </td>
+
+            <td style="font-size:  13px;" >
+
+
+                <span style="font-weight: bold">التاريخ         </span>
+                <span style="margin-right: 13px;">{{dateNormal data.chequeDate}}</span>
+                <span style="float: left;font-weight: bold;">Date</span>
+            </td>
+
+        </tr>
+
+        <tr >
+            <td colspan="3" style="font-size:  13px;" >
+
+
+                <span style="font-weight: bold">ملاحظات   </span>
+                <span style="margin-right: 13px;">
+
+رسوم القيد  لكل فصل دراسي غير قابلة للاسترداد  .
+الطالب مسؤول عن صحة  البيانات الواردة في الشيكات المدفوعة  من قبله ويتحمل مسؤولية أي غرامة مالية قد تنتج عنها
+يسجل الشيك باسم حكومة الشارقة و مدة صلاحية الشيك شهرين  فقط  .
+يسدد  الطالب الدارس رسوم المساقات الدراسية في حالات الانسحاب والانقطاع والرسوب وغيرها من الحالات الأخرى
+
+
+                </span>
+
+            </td>
+
+        </tr>
+
+
+        </body>
+    </table>
+
+
+
+    <article style="position: absolute; bottom: 0;">
+
+    <table  class=" table-bordered" style="width: 100%" >
+        <thead>
+        <tr style="background-color: #e8e8e8;">
+            <th width="33%" style="text-align: center">توقيع المستلم</th>
+            <th width="33%" style="text-align: center">الـمـحــاســــب</th>
+<!--            <th width="33%" style="text-align: center">رئـيـس قـسـم الشؤون الـمـالـيـة</th>-->
+            <th width="33%" style="text-align: center">خـتــم الأكـــاديـمـيــة</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+
+            <td style="text-align: center"></td>
+            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" ></td>
+
+<!--            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username=malraeesi&ActionName=userssignature" height="100px" ></td>-->
+            <td style="text-align: center"><img  src="/images/finance.png" height="120px"></td>
+        </tr>
+        </tbody>
+
+    </table>
+
+     <img src="/images/invoicefooter.jpg" width="720px;" >
+    </article>
+
+
+
+        </section>
+
+</body>
+
+
+
+
+</html>
+
+
+

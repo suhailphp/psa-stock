@@ -1,0 +1,217 @@
+<!-- Preloader -->
+<div class="preloader-it">
+    <div class="la-anim-1"></div>
+</div>
+<!-- /Preloader -->
+<div class="wrapper theme-1-active pimary-color-pink">
+    <!-- Top Menu Items -->
+    {{>header}}
+    <!-- /Top Menu Items -->
+
+    <!-- Left Sidebar Menu -->
+    {{>sidebar}}
+    <!-- /Left Sidebar Menu -->
+
+
+
+
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark">فاتورة ضريبية</h5>
+                </div>
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb">
+
+
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+
+                        <li class="active"><span> ســنــد قــبــض </span></li>
+
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            </div>
+            <!-- /Title -->
+
+            <!-- Row -->
+            <div class="row">
+
+                <!-- Basic Table -->
+                <div class="col-sm-12">
+                    <div class="panel panel-default card-view">
+                        <div class="panel-heading">
+                            <div class="pull-left">
+                                <h6 class="panel-title txt-dark">  ســنــد قــبــض </h6>
+                            </div>
+
+                            <div class="pull-right">
+                                <a href="/receiptVoucherStudent/add"><div class="pull-left"><i class="fa fa-plus-square mr-5"></i><span class="right-nav-text">اضف جديد</span></div></a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+
+                                <div class="table-wrap mt-0">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0" id="TableData">
+                                            <thead>
+                                            <tr>
+
+                                                <th>رقم</th>
+                                                <th>تاريخ</th>
+
+                                                <th>من</th>
+
+                                                <th class="text-nowrap" width="6%">عمل</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {{#each invoices }}
+
+                                            <tr id="{{this.receiptVoucherStudentID}}">
+
+                                                <td style="cursor: pointer" onclick="action('/receiptVoucherStudent/view/{{this.receiptVoucherStudentID}}');">{{this.referenceNo}}</td>
+                                                <td style="cursor: pointer" onclick="action('/receiptVoucherStudent/view/{{this.receiptVoucherStudentID}}');">{{dateToStringDate this.date}}</td>
+                                                <td style="cursor: pointer" onclick="action('/receiptVoucherStudent/view/{{this.receiptVoucherStudentID}}');">{{this.name}}</td>
+
+
+
+
+
+                                                <td class="text-nowrap">
+
+
+
+
+
+
+                                                    <a href="/receiptVoucherStudent/edit/{{this.receiptVoucherStudentID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                        <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.receiptVoucherStudentID}}');">
+                                                        <i class="fa fa-close text-danger"></i> </a>
+
+
+
+
+                                                </td>
+                                            </tr>
+
+                                            {{else}}
+
+                                            <tr id="0">
+                                                <td colspan="5" align="center">No data found</td>
+                                            </tr>
+
+                                            {{/each}}
+
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Basic Table -->
+
+            </div>
+            <!-- /Row -->
+
+
+
+        </div>
+
+        {{>footer}}
+
+    </div>
+    <!-- /Main Content -->
+
+
+
+
+
+    {{>footer}}
+
+</div>
+<!-- /#wrapper -->
+
+<!-- JavaScript -->
+
+<!-- jQuery -->
+
+<script type="text/javascript">
+
+
+    //for data table
+    "use strict";
+    $(document).ready(function() {
+        "use strict";
+        $('#TableData').DataTable({"aaSorting": []});
+        //$('#TableData').DataTable({ "lengthChange": false});
+    } );
+
+
+
+    function action(url){
+        window.open(url,'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    }
+
+    function DeleteItem(id){
+
+
+        swal({
+            title: "تحذير",
+            text: "هل تريد حذف هذا البند ؟",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f8b32d",
+            confirmButtonText: "نعم",
+            cancelButtonText: "لا",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url: 'receiptVoucherStudent/'+id,
+                    type: 'delete',
+                    success: function(data) {
+
+                        if(data == true)
+                        {
+                            //$('table#TableData tr#'+id).remove();
+                            $('table#TableData tr#'+id).hide('slow', function(){ $('table#TableData tr#'+id).remove(); });
+                            swal("تم الحذف", "تم حذف الملف", "success");
+                        }
+                        else
+                        {
+                            swal("ألغيت", "الملف آمن الآن", "error");
+                        }
+
+                    },
+                    error: function(xhr, desc, err) {
+                        console.log(xhr);
+                        console.log("Details: " + desc + "\nError:" + err);
+                    }
+                }); // end ajax call
+
+            } else {
+                swal("ألغيت", "الملف آمن الآن", "error");
+            }
+        });
+
+    }
+
+</script>

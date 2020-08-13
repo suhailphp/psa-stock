@@ -171,7 +171,8 @@ module.exports = {
     },
 
     currencyFormat: function(amount){
-        return (amount.toFixed(2))
+        return amount
+        //return amount.toFixed(2)
     },
     countOne:function(number){
         return(parseInt(number)+1)
