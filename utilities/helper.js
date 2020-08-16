@@ -240,7 +240,31 @@ module.exports = {
         else{
             return options.fn(this);
         }
-    }
+    },
+
+    checkUserPermission: function (userPrivilege, privilegeListString, options) {
+
+        const privilegeList = privilegeListString.split(",");
+
+        if(privilegeList.length === 1)
+            return (userPrivilege === privilegeList[0] ) ? options.fn(this) : options.inverse(this);
+        else if(privilegeList.length === 2)
+            return (userPrivilege === privilegeList[0] || userPrivilege === privilegeList[1]) ? options.fn(this) : options.inverse(this);
+
+        else if(privilegeList.length === 3)
+            return (userPrivilege === privilegeList[0] || userPrivilege === privilegeList[1] || userPrivilege === privilegeList[2])
+                ? options.fn(this) : options.inverse(this);
+
+        else if(privilegeList.length === 4)
+            return (userPrivilege === privilegeList[0] || userPrivilege === privilegeList[1] || userPrivilege === privilegeList[2]
+                || userPrivilege === privilegeList[3]) ? options.fn(this) : options.inverse(this);
+
+        else if(privilegeList.length === 4)
+            return (userPrivilege === privilegeList[0] || userPrivilege === privilegeList[1] || userPrivilege === privilegeList[2]
+                || userPrivilege === privilegeList[3]|| userPrivilege === privilegeList[4]) ? options.fn(this) : options.inverse(this);
+
+
+    },
 
 
 }

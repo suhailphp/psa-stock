@@ -258,10 +258,12 @@
             <div class="pull-left"><i class="fa fa-file mr-20"></i><span class="right-nav-text"> ســنــد قــبــض </span></div><div class="clearfix"></div></a>
         </li>
 
-        <li>
-            <a href="/receiptVoucherStudent" {{#compare curPage '==' 'receiptVoucherStudent'}}class="current"{{/compare}}>
-            <div class="pull-left"><i class="fa fa-file mr-20"></i><span class="right-nav-text"> ســنــد قــبــض Student </span></div><div class="clearfix"></div></a>
-        </li>
+            {{#checkUserPermission user.userName  'fahmed,salburaimi'}}
+            <li>
+                <a href="/receiptVoucherStudent" {{#compare curPage '==' 'receiptVoucherStudent'}}class="current"{{/compare}}>
+                <div class="pull-left"><i class="fa fa-file mr-20"></i><span class="right-nav-text"> ســنــد قــبــض Student </span></div><div class="clearfix"></div></a>
+            </li>
+            {{/checkUserPermission}}
 
         {{/compare}}
 
