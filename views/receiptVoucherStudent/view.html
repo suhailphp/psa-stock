@@ -249,7 +249,7 @@
             <td style="text-align: center">
 
                 {{#if data.studentSign}}
-                    <img src="{{data.studentSign}}" height="100px" >
+                    <img id="changeSignature" src="{{data.studentSign}}" height="100px" >
                 {{else}}
                     <button id="Signature">Sign</button>
                 {{/if}}
@@ -315,7 +315,13 @@
     $('#Signature').on('click', function () {
         let receiptVoucherStudentID = "{{data.receiptVoucherStudentID}}"
         window.open('/receiptVoucherStudent/view_sign/'+receiptVoucherStudentID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    })
 
+    $('#changeSignature').on('click', function () {
+        if(confirm("Are you sure you want to add new image")){
+            let receiptVoucherStudentID = "{{data.receiptVoucherStudentID}}"
+            window.open('/receiptVoucherStudent/view_sign/'+receiptVoucherStudentID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+        }
     })
 </script>
 
