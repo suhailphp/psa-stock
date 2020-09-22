@@ -2,6 +2,26 @@
 <html dir="rtl">
 
 <head>
+
+    <!-- Data table CSS -->
+    <link href="/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/vendors/bower_components/jquery-toast-plugin/dist/jquery.toast.min.css" rel="stylesheet" type="text/css">
+
+    <link href="/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+
+    <!-- select2 CSS -->
+    <link href="/vendors/bower_components/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css"/>
+
+
+    <!-- bootstrap-touchspin CSS -->
+    <link href="/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Custom CSS -->
+    <link href="/dist/css/style.css" rel="stylesheet" type="text/css">
+
+    <!--alerts CSS -->
+    <link href="/vendors/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
     <title>A4</title>
 
@@ -226,7 +246,19 @@
         <tbody>
         <tr>
 
-            <td style="text-align: center"></td>
+            <td style="text-align: center">
+
+                {{#if data.studentSign}}
+                    <img src="{{data.studentSign}}" height="100px" >
+                {{else}}
+
+                {{/if}}
+                <button id="Signature">Sign</button>
+
+
+
+
+                </td>
             <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" ></td>
 
 <!--            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username=malraeesi&ActionName=userssignature" height="100px" ></td>-->
@@ -237,6 +269,7 @@
     </table>
 
      <img src="/images/invoicefooter.jpg" width="720px;" >
+
     </article>
 
 
@@ -247,8 +280,43 @@
 
 
 
+<!-- Modal for add new sup -->
+<div id="SPModal" class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content " id="SPModalContent" >
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
 
 </html>
 
+<script src="/vendors/bower_components/jquery/dist/jquery.min.js" ></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Toast JavaScript -->
+<script src="/vendors/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js" type="text/javascript"></script>
+
+
+
+
+
+<script type="text/javascript">
+    $('#Signature').on('click', function () {
+        let receiptVoucherStudentID = "{{data.receiptVoucherStudentID}}"
+        window.open('/receiptVoucherStudent/view_sign/'+receiptVoucherStudentID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+
+    })
+</script>
 
 

@@ -81,6 +81,10 @@ let receiptVoucherStudentModel = db.define('receiptVoucherStudent', {
         type: Sequelize.INTEGER
     },
 
+    studentSign:{
+        type: Sequelize.TEXT
+    },
+
     createdOn: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW

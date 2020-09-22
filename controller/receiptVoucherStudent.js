@@ -127,8 +127,24 @@ router.get('/view/:receiptVoucherStudentID', async (req,res)=>{
     let data = await receiptVoucherStudentModel.findOne({ where: {receiptVoucherStudentID: req.params.receiptVoucherStudentID },
         include:[{model:userModel,required:true}]});
 
-
     res.render('receiptVoucherStudent/view',{data});
+});
+
+
+router.get('/view_sign/:receiptVoucherStudentID', async (req,res)=>{
+    res.render('receiptVoucherStudent/sign',{receiptVoucherStudentID:req.params.receiptVoucherStudentID});
+});
+
+router.post('/do_sign/:receiptVoucherStudentID', async (req,res)=>{
+    let invoice = await receiptVoucherStudentModel.findOne({where:{receiptVoucherStudentID:req.params.receiptVoucherStudentID}});
+    invoice.studentSign = req.body.data
+    let result = await invoice.save();
+    if(result){
+        res.send(true)
+    }
+    else{
+        res.send(false)
+    }
 });
 
 router.delete('/:id',async(req,res)=>{
