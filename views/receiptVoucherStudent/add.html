@@ -147,12 +147,12 @@ rs<!-- Preloader -->
                                         <div class="row">
                                             <div class="col-sm-12" >
 
-                                                <input class="input input-radio" type="radio" name="courseType" id="courseType2" value="Higher" checked onchange="changeCSType()">
+                                                <input class="input input-radio" type="radio" name="courseType" id="courseType2" value="Higher" {{#compare data.courseType '==' 'Higher'}}checked{{/compare}} onchange="changeCSType()">
                                                 <label for="courseType2">
                                                     برنامج الماجستير
                                                 </label>
 
-                                                <input  class="input input-radio" type="radio" name="courseType" id="courseType1" value="PHD" onchange="changeCSType()" >
+                                                <input  class="input input-radio" type="radio" name="courseType" id="courseType1" value="PHD" {{#compare data.courseType '==' 'PHD'}}checked{{/compare}} onchange="changeCSType()" >
                                                 <label for="courseType1">
                                                     برنامج الدكتوراة
                                                 </label>
@@ -408,6 +408,11 @@ rs<!-- Preloader -->
         }
 
     }
+
+
+    $( document ).ready(function (){
+        changeCSType()
+    })
 
 
 
