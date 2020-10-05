@@ -20,6 +20,9 @@ let receiptVoucherStudentModel = db.define('receiptVoucherStudent', {
     studentNumber: {
         type: Sequelize.STRING(255)
     },
+    eid: {
+        type: Sequelize.STRING(255)
+    },
     name: {
         type: Sequelize.STRING(255)
     },

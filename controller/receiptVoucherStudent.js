@@ -47,6 +47,7 @@ router.post('/',auth,async (req,res)=> {
       invoice.referenceNo = req.body.referenceNo;
       invoice.date = req.body.date;
       invoice.studentNumber = req.body.studentNumber;
+      invoice.eid = req.body.eid;
       invoice.name = req.body.name;
       invoice.grade = req.body.grade;
       invoice.mobile = req.body.mobile;
@@ -82,6 +83,7 @@ router.post('/',auth,async (req,res)=> {
          referenceNo : req.body.referenceNo,
          date : req.body.date,
          studentNumber : req.body.studentNumber,
+         eid : req.body.eid,
          name : req.body.name,
          grade : req.body.grade,
          mobile : req.body.mobile,

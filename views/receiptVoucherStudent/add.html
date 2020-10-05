@@ -53,40 +53,38 @@ rs<!-- Preloader -->
                                         <div class="row">
 
 
-                                            <div class="col-sm-4">
-
-
+                                            <div class="col-sm-3">
                                                 <div class="form-group ">
                                                     <label class="control-label mb-10 text-left">رقم   السند </label>
                                                     <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم" required="required" readonly
                                                            value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
                                                 </div>
-
-
                                             </div>
 
 
-                                            <div class="col-sm-4">
-
-
-
+                                            <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10 text-left"> تاريخ  السند</label>
                                                     <input type="date" name="date" id="date" required="required"  class="form-control"
                                                            value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
                                                 </div>
-
                                             </div>
 
-                                            <div class="col-sm-4">
-
-                                                    <div class="form-group ">
-                                                        <label class="control-label mb-10 text-left">الرقم الاكاديمي </label>
-                                                        <input type="text" class="form-control" id="studentNumber" name="studentNumber" placeholder="الرقم الاكاديمي" required="required"
-                                                               value="{{#if data.studentNumber}}{{data.studentNumber}}{{/if}}">
-                                                    </div>
-
+                                            <div class="col-sm-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">الرقم الاكاديمي </label>
+                                                    <input type="text" class="form-control" id="studentNumber" name="studentNumber" placeholder="الرقم الاكاديمي" required="required"
+                                                           value="{{#if data.studentNumber}}{{data.studentNumber}}{{/if}}">
                                                 </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم الهوية </label>
+                                                    <input type="text" class="form-control" id="eid" name="eid" placeholder=" رقم الهوية" required="required"
+                                                           value="{{#if data.eid}}{{data.eid}}{{/if}}">
+                                                </div>
+                                            </div>
 
 
 
