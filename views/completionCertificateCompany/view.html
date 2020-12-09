@@ -88,30 +88,42 @@
         </div>
     </div>
 
-    <div class="row" >
+    <div class="row"  >
         <div class="col-sm-12">
-            <div class="align-center">
-                <h1 class="bold" style="text-align: center"> الموضوع : شهادة انجاز  (  {{numberFourDigit data.referenceNo}}    )</h1>
-            </div>
+                <h1 class="bold" style="text-align: center;font-size: 20px;"> الموضوع : شهادة انجاز  (  {{numberFourDigit data.referenceNo}}    )</h1>
         </div>
     </div>
 
-    <div class="row" style="margin-bottom: 10px">
+    <div class="row" >
         <table  class=" table-bordered" style="width: 100%;" >
             <tbody>
+
+
             <tr >
-                <td style="width: 40%;" ><p class="head">يرجى من سيادتكم الموافقة على صرف مبلغ:</p></td>
+                <td style="width: 40%;" ><p class="head">نود اعلامكم سيدي بأن المورد:</p></td>
+                <td ><p class="content">{{  data.inform}}</p></td>
+            </tr>
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">الصادر لفاتورة رقم :</p></td>
+                <td ><p class="content">{{  data.invoiceNo}}</p></td>
+            </tr>
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">بتاريخ :</p></td>
+                <td ><p class="content">{{  data.invoiceDate}}</p></td>
+            </tr>
+
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">بمبلغ:</p></td>
                 <td ><p class="content">{{  data.amount}}</p></td>
             </tr>
 
-            <tr >
-                <td style="width: 40%;" ><p class="head">للسيد / السيدة :</p></td>
-                <td ><p class="content">{{  data.customerName}}</p></td>
-            </tr>
 
             <tr >
-                <td style="width: 40%;" ><p class="head">وذلك عن  :</p></td>
-                <td ><p class="content">{{  data.about}}</p></td>
+                <td style="width: 40%;" ><p class="head">البيان  :</p></td>
+                <td ><p class="content">{{  data.statement}}</p></td>
             </tr>
 
 
@@ -124,13 +136,13 @@
 
     <div class="row" >
         <div class="col-sm-12">
-            <div class="align-center">
+
                 <h1  class="bold" style="text-align: center;font-size: 20px;"> حيث أن المذكور/ أو المذكورة قد أنجزالعمل اللازم كما هو متفق عليه .</h1>
-            </div>
+
         </div>
     </div>
 
-    <div class="row" style="margin-bottom: 10px">
+    <div class="row">
         <table  class=" table-bordered" style="width: 100%;" >
             <tbody>
             <tr >
