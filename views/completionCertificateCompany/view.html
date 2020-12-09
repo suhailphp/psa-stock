@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+
+    <style>
+        article { margin-top: -2px !important; }
+        table { margin-top: -15px !important; }
+
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+        }
+
+        .item {
+            width: 90px;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+        .radio {
+            display: none;
+        }
+        .radio ~ span {
+            font-size: 3rem;
+            filter: grayscale(100);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .radio:checked ~ span {
+            filter: grayscale(0);
+            font-size: 4rem;
+        }
+
+        .head{
+            padding-right: 10px;
+            font-size: 18px
+        }
+
+        .content{
+            padding-right: 10px;
+            font-size: 18px
+        }
+
+
+    </style>
+
+</head>
+
+<!-- Set "A5", "A4" or "A3" for class name -->
+<!-- Set also "landscape" if you need -->
+<body class="A4" dir="rtl">
+
+
+
+<!-- Each sheet element should have the class "sheet" -->
+<!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+<section class="sheet padding-10mm">
+
+    <!-- Write HTML just like a web page -->
+    <img src="/images/storeheader.jpg" width="720px;" style="margin-bottom: 9px" >
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 14px">التاريخ : {{dateNormal data.date }}  </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1 class="bold" style="text-align: center"> الموضوع : شهادة انجاز  (  {{numberFourDigit data.referenceNo}}    )</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px">
+        <table  class=" table-bordered" style="width: 100%;" >
+            <tbody>
+            <tr >
+                <td style="width: 40%;" ><p class="head">يرجى من سيادتكم الموافقة على صرف مبلغ:</p></td>
+                <td ><p class="content">{{  data.amount}}</p></td>
+            </tr>
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">للسيد / السيدة :</p></td>
+                <td ><p class="content">{{  data.customerName}}</p></td>
+            </tr>
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">وذلك عن  :</p></td>
+                <td ><p class="content">{{  data.about}}</p></td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1  class="bold" style="text-align: center;font-size: 20px;"> حيث أن المذكور/ أو المذكورة قد أنجزالعمل اللازم كما هو متفق عليه .</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px">
+        <table  class=" table-bordered" style="width: 100%;" >
+            <tbody>
+            <tr >
+                <td ><p class="head">ملاحظات :</p></td>
+            </tr>
+
+            <tr >
+                <td ><p class="content">{{  data.notes}}</p></td>
+            </tr>
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1  class="bold text" style="text-align: center;font-size: 20px;">وتفضلوا بقبول فائق التقدير والاحترام ،،،</h1>
+            </div>
+
+            <table  class=" table-bordered" style="width: 100%" >
+                <thead>
+                <tr style="background-color: #e8e8e8;">
+                    <th width="33%" style="text-align: center">توقيع</th>
+                    <th width="33%" style="text-align: center">يعتمد</th>
+                    <th width="33%" style="text-align: center">خـتــم الأكـــاديـمـيــة</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+
+                    <td style="text-align: center">
+
+                        {{#if data.signature}}
+                        <img id="changeSignature" src="{{data.signature}}" height="100px" >
+                        {{else}}
+                        <button id="Signature">Sign</button>
+                        {{/if}}
+
+                    </td>
+                    <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" ></td>
+
+                    <!--            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username=malraeesi&ActionName=userssignature" height="100px" ></td>-->
+                    <td style="text-align: center"><img  src="/images/finance.png" height="120px"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+
+
+
+
+    <article style="position: absolute; bottom: 0;">
+
+
+
+     <img src="/images/invoicefooter.jpg" width="720px;" >
+    </article>
+
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1  class="bold" style="text-align: center;font-size: 20px;">مستوى الرضا عن أداء المورد</h1>
+            </div>
+        </div>
+
+
+        <div class="container">
+
+            <div class="item">
+                <label for="5">
+                    <input class="radio" type="radio" name="feedback" id="5" value="5"
+                           {{#compare data.rating "===" 5}}checked{{/compare}}>
+                    <span>😁</span>
+                    <p style="text-align: center;margin-top: -15px">ممتاز</p><br>
+                </label>
+            </div>
+
+            <div class="item">
+                <label for="4">
+                    <input class="radio" type="radio" name="feedback" id="4" value="4"
+                           {{#compare data.rating "===" 4}}checked{{/compare}}>
+                    <span>😀</span>
+                    <p style="text-align: center;margin-top: -15px">جيدجدا</p><br>
+                </label>
+            </div>
+
+            <div class="item">
+                <label for="3">
+                    <input class="radio" type="radio" name="feedback" id="3" value="3"
+                           {{#compare data.rating "===" 3}}checked{{/compare}}>
+                    <span>😐</span>
+                    <p style="text-align: center;margin-top: -15px">جيد </p><br>
+                </label>
+            </div>
+
+            <div class="item">
+                <label for="2">
+
+                    <input class="radio" type="radio" name="feedback" id="2" value="2"
+                           {{#compare data.rating "===" 2}}checked{{/compare}}>
+                    <span>🙁</span><br>
+                    <p style="text-align: center;margin-top: -15px">مقبول </p><br>
+
+                </label>
+            </div>
+
+            <div class="item">
+                <label for="1">
+                    <input class="radio" type="radio" name="feedback" id="1" value="1"
+                           {{#compare data.rating "===" 1}}checked{{/compare}}>
+                    <span>😟</span>
+                    <p style="text-align: center;margin-top: -15px">ضعيف</p><br>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+        </section>
+
+
+<script src="/vendors/bower_components/jquery/dist/jquery.min.js" ></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Toast JavaScript -->
+<script src="/vendors/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js" type="text/javascript"></script>
+
+
+
+
+
+<script type="text/javascript">
+    $('#Signature').on('click', function () {
+        let completionCertificateID = "{{data.completionCertificateID}}"
+        window.open('/completionCertificate/view_sign/'+completionCertificateID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    })
+
+    $('#changeSignature').on('click', function () {
+        if(confirm("Are you sure you want to add new image")){
+            let completionCertificateID = "{{data.completionCertificateID}}"
+            window.open('/completionCertificate/view_sign/'+completionCertificateID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+        }
+    })
+
+    $('input[type=radio][name=feedback]').change(function() {
+       // alert(this.value)
+        $.ajax({
+            url: '/completionCertificate/feedback/{{this.data.completionCertificateID}}',
+            type: 'post',
+            data: {data:this.value},
+            success: function(data) {
+                if(data){
+                    //alert(data)
+                    //window.open("/completionCertificate/view/{{this.completionCertificateID}}",'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+                }
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        }); // end ajax call
+    });
+
+</script>
+
+</body>
+
+
+
+
+</html>
+
+
+

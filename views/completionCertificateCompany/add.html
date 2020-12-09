@@ -1,0 +1,250 @@
+rs<!-- Preloader -->
+<div class="preloader-it">
+    <div class="la-anim-1"></div>
+</div>
+<!-- /Preloader -->
+<div class="wrapper theme-1-active pimary-color-pink">
+    <!-- Top Menu Items -->
+    {{>header}}
+    <!-- /Top Menu Items -->
+
+    <!-- Left Sidebar Menu -->
+    {{>sidebar}}
+    <!-- /Left Sidebar Menu -->
+
+
+
+
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark">  شهادة انجاز</h5>
+                </div>
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb" >
+                        <li><a href="/"> الصفحة الرئيسية </a></li>
+                        <li><a href="/receiptVoucher"><span>  شهادة انجاز</span></a></li>
+                        <li class="active"><span> {{#if editData}}تحديث{{else}}أضف{{/if}}    شهادة انجاز </span></li>
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            </div>
+            <!-- /Title -->
+
+            <!-- Row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default card-view">
+
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div class="form-wrap">
+
+
+
+                                    <form name="form one" method="post" action="/completionCertificate" id="PurchaseForm" enctype="multipart/form-data" >
+
+                                        <div class="row">
+
+
+                                            <div class="col-sm-6">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">رقم</label>
+                                                    <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم" required="required" readonly
+                                                           value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="col-sm-6">
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left">التاريخ</label>
+                                                    <input type="date" name="date" id="date" required="required"  class="form-control"
+                                                           value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                </div>
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">يرجى من سيادتكم الموافقة على صرف مبلغ   </label>
+                                                    <input type="text" class="form-control" id="amount" name="amount" placeholder="درهم" required="required"
+                                                           value="{{#if data.amount}}{{data.amount}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                        <div class="col-sm-12">
+
+
+                                            <div class="form-group ">
+                                                <label class="control-label mb-10 text-left">للسيد / السيدة  </label>
+                                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="للسيد / السيدة" required="required"
+                                                       value="{{#if data.customerName}}{{data.customerName}}{{/if}}">
+                                            </div>
+
+                                        </div>
+
+                                </div>
+
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">وذلك عن     </label>
+                                                    <input type="text" class="form-control" id="about" name="about" placeholder="وذلك عن   " required="required"
+                                                           value="{{#if data.about}}{{data.about}}{{/if}}">
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-sm-12">
+
+
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">ملاحظات  </label>
+
+                                                    <textarea style="min-height: 145px;"  name="notes" class="form-control" placeholder="ملاحظات ">{{#if data.notes}}{{data.notes}}{{/if}}</textarea>
+
+                                                </div>
+
+
+
+                                            </div>
+
+                                            
+
+
+
+
+
+
+
+
+
+                                            <div class="col-sm-4 pull-right" style="margin-top: 50px;">
+
+                                                <input type="hidden" name="completionCertificateID" id="completionCertificateID" value="{{#if data.completionCertificateID}}{{data.completionCertificateID}}{{else}}{{/if}}">
+                                                <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
+                                                <button class="btn btn-primary  btn-rounded btn-block btn-anim" type="button" onclick="SubmitForm();"><i class="fa fa-check-square"></i><span class="btn-text">خضع</span></button>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <!-- /Row -->
+
+
+
+
+
+
+        </div>
+
+        {{>footer}}
+
+    </div>
+    <!-- /Main Content -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- JavaScript -->
+
+<script type="text/javascript">
+
+    /* Select2 Init*/
+    $(".select2").select2();
+
+    //for form submit
+    function SubmitForm()
+    {
+
+
+        if($('#referenceNo').val() == '')
+        {
+            $('#referenceNo').focus();
+            swal("Reference Number", "Please enter the reference number", "warning");
+
+        }
+        else if($('#amount').val() == '')
+        {
+            $('#amount').focus();
+            swal("Amount", "Please enter amount", "warning");
+
+        }
+        else if($('#customerName').val() == '')
+        {
+            $('#customerName').focus();
+            swal("Customer Name", "Please enter customer name", "warning");
+
+        }
+        else if($('#about').val() == '')
+        {
+            $('#about').focus();
+            swal("Title", "Please enter Title", "warning");
+
+        }
+
+
+        else
+        {
+            $("#PurchaseForm").submit();
+
+
+        }
+
+    }
+
+
+
+
+
+</script>
+
+<!-- jQuery -->
