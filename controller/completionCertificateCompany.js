@@ -45,9 +45,11 @@ router.post('/',auth,async (req,res)=> {
 
       invoice.referenceNo = req.body.referenceNo;
       invoice.date = req.body.date;
+      invoice.inform = req.body.inform;
+      invoice.invoiceNo = req.body.invoiceNo;
+      invoice.invoiceDate = req.body.invoiceDate;
       invoice.amount = req.body.amount;
-      invoice.customerName = req.body.customerName;
-      invoice.about = req.body.about;
+      invoice.statement = req.body.statement;
       invoice.notes = req.body.notes;
 
 
@@ -70,9 +72,11 @@ router.post('/',auth,async (req,res)=> {
      let model = {
          referenceNo : req.body.referenceNo,
          date : req.body.date,
+         inform : req.body.inform,
+         invoiceNo : req.body.invoiceNo,
+         invoiceDate : req.body.invoiceDate,
          amount : req.body.amount,
-         customerName : req.body.customerName,
-         about : req.body.about,
+         statement : req.body.statement,
          notes : req.body.notes,
          userID : req.session.user.userID
 
