@@ -42,6 +42,10 @@ let completionCertificateModel = db.define('completionCertificate', {
         type: Sequelize.TEXT
     },
 
+    rating: {
+        type: Sequelize.INTEGER
+    },
+
     createdOn: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
