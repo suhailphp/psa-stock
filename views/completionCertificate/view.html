@@ -84,16 +84,14 @@
             <div class="pull-left text" >
                 <p style="color: #0c0c0c;font-size: 14px">التاريخ : {{dateNormal data.date }}  </p>
             </div>
-            <div class="pull-right text" >
-                <p style="color: #0c0c0c;font-size: 14px">رقم : {{numberFourDigit data.referenceNo}}  </p>
-            </div>
+
         </div>
     </div>
 
     <div class="row" >
         <div class="col-sm-12">
             <div class="align-center">
-                <h1 class="bold" style="text-align: center"> الموضوع : شهادة انجاز  (  مرقم    )</h1>
+                <h1 class="bold" style="text-align: center"> الموضوع : شهادة انجاز  (  {{numberFourDigit data.referenceNo}}    )</h1>
             </div>
         </div>
     </div>
@@ -254,7 +252,7 @@
                 <label for="1">
                     <input class="radio" type="radio" name="feedback" id="1" value="1"
                            {{#compare data.rating "===" 1}}checked{{/compare}}>
-                    <span>🤬</span>
+                    <span>😔</span>
                     <p style="text-align: center;margin-top: -15px">ضعيف</p><br>
                 </label>
             </div>
