@@ -52,59 +52,38 @@ rs<!-- Preloader -->
 
                                         <div class="row">
 
-
                                             <div class="col-sm-6">
-
-
                                                 <div class="form-group ">
                                                     <label class="control-label mb-10 text-left">رقم</label>
                                                     <input type="text" class="form-control" id="referenceNo" name="referenceNo" placeholder="رقم" required="required" readonly
                                                            value="{{#if data.referenceNo}}{{data.referenceNo}}{{/if}}">
                                                 </div>
-
-
                                             </div>
 
-
                                             <div class="col-sm-6">
-
-
-
                                                 <div class="form-group">
                                                     <label class="control-label mb-10 text-left">التاريخ</label>
                                                     <input type="date" name="date" id="date" required="required"  class="form-control"
                                                            value="{{#if data.date}}{{dateToChrome data.date}}{{/if}}" >
                                                 </div>
-
                                             </div>
 
-
-
-
-                                </div>
-                                        <div class="row">
-
                                             <div class="col-sm-12">
-
-
                                                 <div class="form-group ">
                                                     <label class="control-label mb-10 text-left">نود اعلامكم سيدي بأن المورد </label>
                                                     <input type="text" class="form-control" id="inform" name="inform" placeholder="نود اعلامكم سيدي بأن المورد " required="required"
                                                            value="{{#if data.inform}}{{data.inform}}{{/if}}">
                                                 </div>
-
-
-
                                             </div>
 
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group ">
-                                                <label class="control-label mb-10 text-left">الصادر لفاتورة رقم </label>
-                                                <input type="text" class="form-control" id="invoiceNo" name="invoiceNo" placeholder="الصادر لفاتورة رقم " required="required"
-                                                       value="{{#if data.invoiceNo}}{{data.invoiceNo}}{{/if}}">
+                                            <div class="col-sm-12">
+                                                <div class="form-group ">
+                                                    <label class="control-label mb-10 text-left">الصادر لفاتورة رقم </label>
+                                                    <input type="text" class="form-control" id="invoiceNo" name="invoiceNo" placeholder="الصادر لفاتورة رقم " required="required"
+                                                           value="{{#if data.invoiceNo}}{{data.invoiceNo}}{{/if}}">
+                                                </div>
                                             </div>
-                                        </div>
 
 
                                             <div class="col-sm-12">
@@ -125,32 +104,20 @@ rs<!-- Preloader -->
 
                                             <div class="col-sm-12">
                                                 <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">بمبلغ  </label>
-                                                    <input type="text" class="form-control" id="statement" name="statement" placeholder="بمبلغ " required="required"
+                                                    <label class="control-label mb-10 text-left">البيان  </label>
+                                                    <input type="text" class="form-control" id="statement1" name="statement" placeholder="البيان " required="required"
                                                            value="{{#if data.statement}}{{data.statement}}{{/if}}">
                                                 </div>
                                             </div>
 
+
+
                                             <div class="col-sm-12">
-                                                
                                                 <div class="form-group ">
                                                     <label class="control-label mb-10 text-left">ملاحظات  </label>
                                                     <textarea style="min-height: 145px;"  name="notes" class="form-control" placeholder="ملاحظات ">{{#if data.notes}}{{data.notes}}{{/if}}</textarea>
                                                 </div>
-
-
-
                                             </div>
-
-                                            
-
-
-
-
-
-
-
-
 
                                             <div class="col-sm-4 pull-right" style="margin-top: 50px;">
 
@@ -200,7 +167,7 @@ rs<!-- Preloader -->
 <script type="text/javascript">
 
     /* Select2 Init*/
-    $(".select2").select2();
+    //$(".select2").select2();
 
     //for form submit
     function SubmitForm()
@@ -234,9 +201,9 @@ rs<!-- Preloader -->
             swal("Amount", "Please enter Iamount", "warning");
 
         }
-        else if($('#statement').val() == '')
+        else if($('#statement1').val() == '')
         {
-            $('#statement').focus();
+            $('#statement1').focus();
             swal("statement", "Please enter statement", "warning");
 
         }
