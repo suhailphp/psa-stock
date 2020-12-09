@@ -32,7 +32,7 @@
 
                         <li><a href="/"> الصفحة الرئيسية </a></li>
 
-                        <li class="active"><span> ســنــد قــبــض </span></li>
+                        <li class="active"><span> شهادة انجاز </span></li>
 
                     </ol>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="panel panel-default card-view">
                         <div class="panel-heading">
                             <div class="pull-left">
-                                <h6 class="panel-title txt-dark">  ســنــد قــبــض </h6>
+                                <h6 class="panel-title txt-dark">  شهادة انجاز </h6>
                             </div>
 
                             <div class="pull-right">
@@ -77,11 +77,11 @@
 
                                             {{#each invoices }}
 
-                                            <tr id="{{this.receiptVoucherID}}">
+                                            <tr id="{{this.completionCertificateID}}">
 
-                                                <td style="cursor: pointer" onclick="action('/receiptVoucher/view/{{this.receiptVoucherID}}');">{{this.referenceNo}}</td>
-                                                <td style="cursor: pointer" onclick="action('/receiptVoucher/view/{{this.receiptVoucherID}}');">{{dateToStringDate this.date}}</td>
-                                                <td style="cursor: pointer" onclick="action('/receiptVoucher/view/{{this.receiptVoucherID}}');">{{this.customer}}</td>
+                                                <td style="cursor: pointer" onclick="action('/completionCertificate/view/{{this.completionCertificateID}}');">{{this.referenceNo}}</td>
+                                                <td style="cursor: pointer" onclick="action('/completionCertificate/view/{{this.completionCertificateID}}');">{{dateToStringDate this.date}}</td>
+                                                <td style="cursor: pointer" onclick="action('/completionCertificate/view/{{this.completionCertificateID}}');">{{this.customerName}}</td>
 
 
 
@@ -94,10 +94,10 @@
 
 
 
-                                                    <a href="/receiptVoucher/edit/{{this.receiptVoucherID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
+                                                    <a href="/completionCertificate/edit/{{this.completionCertificateID}}" class="mr-25" data-toggle="tooltip" data-original-title="Edit">
                                                         <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
 
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.receiptVoucherID}}');">
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Close" onclick="DeleteItem('{{this.completionCertificateID}}');">
                                                         <i class="fa fa-close text-danger"></i> </a>
 
 
@@ -185,7 +185,7 @@
         }, function(isConfirm){
             if (isConfirm) {
                 $.ajax({
-                    url: 'receiptVoucher/'+id,
+                    url: 'completionCertificate/'+id,
                     type: 'delete',
                     success: function(data) {
 
