@@ -22,7 +22,7 @@ let completionCertificateModel = db.define('completionCertificate', {
         type: Sequelize.STRING(255)
     },
 
-    name: {
+    customerName: {
         type: Sequelize.STRING(255)
     },
 

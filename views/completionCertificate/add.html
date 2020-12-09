@@ -48,12 +48,12 @@ rs<!-- Preloader -->
 
 
 
-                                    <form name="form one" method="post" action="/receiptVoucher" id="PurchaseForm" enctype="multipart/form-data" >
+                                    <form name="form one" method="post" action="/completionCertificate" id="PurchaseForm" enctype="multipart/form-data" >
 
                                         <div class="row">
 
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
 
 
                                                 <div class="form-group ">
@@ -66,7 +66,7 @@ rs<!-- Preloader -->
                                             </div>
 
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
 
 
 
@@ -78,20 +78,6 @@ rs<!-- Preloader -->
 
                                             </div>
 
-                                            <div class="col-sm-4">
-
-                                                    <div class="form-group ">
-                                                        <label class="control-label mb-10 text-left">المبلغ الإجمالي</label>
-                                                        <input type="text" class="form-control" id="grandTotal" name="grandTotal" placeholder="المبلغ الإجمالي" required="required"
-                                                               value="{{#if data.grandTotal}}{{data.grandTotal}}{{/if}}">
-                                                    </div>
-
-                                                </div>
-
-
-
-
-
 
 
 
@@ -102,9 +88,9 @@ rs<!-- Preloader -->
 
 
                                                 <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">استلمنا من السيد / السادة  </label>
-                                                    <input type="text" class="form-control" id="customer" name="customer" placeholder="السيد / السادة " required="required"
-                                                           value="{{#if data.customer}}{{data.customer}}{{/if}}">
+                                                    <label class="control-label mb-10 text-left">يرجى من سيادتكم الموافقة على صرف مبلغ   </label>
+                                                    <input type="text" class="form-control" id="amount" name="amount" placeholder="درهم" required="required"
+                                                           value="{{#if data.amount}}{{data.amount}}{{/if}}">
                                                 </div>
 
 
@@ -116,26 +102,14 @@ rs<!-- Preloader -->
 
 
                                             <div class="form-group ">
-                                                <label class="control-label mb-10 text-left">العنوان  </label>
-                                                <input type="text" class="form-control" id="title" name="title" placeholder="العنوان" required="required"
-                                                       value="{{#if data.title}}{{data.title}}{{/if}}">
+                                                <label class="control-label mb-10 text-left">للسيد / السيدة  </label>
+                                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="للسيد / السيدة" required="required"
+                                                       value="{{#if data.customerName}}{{data.customerName}}{{/if}}">
                                             </div>
-
-
 
                                         </div>
 
-
-
-
-
-
                                 </div>
-
-
-
-
-
 
 
                                         <div class="row">
@@ -144,9 +118,9 @@ rs<!-- Preloader -->
 
 
                                                 <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">مبلغ وقدره / درهم   </label>
-                                                    <input type="text" class="form-control" id="sumOfDhm" name="sumOfDhm" placeholder="مبلغ وقدره / درهم " required="required"
-                                                           value="{{#if data.sumOfDhm}}{{data.sumOfDhm}}{{/if}}">
+                                                    <label class="control-label mb-10 text-left">وذلك عن     </label>
+                                                    <input type="text" class="form-control" id="about" name="about" placeholder="وذلك عن   " required="required"
+                                                           value="{{#if data.about}}{{data.about}}{{/if}}">
                                                 </div>
 
 
@@ -157,61 +131,17 @@ rs<!-- Preloader -->
 
 
                                                 <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">نقداُ /    </label>
-                                                    <input type="text" class="form-control" id="cash" name="cash" placeholder="نقداُ /    " required="required"
-                                                           value="{{#if data.cash}}{{data.cash}}{{/if}}">
+                                                    <label class="control-label mb-10 text-left">ملاحظات  </label>
+
+                                                    <textarea style="min-height: 145px;"  name="notes" class="form-control" placeholder="ملاحظات ">{{#if data.notes}}{{data.notes}}{{/if}}</textarea>
+
                                                 </div>
 
 
 
                                             </div>
 
-                                            <div class="col-sm-4">
-
-
-                                                <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">       شيك / رقم </label>
-                                                    <input type="text" class="form-control" id="chequeNo" name="chequeNo" placeholder="شيك / رقم" required="required"
-                                                           value="{{#if data.chequeNo}}{{data.chequeNo}}{{/if}}">
-                                                </div>
-
-
-
-                                            </div>
-
-                                            <div class="col-sm-4">
-
-
-                                                <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">البنك </label>
-                                                    <input type="text" class="form-control" id="bank" name="bank" placeholder="البنك" required="required"
-                                                           value="{{#if data.bank}}{{data.bank}}{{/if}}">
-                                                </div>
-
-
-
-                                            </div>
-
-                                            <div class="col-sm-4">
-
-
-                                                <div class="form-group ">
-                                                    <label class="control-label mb-10 text-left">التاريخ</label>
-                                                    <input type="date" class="form-control" id="chequeDate" name="chequeDate" placeholder="التاريخ" required="required"
-                                                           value="{{#if data.chequeDate}}{{dateToChrome data.chequeDate}}{{/if}}">
-                                                </div>
-
-
-
-                                            </div>
-
-                                            <div class="col-sm-12">
-
-                                            <div class="form-group " >
-                                                <label class="control-label mb-10 text-left">الــبــيــان</label>
-                                                <textarea style="min-height: 145px;"  name="statement" placeholder="الــبــيــان " class="form-control" placeholder="الــبــيــان ">{{#if data.statement}}{{data.statement}}{{/if}}</textarea>
-
-                                            </div>
+                                            
 
 
 
@@ -223,7 +153,7 @@ rs<!-- Preloader -->
 
                                             <div class="col-sm-4 pull-right" style="margin-top: 50px;">
 
-                                                <input type="hidden" name="receiptVoucherID" id="receiptVoucherID" value="{{#if data.receiptVoucherID}}{{data.receiptVoucherID}}{{else}}{{/if}}">
+                                                <input type="hidden" name="completionCertificateID" id="completionCertificateID" value="{{#if data.completionCertificateID}}{{data.completionCertificateID}}{{else}}{{/if}}">
                                                 <input type="hidden" name="action" value="{{#if editData}}edit{{else}}add{{/if}}" >
                                                 <button class="btn btn-primary  btn-rounded btn-block btn-anim" type="button" onclick="SubmitForm();"><i class="fa fa-check-square"></i><span class="btn-text">خضع</span></button>
 
@@ -282,15 +212,21 @@ rs<!-- Preloader -->
             swal("Reference Number", "Please enter the reference number", "warning");
 
         }
-        else if($('#customer').val() == '')
+        else if($('#amount').val() == '')
         {
-            $('#customer').focus();
+            $('#amount').focus();
+            swal("Amount", "Please enter amount", "warning");
+
+        }
+        else if($('#customerName').val() == '')
+        {
+            $('#customerName').focus();
             swal("Customer Name", "Please enter customer name", "warning");
 
         }
-        else if($('#title').val() == '')
+        else if($('#about').val() == '')
         {
-            $('#title').focus();
+            $('#about').focus();
             swal("Title", "Please enter Title", "warning");
 
         }

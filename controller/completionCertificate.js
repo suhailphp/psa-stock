@@ -29,8 +29,7 @@ router.get('/add',  auth,async (req,res)=>{
 
     let referenceNo = (lastInvoice && lastInvoice.referenceNo)?lastInvoice.referenceNo+1:1;
 
-
-    let data = {date : new Date(),chequeDate : new Date(),referenceNo: referenceNo};
+    let data = {date : new Date(),referenceNo: referenceNo};
 
     res.render('completionCertificate/add',{curPage,data});
 });
@@ -46,15 +45,10 @@ router.post('/',auth,async (req,res)=> {
 
       invoice.referenceNo = req.body.referenceNo;
       invoice.date = req.body.date;
-      invoice.grandTotal = req.body.grandTotal;
-      invoice.customer = req.body.customer;
-      invoice.title = req.body.title;
-      invoice.sumOfDhm = req.body.sumOfDhm;
-      invoice.cash = req.body.cash;
-      invoice.chequeNo = req.body.chequeNo;
-      invoice.bank = req.body.bank;
-      invoice.chequeDate = req.body.chequeDate;
-      invoice.statement = req.body.statement;
+      invoice.amount = req.body.amount;
+      invoice.customerName = req.body.customerName;
+      invoice.about = req.body.about;
+      invoice.notes = req.body.notes;
 
 
       let result = await invoice.save();
@@ -76,15 +70,10 @@ router.post('/',auth,async (req,res)=> {
      let model = {
          referenceNo : req.body.referenceNo,
          date : req.body.date,
-         grandTotal : req.body.grandTotal,
-         customer : req.body.customer,
-         title : req.body.title,
-         sumOfDhm : req.body.sumOfDhm,
-         cash : req.body.cash,
-         chequeNo : req.body.chequeNo,
-         bank : req.body.bank,
-         chequeDate : req.body.chequeDate,
-         statement : req.body.statement,
+         amount : req.body.amount,
+         customerName : req.body.customerName,
+         about : req.body.about,
+         notes : req.body.notes,
          userID : req.session.user.userID
 
   }
