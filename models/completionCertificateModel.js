@@ -38,6 +38,10 @@ let completionCertificateModel = db.define('completionCertificate', {
         type: Sequelize.INTEGER
     },
 
+    signature:{
+        type: Sequelize.TEXT
+    },
+
     createdOn: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW

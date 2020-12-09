@@ -19,6 +19,39 @@
         article { margin-top: -2px !important; }
         table { margin-top: -15px !important; }
 
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+        }
+
+        .item {
+            width: 90px;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+        .radio {
+            display: none;
+        }
+        .radio ~ span {
+            font-size: 3rem;
+            filter: grayscale(100);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .radio:checked ~ span {
+            filter: grayscale(0);
+            font-size: 4rem;
+        }
+
+
     </style>
 
 </head>
@@ -36,172 +69,159 @@
     <!-- Write HTML just like a web page -->
     <img src="/images/storeheader.jpg" width="720px;" style="margin-bottom: 9px" >
 
-    <table  class="table table-bordered"  >
-        <thead>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 14px">التاريخ : {{dateNormal data.date }}  </p>
+            </div>
+            <div class="pull-right text" >
+                <p style="color: #0c0c0c;font-size: 14px">رقم : {{numberFourDigit data.referenceNo}}  </p>
+            </div>
+        </div>
+    </div>
 
-        <tr >
-            <th style="width: 50%;font-size: 14px;">
-                <span>ســنــد قــبــض </span>
-                <span style="float: left">  RECEIPT VOUCHER</span>
-            </th>
-            <th style="width: 50%;font-size: 14px;">
-                <span>رقم الفاتورة </span>
-                <span style="margin-right: 75px;color: red !important;">   {{numberFourDigit data.referenceNo}}</span>
-                <span style="float: left">   INVOICE No</span>
-            </th>
-        </tr>
-        <tr >
-            <th style="width: 50%;font-size: 14px;">
-                <span>التاريخ       </span>
-                <span style="margin-right: 75px;">   {{ dateNormal data.date}}</span>
-                <span style="float: left">   Date</span>
-            </th>
-            <th style="font-size: 14px;" colspan="2">
-                <span>درهم    </span>
-                <span style="margin-right: 20px;">{{currencyFormat data.grandTotal}}</span>
-                <span style="float: left">Dhs</span>
-            </th>
-        </tr>
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1 class="bold" style="text-align: center"> الموضوع : شهادة انجاز  (  مرقم    )</h1>
+            </div>
+        </div>
+    </div>
 
-        </thead>
-    </table>
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 18px">يرجى من سيادتكم الموافقة على صرف مبلغ .... {{  data.amount}} .... درهم </p>
+            </div>
+        </div>
+    </div>
 
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 18px">للسيد / السيدة :  {{  data.customerName}}   </p>
+            </div>
+        </div>
+    </div>
 
-    <br>
-    <br>
-    <br>
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 18px">وذلك عن  : {{  data.about}} </p>
+            </div>
+        </div>
+    </div>
 
-    <table  class="table table-bordered" style="color: #0c0c0c"   >
-        <body>
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1  class="bold" style="text-align: center;font-size: 20px;"> حيث أن المذكور/ أو المذكورة قد أنجزالعمل اللازم كما هو متفق عليه .</h1>
+            </div>
+        </div>
+    </div>
 
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 18px">ملاحظات :</p>
+            </div>
+        </div>
+    </div>
 
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="pull-left text" >
+                <p style="color: #0c0c0c;font-size: 18px">{{ data.notes}}</p>
+            </div>
+        </div>
+    </div>
 
-        <tr >
-            <th style="font-size:  13px;" >
-                <span style="font-weight: bold">السيد / السادة  </span>
-                <span style="margin-right: 20px;">{{ data.customer}}</span>
-                <span style="float: left;font-weight: bold;">Mr. / M/s</span>
+    <div class="row" >
+        <div class="col-sm-12">
+            <div class="align-center">
+                <h1  class="bold" style="text-align: center;font-size: 20px;">وتفضلوا بقبول فائق التقدير والاحترام ،،،</h1>
+            </div>
 
-            </th>
+            <table  class=" table-bordered" style="width: 100%" >
+                <thead>
+                <tr style="background-color: #e8e8e8;">
+                    <th width="33%" style="text-align: center">توقيع المستلم</th>
+                    <th width="33%" style="text-align: center">الـمـحــاســــب</th>
+                    <!--            <th width="33%" style="text-align: center">رئـيـس قـسـم الشؤون الـمـالـيـة</th>-->
+                    <th width="33%" style="text-align: center">خـتــم الأكـــاديـمـيــة</th>
 
-        </tr>
-        <tr >
-            <th style="font-size:  13px;" >
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
 
+                    <td style="text-align: center">
 
-                <span style="font-weight: bold">العنوان   </span>
-                <span style="margin-right: 13px;">{{ data.title}}</span>
-                <span style="float: left;font-weight: bold">Title</span>
-            </th>
+                        {{#if data.studentSign}}
+                        <img id="changeSignature" src="{{data.studentSign}}" height="100px" >
+                        {{else}}
+                        <button id="Signature">Sign</button>
+                        {{/if}}
 
-        </tr>
+                    </td>
+                    <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" ></td>
 
+                    <!--            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username=malraeesi&ActionName=userssignature" height="100px" ></td>-->
+                    <td style="text-align: center"><img  src="/images/finance.png" height="120px"></td>
+                </tr>
+                </tbody>
 
-        </body>
-    </table>
-
-    <br>
-    <br>
-
-    <table  class="table table-bordered" style="color: #0c0c0c"   >
-        <body>
-
-
-
-        <tr >
-            <td colspan="3" style="font-size:  13px;" >
-                <span style="font-weight: bold">مبلغ وقدره / درهم   </span>
-                <span style="margin-right: 20px;">{{ data.sumOfDhm}}</span>
-                <span style="float: left;font-weight: bold">The Sum of Dhs</span>
-
-            </td>
-
-        </tr>
-        <tr >
-            <td colspan="3" style="font-size:  13px;" >
-
-
-                <span style="font-weight: bold">نقداُ /   </span>
-                <span style="margin-right: 13px;">{{ data.cash}}</span>
-                <span style="float: left;font-weight: bold">Cash</span>
-            </td>
-
-        </tr>
-        <tr >
-            <td style="font-size:  13px;" >
-
-
-                <span style="font-weight: bold;"> شيك / رقم </span>
-                <span style="margin-right: 13px;">{{ data.chequeNo}}</span>
-                <span style="float: left;font-weight: bold;">Cheque No </span>
-            </td>
-
-            <td style="font-size:  13px;" >
-
-
-                <span style="font-weight: bold;">    البنك   </span>
-                <span style="margin-right: 13px;">{{ data.bank}}</span>
-                <span style="float: left;font-weight: bold;">Bank  </span>
-            </td>
-
-            <td style="font-size:  13px;" >
+            </table>
+        </div>
 
 
-                <span style="font-weight: bold">التاريخ         </span>
-                <span style="margin-right: 13px;">{{dateNormal data.chequeDate}}</span>
-                <span style="float: left;font-weight: bold;">Date</span>
-            </td>
+    </div>
 
-        </tr>
-
-        <tr >
-            <td colspan="3" style="font-size:  13px;" >
-
-
-                <span style="font-weight: bold">الــبــيــان   </span>
-                <span style="margin-right: 13px;">{{ data.statement}}</span>
-                <span style="float: left;font-weight: bold">Payment Statement </span>
-            </td>
-
-        </tr>
-
-
-        </body>
-    </table>
 
 
 
     <article style="position: absolute; bottom: 0;">
 
-    <table  class=" table-bordered" style="width: 100%" >
-        <thead>
-        <tr style="background-color: #e8e8e8;">
-            <th width="33%" style="text-align: center">توقيع المستلم</th>
-            <th width="33%" style="text-align: center">الـمـحــاســــب</th>
-<!--            <th width="33%" style="text-align: center">رئـيـس قـسـم الشؤون الـمـالـيـة</th>-->
-            <th width="33%" style="text-align: center">خـتــم الأكـــاديـمـيــة</th>
 
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-
-            <td style="text-align: center"></td>
-            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username={{data.user.userName}}&ActionName=userssignature" height="100px" ></td>
-
-<!--            <td style="text-align: center"><img src="http://srv-trasl/eziflowwebservice/eziflowimageservice.ashx?username=malraeesi&ActionName=userssignature" height="100px" ></td>-->
-            <td style="text-align: center"><img  src="/images/finance.png" height="120px"></td>
-        </tr>
-        </tbody>
-
-    </table>
 
      <img src="/images/invoicefooter.jpg" width="720px;" >
     </article>
 
 
 
+
+
+
         </section>
+
+
+<script src="/vendors/bower_components/jquery/dist/jquery.min.js" ></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Toast JavaScript -->
+<script src="/vendors/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js" type="text/javascript"></script>
+
+
+
+
+
+<script type="text/javascript">
+    $('#Signature').on('click', function () {
+        let receiptVoucherStudentID = "{{data.receiptVoucherStudentID}}"
+        window.open('/receiptVoucherStudent/view_sign/'+receiptVoucherStudentID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    })
+
+    $('#changeSignature').on('click', function () {
+        if(confirm("Are you sure you want to add new image")){
+            let receiptVoucherStudentID = "{{data.receiptVoucherStudentID}}"
+            window.open('/receiptVoucherStudent/view_sign/'+receiptVoucherStudentID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+        }
+    })
+</script>
 
 </body>
 
