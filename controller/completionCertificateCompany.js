@@ -43,7 +43,6 @@ router.post('/',auth,async (req,res)=> {
      // console.log(req.body);exit;
       let invoice = await completionCertificateCompanyModel.findOne({where:{completionCertificateCompanyID:req.body.completionCertificateCompanyID}});
 
-      invoice.referenceNo = req.body.referenceNo;
       invoice.date = req.body.date;
       invoice.inform = req.body.inform;
       invoice.invoiceNo = req.body.invoiceNo;
