@@ -18,17 +18,26 @@ let completionCertificateCompanyModel = db.define('completionCertificateCompany'
         type: Sequelize.DATE
     },
 
+    inform: {
+        type: Sequelize.STRING(255)
+    },
+
+    invoiceNo: {
+        type: Sequelize.STRING(255)
+    },
+
+    invoiceDate: {
+        type: Sequelize.STRING(255)
+    },
+
     amount: {
         type: Sequelize.STRING(255)
     },
 
-    customerName: {
+    statement: {
         type: Sequelize.STRING(255)
     },
 
-    about: {
-        type: Sequelize.STRING(500)
-    },
 
     notes: {
         type: Sequelize.STRING(1000)
