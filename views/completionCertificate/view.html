@@ -51,6 +51,16 @@
             font-size: 4rem;
         }
 
+        .head{
+            padding-right: 10px;
+            font-size: 18px
+        }
+
+        .content{
+            padding-right: 10px;
+            font-size: 18px
+        }
+
 
     </style>
 
@@ -89,28 +99,30 @@
     </div>
 
     <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-12">
-            <div class="pull-left text" >
-                <p style="font-size: 18px">يرجى من سيادتكم الموافقة على صرف مبلغ .... {{  data.amount}} .... درهم </p>
-            </div>
-        </div>
+        <table  class=" table-bordered" style="width: 100%;" >
+            <tbody>
+            <tr >
+                <td style="width: 40%;" ><p class="head">يرجى من سيادتكم الموافقة على صرف مبلغ:</p></td>
+                <td ><p class="content">{{  data.amount}}</p></td>
+            </tr>
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">للسيد / السيدة :</p></td>
+                <td ><p class="content">{{  data.customerName}}</p></td>
+            </tr>
+
+            <tr >
+                <td style="width: 40%;" ><p class="head">وذلك عن  :</p></td>
+                <td ><p class="content">{{  data.about}}</p></td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
     </div>
 
-    <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-12">
-            <div class="pull-left text" >
-                <p style="font-size: 18px">للسيد / السيدة :  {{  data.customerName}}   </p>
-            </div>
-        </div>
-    </div>
 
-    <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-12">
-            <div class="pull-left text" >
-                <p style="font-size: 18px">وذلك عن  : {{  data.about}} </p>
-            </div>
-        </div>
-    </div>
 
     <div class="row" >
         <div class="col-sm-12">
@@ -121,20 +133,24 @@
     </div>
 
     <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-12">
-            <div class="pull-left text" >
-                <p style="font-size: 18px">ملاحظات :</p>
-            </div>
-        </div>
+        <table  class=" table-bordered" style="width: 100%;" >
+            <tbody>
+            <tr >
+                <td ><p class="head">ملاحظات :</p></td>
+            </tr>
+
+            <tr >
+                <td ><p class="content">{{  data.notes}}</p></td>
+            </tr>
+
+
+
+            </tbody>
+        </table>
+
     </div>
 
-    <div class="row" >
-        <div class="col-sm-12">
-            <div class="pull-left text" >
-                <p style="font-size: 18px">{{ data.notes}}</p>
-            </div>
-        </div>
-    </div>
+
 
     <div class="row" >
         <div class="col-sm-12">
