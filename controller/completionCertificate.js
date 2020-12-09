@@ -126,6 +126,18 @@ router.post('/do_sign/:completionCertificateID', async (req,res)=>{
     }
 });
 
+router.post('/feedback/:completionCertificateID', async (req,res)=>{
+    let invoice = await completionCertificateModel.findOne({where:{completionCertificateID:req.params.completionCertificateID}});
+    invoice.rating = req.body.data
+    let result = await invoice.save();
+    if(result){
+        res.send(true)
+    }
+    else{
+        res.send(false)
+    }
+});
+
 router.delete('/:id',async(req,res)=>{
 
      let result = await completionCertificateModel.destroy({where:{completionCertificateID:req.params.id}});

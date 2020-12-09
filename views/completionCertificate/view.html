@@ -91,7 +91,7 @@
     <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
             <div class="pull-left text" >
-                <p style="color: #0c0c0c;font-size: 18px">يرجى من سيادتكم الموافقة على صرف مبلغ .... {{  data.amount}} .... درهم </p>
+                <p style="font-size: 18px">يرجى من سيادتكم الموافقة على صرف مبلغ .... {{  data.amount}} .... درهم </p>
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
     <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
             <div class="pull-left text" >
-                <p style="color: #0c0c0c;font-size: 18px">للسيد / السيدة :  {{  data.customerName}}   </p>
+                <p style="font-size: 18px">للسيد / السيدة :  {{  data.customerName}}   </p>
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@
     <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
             <div class="pull-left text" >
-                <p style="color: #0c0c0c;font-size: 18px">وذلك عن  : {{  data.about}} </p>
+                <p style="font-size: 18px">وذلك عن  : {{  data.about}} </p>
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@
     <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-12">
             <div class="pull-left text" >
-                <p style="color: #0c0c0c;font-size: 18px">ملاحظات :</p>
+                <p style="font-size: 18px">ملاحظات :</p>
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@
     <div class="row" >
         <div class="col-sm-12">
             <div class="pull-left text" >
-                <p style="color: #0c0c0c;font-size: 18px">{{ data.notes}}</p>
+                <p style="font-size: 18px">{{ data.notes}}</p>
             </div>
         </div>
     </div>
@@ -139,7 +139,7 @@
     <div class="row" >
         <div class="col-sm-12">
             <div class="align-center">
-                <h1  class="bold" style="text-align: center;font-size: 20px;">وتفضلوا بقبول فائق التقدير والاحترام ،،،</h1>
+                <h1  class="bold text" style="text-align: center;font-size: 20px;">وتفضلوا بقبول فائق التقدير والاحترام ،،،</h1>
             </div>
 
             <table  class=" table-bordered" style="width: 100%" >
@@ -198,36 +198,41 @@
         <div class="container">
 
             <div class="item">
-                <label for="4">
-                    <input class="radio" type="radio" name="feedback" id="4" value="4">
+                <label for="5">
+                    <input class="radio" type="radio" name="feedback" id="5" value="5"
+                           {{#compare data.rating "===" 5}}checked{{/compare}}>
                     <span>😍</span>
                 </label>
             </div>
 
             <div class="item">
-                <label for="3">
-                    <input class="radio" type="radio" name="feedback" id="3" value="3">
+                <label for="4">
+                    <input class="radio" type="radio" name="feedback" id="4" value="4"
+                           {{#compare data.rating "===" 4}}checked{{/compare}}>
                     <span>😁</span>
                 </label>
             </div>
 
             <div class="item">
-                <label for="2">
-                    <input class="radio" type="radio" name="feedback" id="2" value="2">
+                <label for="3">
+                    <input class="radio" type="radio" name="feedback" id="3" value="3"
+                           {{#compare data.rating "===" 3}}checked{{/compare}}>
                     <span>😶</span>
                 </label>
             </div>
 
             <div class="item">
-                <label for="1">
-                    <input class="radio" type="radio" name="feedback" id="1" value="1">
+                <label for="2">
+                    <input class="radio" type="radio" name="feedback" id="2" value="2"
+                           {{#compare data.rating "===" 2}}checked{{/compare}}>
                     <span>🙁</span>
                 </label>
             </div>
 
             <div class="item">
-                <label for="0">
-                    <input class="radio" type="radio" name="feedback" id="0" value="0" >
+                <label for="1">
+                    <input class="radio" type="radio" name="feedback" id="1" value="1"
+                           {{#compare data.rating "===" 1}}checked{{/compare}}>
                     <span>🤬</span>
                 </label>
             </div>
@@ -267,6 +272,26 @@
             window.open('/completionCertificate/view_sign/'+completionCertificateID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
         }
     })
+
+    $('input[type=radio][name=feedback]').change(function() {
+       // alert(this.value)
+        $.ajax({
+            url: '/completionCertificate/feedback/{{this.data.completionCertificateID}}',
+            type: 'post',
+            data: {data:this.value},
+            success: function(data) {
+                if(data){
+                    alert(data)
+                    //window.open("/completionCertificate/view/{{this.completionCertificateID}}",'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+                }
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        }); // end ajax call
+    });
+
 </script>
 
 </body>
