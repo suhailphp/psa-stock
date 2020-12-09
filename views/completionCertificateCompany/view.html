@@ -294,27 +294,27 @@
 
 <script type="text/javascript">
     $('#Signature').on('click', function () {
-        let completionCertificateID = "{{data.completionCertificateID}}"
-        window.open('/completionCertificate/view_sign/'+completionCertificateID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+        let completionCertificateCompanyID = "{{data.completionCertificateCompanyID}}"
+        window.open('/completionCertificateCompany/view_sign/'+completionCertificateCompanyID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     })
 
     $('#changeSignature').on('click', function () {
         if(confirm("Are you sure you want to add new image")){
-            let completionCertificateID = "{{data.completionCertificateID}}"
-            window.open('/completionCertificate/view_sign/'+completionCertificateID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+            let completionCertificateCompanyID = "{{data.completionCertificateCompanyID}}"
+            window.open('/completionCertificateCompany/view_sign/'+completionCertificateCompanyID,'popUpWindow','height=200,width=200,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
         }
     })
 
     $('input[type=radio][name=feedback]').change(function() {
        // alert(this.value)
         $.ajax({
-            url: '/completionCertificate/feedback/{{this.data.completionCertificateID}}',
+            url: '/completionCertificateCompany/feedback/{{this.data.completionCertificateCompanyID}}',
             type: 'post',
             data: {data:this.value},
             success: function(data) {
                 if(data){
                     //alert(data)
-                    //window.open("/completionCertificate/view/{{this.completionCertificateID}}",'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+                    //window.open("/completionCertificateCompany/view/{{this.completionCertificateCompanyID}}",'popUpWindow','height=1200,width=1000,left=500,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
                 }
             },
             error: function(xhr, desc, err) {
