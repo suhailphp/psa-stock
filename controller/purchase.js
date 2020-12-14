@@ -3,6 +3,7 @@ const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const upload = require('express-fileupload');
+const fetch = require('node-fetch');
 const {purchaseModel,validate} = require('../models/purchaseModel');
 const {nonStockModel} = require('../models/nonStockModel');
 const {purchaseItemModel} = require('../models/purchaseItemModel');
@@ -441,6 +442,30 @@ router.post('/checkBillNoAjax', async (req,res)=> {
 
 
 });
+
+router.get('/signature/:userName', async (req,res)=>{
+
+
+    let url = 'http://trasl.psa.ac.ae/eziflowwebservice/eziflowimageservice.ashx?username='+req.params.userName+'&ActionName=userssignature'
+
+
+    fetch(url)
+        .then(ress => ress.buffer())
+        .then(buffer => {
+            res.setHeader('Content-Type', 'image/png');
+            // res.setHeader('Content-disposition', 'attachment; filename=' + data.Document.FileName);
+            return res.send(Buffer.from(buffer, 'utf8'))
+        } )
+
+    // const response = await fetch(url);
+    // // return res.data(response.body)
+    // console.log(Object.keys(response.body))
+    // res.setHeader('Content-Type', 'image/png');
+    // // res.setHeader('Content-disposition', 'attachment; filename=' + data.Document.FileName);
+    // return res.send(Buffer.from(response.buffer(), 'utf8'))
+    // res.send(response.body)
+});
+
 
 
 module.exports = router;
