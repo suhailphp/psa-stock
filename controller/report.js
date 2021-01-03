@@ -184,7 +184,66 @@ router.get('/purchase', auth,async (req,res)=>{
     res.render('report/purchase',{curPage,data,totalPurchase:data.length});
 });
 
+router.get('/allPurchase/:start/:end', auth,async (req,res)=>{
 
+    let start = new Date(req.params.start)
+    let end = new Date(req.params.end)
+
+    let where = {
+        date: {
+            $between: [start, end]
+        }
+    };
+
+    // if(req.session.user.userRole == 'AllStore'){
+    //     where = {warehouseID:'1'};
+    // }
+    // else {
+    //     where = {userID:req.session.userID};
+    // }
+
+
+
+
+
+    purchaseModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let purchases = await purchaseModel.findAll({where,
+        include:[{model:supplierModel,required:true}],order: [ [ 'purchaseID', 'DESC' ]]});
+    nonStockModel.belongsTo(supplierModel, {foreignKey: 'supplierID'});
+    let nonStocks = await nonStockModel.findAll({where,
+        include:[{model:supplierModel,required:true}],order: [ [ 'nonStockID', 'DESC' ]]});
+
+    var data = [];
+
+    for (const key in purchases) {
+
+        let element = {};
+        let value = purchases[key];
+        element.id= value.purchaseID;
+        element.referenceNo= value.referenceNo;
+        element.billNo= value.billNo;
+        element.date= value.date;
+        element.supplierName= value.supplier.name;
+        element.type='purchase';
+        element.attachment =value.attachment;
+        data.push(element);
+    }
+
+    for (const key in nonStocks) {
+        let element = {};
+        let value = nonStocks[key];
+        element.id= value.nonStockID;
+        element.referenceNo= value.referenceNo;
+        element.billNo= value.billNo;
+        element.date= value.date;
+        element.supplierName= value.supplier.name;
+        element.type='nonStock';
+        element.attachment =value.attachment;
+
+        data.push(element);
+    }
+    res.render('report/purchase',{curPage,data,totalPurchase:data.length});
+});
 
 router.get('/item_stock/:itemID', async (req,res)=>{
     //let stock = await stockModel.findOne({ where: {itemID: req.params.itemID }});
