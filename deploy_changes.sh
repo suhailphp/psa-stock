@@ -37,4 +37,4 @@ elif [ "$f" == "3" ]
         npm version major;
 fi
 git push origin master;
-ssh -t itadmin@srv-prd2.local "cd /srv/node/apps/psa-stock/; sudo git pull origin master; pm2 restart psa-stock; exit; bash"
+ssh -t itadmin@srv-prd2.local "cd /srv/node/apps/psa-stock/; sudo git pull origin master; sudo pm2 restart psa-stock; exit; bash"
